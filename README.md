@@ -2,11 +2,15 @@
 
 ## Project setup
 You need to install dependices separately for the server and client side. To install, execute the following code snippets:
+### Installtion
+#### Windows (Powershell)
 ```
-cd server
-npm install
-cd ../client
-npm install
+cd server; npm install; cd ..\client; npm install; cd ..
+```
+
+#### Linux
+```
+cd server && npm install && cd ../client && npm install && cd ..
 ```
 
 ### Start Server App
