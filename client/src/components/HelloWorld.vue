@@ -28,6 +28,12 @@
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
   </div>
+  <div style="display: flex; justify-content: center; align-items: center">
+  <v-card class = "mx-auto" variant="tonal" width="200px">
+
+    <v-img src="https://images.pexels.com/photos/1386444/pexels-photo-1386444.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"><v-card-title>Barcelona</v-card-title></v-img>
+  </v-card>
+  </div>
 </template>
 
 <script>
