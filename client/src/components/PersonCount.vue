@@ -9,7 +9,7 @@
       <v-col
           v-for="card in cards"
           :key="card.id"
-          :cols="getColsCount()"
+          :cols="getColsCountFromBreakpoints()"
       >
         <v-card hover @click="toggleCard(card)" :class="{'highlighted': card.isSelected}">
           <v-card-title>{{ card.title }}</v-card-title>
@@ -30,27 +30,34 @@ export default {
   data() {
     return {
       cards: [
-        { id: 1, title: '1'},
-        { id: 2, title: '2'},
-        { id: 3, title: '3'},
-        { id: 4, title: '4'},
-        { id: 5, title: '5'},
-        { id: 6, title: '6'},
+        { id: 1, title: '1', isSelected: false},
+        { id: 2, title: '2', isSelected: false},
+        { id: 3, title: '3', isSelected: false},
+        { id: 4, title: '4', isSelected: false},
+        { id: 5, title: '5', isSelected: false},
+        { id: 6, title: '6', isSelected: false},
       ]
     };
   },
   methods: {
-    getColsCount() {
+    getColsCountFromBreakpoints() {
       if (this.$vuetify.display.smAndDown) {
-        return 6; // Display one card per row on small screens
+        return 6;
       } else if (this.$vuetify.display.mdAndDown) {
-        return 3; // Display two cards per row on medium screens
+        return 3;
       } else {
-        return 2; // Display three cards per row on large screens and above
+        return 2;
       }
     },
     toggleCard(card){
-      card.isSelected = !card.isSelected;
+      if(card.isSelected){
+        card.isSelected = false;
+        return;
+      }
+      this.cards.forEach((card) => {
+        card.isSelected = false;
+      })
+      card.isSelected = true;
     },
     submitForm(){
       //TODO save selected data and return either into datastructure or to endpoint
@@ -59,6 +66,7 @@ export default {
 };
 </script>
 <style scoped>
+/*TODO change to actual highliting style*/
 .highlighted {
   background-color: lightblue; /* Change to your desired highlight color */
 }
