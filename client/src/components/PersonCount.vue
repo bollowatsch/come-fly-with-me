@@ -19,7 +19,7 @@
     </v-row>
     <v-row>
       <v-col :cols="12">
-        <v-btn>Submit</v-btn>
+        <v-btn @click="submitForm()">Submit</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -40,6 +40,7 @@ export default {
     };
   },
   methods: {
+    //TODO don't use display breakpoints but parent container size?
     getColsCountFromBreakpoints() {
       if (this.$vuetify.display.smAndDown) {
         return 6;
@@ -60,8 +61,19 @@ export default {
       card.isSelected = true;
     },
     submitForm(){
+      let numberOfPeople = null;
       //TODO save selected data and return either into datastructure or to endpoint
-    }
+      this.cards.forEach((card) => {
+        if(card.isSelected){
+          numberOfPeople = card.id;
+        }
+      })
+      if(numberOfPeople){
+        console.log("Number of people: " + numberOfPeople);
+        return;
+      }
+      console.log("No card selected!");
+    },
   }
 };
 </script>
