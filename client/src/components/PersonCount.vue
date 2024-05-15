@@ -30,12 +30,12 @@ export default {
   data() {
     return {
       cards: [
-        { id: 1, title: '1', isSelected: false},
-        { id: 2, title: '2', isSelected: false},
-        { id: 3, title: '3', isSelected: false},
-        { id: 4, title: '4', isSelected: false},
-        { id: 5, title: '5', isSelected: false},
-        { id: 6, title: '6', isSelected: false},
+        {id: 1, title: '1', isSelected: false},
+        {id: 2, title: '2', isSelected: false},
+        {id: 3, title: '3', isSelected: false},
+        {id: 4, title: '4', isSelected: false},
+        {id: 5, title: '5', isSelected: false},
+        {id: 6, title: '6', isSelected: false},
       ]
     };
   },
@@ -50,8 +50,8 @@ export default {
         return 2;
       }
     },
-    toggleCard(card){
-      if(card.isSelected){
+    toggleCard(card) {
+      if (card.isSelected) {
         card.isSelected = false;
         return;
       }
@@ -60,25 +60,20 @@ export default {
       })
       card.isSelected = true;
     },
-    submitForm(){
-      let numberOfPeople = null;
-      //TODO save selected data and return either into datastructure or to endpoint
-      this.cards.forEach((card) => {
-        if(card.isSelected){
-          numberOfPeople = card.id;
-        }
-      })
-      if(numberOfPeople){
-        console.log("Number of people: " + numberOfPeople);
-        return;
+    submitForm() {
+      let selectedCard = this.cards.find((card) => card.isSelected);
+      if (!selectedCard) {
+        console.log("No card selected!");
+      } else {
+        console.log("Number of people: " + selectedCard.title);
       }
-      console.log("No card selected!");
+      //TODO save selected data and return either into datastructure or to endpoint
     },
   }
 };
 </script>
 <style scoped>
-/*TODO change to actual highliting style*/
+/*TODO change to actual highlighting style*/
 .highlighted {
   background-color: lightblue; /* Change to your desired highlight color */
 }
