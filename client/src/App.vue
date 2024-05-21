@@ -1,16 +1,18 @@
 <template>
   <!--   <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   <PersonCount/>
+  <VacationType/>
 </template>
-
 <script>
 //import HelloWorld from './components/HelloWorld.vue'
-import PersonCount from "./components/PersonCount.vue";
+import PersonCount from "./components/PersonCount.vue"
+import VacationType from './components/VacationType.vue'
 export default {
   name: 'App',
   components: {
     //HelloWorld,
-    PersonCount
+    PersonCount,
+    VacationType
   }
 }
 </script>
