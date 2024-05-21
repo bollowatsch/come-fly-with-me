@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import vacationTypes from "@/data/inputDataOptions";
+import vacationTypes from "@/data/vacationTypes";
 let cards = [];
 Object.values(vacationTypes).forEach((type) => {
   cards.push({title: type.toUpperCase(), isSelected: false});
