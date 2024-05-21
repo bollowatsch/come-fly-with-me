@@ -29,7 +29,7 @@
 import accommodationTypes from "@/data/accommodationTypes";
 let cards = [];
 Object.values(accommodationTypes).forEach((type) => {
-  cards.push({title: type, isSelected: false});
+  cards.push({title: type.toUpperCase(), isSelected: false});
 })
 export default {
   data() {
@@ -63,7 +63,7 @@ export default {
       if (!selectedCard) {
         console.log("No card selected!");
       } else {
-        console.log("Number of people: " + selectedCard.title);
+        console.log("Accomodation: " + selectedCard.title);
       }
       //TODO save selected data and return either into datastructure or to endpoint
     },

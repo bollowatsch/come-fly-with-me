@@ -1,24 +1,24 @@
 <template>
   <!--   <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-  <PersonCount/>
-  <VacationType/>
-  <AccommodationType/>
-  <PriceQuery/>
+  <PeopleCountInput/>
+  <VacationTypeInput/>
+  <AccommodationTypeInput/>
+  <PriceRangeInput/>
 </template>
 <script>
 //import HelloWorld from './components/HelloWorld.vue'
-import PersonCount from "./components/PersonCount.vue"
-import VacationType from './components/VacationType.vue'
-import AccommodationType from "@/components/AccommodationType.vue";
-import PriceQuery from "@/components/PriceQuery.vue";
+import PeopleCountInput from "./components/PeopleCountInput.vue"
+import VacationTypeInput from './components/VacationTypeInput.vue'
+import AccommodationTypeInput from "@/components/AccommodationTypeInput.vue";
+import PriceRangeInput from "@/components/PriceRangeInput.vue";
 export default {
   name: "App",
   components: {
     //HelloWorld,
-    PersonCount,
-    VacationType,
-    AccommodationType,
-    PriceQuery
+    PeopleCountInput,
+    VacationTypeInput,
+    AccommodationTypeInput,
+    PriceRangeInput
   }
 }
 </script>
