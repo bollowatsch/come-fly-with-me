@@ -2,17 +2,23 @@
   <!--   <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   <PersonCount/>
   <VacationType/>
+  <AccommodationType/>
+  <PriceQuery/>
 </template>
 <script>
 //import HelloWorld from './components/HelloWorld.vue'
 import PersonCount from "./components/PersonCount.vue"
 import VacationType from './components/VacationType.vue'
+import AccommodationType from "@/components/AccommodationType.vue";
+import PriceQuery from "@/components/PriceQuery.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     //HelloWorld,
     PersonCount,
-    VacationType
+    VacationType,
+    AccommodationType,
+    PriceQuery
   }
 }
 </script>
