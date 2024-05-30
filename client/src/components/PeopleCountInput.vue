@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col :cols="12">
-        <h1>Wie viele Personen wollen verreisen?</h1>
+        <h1>How many people are going to travel?</h1>
       </v-col>
     </v-row>
     <v-row>

@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col :cols="12">
-        <h1>What type of vacation do you wish to do?</h1>
+        <h1>What type of accommodation do you wish to have?</h1>
       </v-col>
     </v-row>
     <v-row>
