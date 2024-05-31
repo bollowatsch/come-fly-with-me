@@ -3,8 +3,7 @@ const vacationTypes = {
     cultural: "cultural",
     adventure: "adventure",
     city: "city",
-    sport: "sport",
-    food: "food",
+    sport: "sport"
 }
 
 export default vacationTypes;
