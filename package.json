@@ -2,5 +2,9 @@
   "scripts": {
     "server": "cd server && npm run server && cd ..",
     "client": "cd client && npm run client && cd .."
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "vary": "^1.1.2"
   }
 }

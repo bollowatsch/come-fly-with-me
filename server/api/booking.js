@@ -1,4 +1,6 @@
 const axios = require('axios');
+const keys = require('../apiKeys')
+const API_KEY = process.env.API_KEY ? process.env.API_KEY : keys.BOOKING_KEY;
 
 module.exports.get = async function getAccommodation() {
     const options = {
@@ -20,14 +22,14 @@ module.exports.get = async function getAccommodation() {
             units: 'metric'
         },
         headers: {
-            'x-rapidapi-key': 'a2dfdbca2emshf1e8cb092072415p1662bbjsn1ee3824b80a2',
+            'x-rapidapi-key': API_KEY,
             'x-rapidapi-host': 'booking-com.p.rapidapi.com'
         }
     };
 
     try {
         const response = await axios.request(options);
-        console.log(response.data);
+        //console.log(response.data);
         return response.data;
     } catch (error) {
         console.error(error);
