@@ -2,23 +2,23 @@
   <v-container>
     <v-row>
       <v-col :cols="12">
-        <h1>How many people are going to travel?</h1>
+        <h1>How much do you want to spend per person per night ? [€]</h1>
       </v-col>
     </v-row>
     <v-row>
       <v-col :cols="12">
         <v-slider
-            v-model="peopleCount"
-            :min="1"
-            :max="6"
-            :step="1"
+            v-model="maxPrice"
+            :min="50"
+            :max="5000"
+            :step="50"
             ticks="always"
             tick-size="3"
             class="custom-slider"
             color=#89cff0
         ></v-slider>
         <div class="text-center">
-          <span>{{ peopleCount }} Person{{ peopleCount > 1 ? 's' : '' }}</span>
+          <span>{{ maxPrice }} € per person per night</span>
         </div>
       </v-col>
     </v-row>
@@ -29,12 +29,12 @@
 export default {
   data() {
     return {
-      peopleCount: 1,
+      maxPrice: 50,
     };
   },
   methods: {
-    getPeopleCount() {
-      return this.peopleCount;
+    getMaxPrice() {
+      return this.maxPrice;
     },
   },
 };

@@ -17,11 +17,6 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col :cols="12">
-        <v-btn @click="submitForm()">Submit</v-btn>
-      </v-col>
-    </v-row>
   </v-container>
 </template>
 
@@ -38,7 +33,6 @@ export default {
     };
   },
   methods: {
-    //TODO don't use display breakpoints but parent container size?
     getColsCountFromBreakpoints() {
       if (this.$vuetify.display.smAndDown) {
         return 6;
@@ -58,14 +52,14 @@ export default {
       })
       card.isSelected = true;
     },
-    submitForm() {
-      let selectedCard = this.cards.find((card) => card.isSelected);
-      if (!selectedCard) {
-        console.log("No card selected!");
-      } else {
-        console.log("Number of people: " + selectedCard.title);
+
+    getVacationType() {
+      for (let i = 0; i < this.cards.length; i++) {
+        if (this.cards[i].isSelected) {
+          return this.cards[i].title;
+        }
       }
-      //TODO save selected data and return either into datastructure or to endpoint
+      return null;
     },
   }
 };
@@ -74,6 +68,6 @@ export default {
 <style scoped>
 /*TODO change to actual highlighting style*/
 .highlighted {
-  background-color: lightblue; /* Change to your desired highlight color */
+  background-color: #89cff0; /* Change to your desired highlight color */
 }
 </style>
