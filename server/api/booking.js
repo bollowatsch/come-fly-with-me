@@ -29,10 +29,10 @@ module.exports.get = async function getAccommodation() {
 
     try {
         const response = await axios.request(options);
-        //console.log(response.data);
-        return response.data;
+        return Promise.resolve(response.data);
     } catch (error) {
         console.error(error);
+        return Promise.reject(error);
     }
 }
 

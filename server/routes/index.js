@@ -7,4 +7,15 @@ router.get('/', function (req, res, next) {
     res.render('index', {title: 'Express'});
 });
 
+router.get('/sendData', function (req, res, next) {
+
+    const peopleCount = req.body.peopleCount
+    const budget = req.body.maxPrice
+    const accommodationType = req.body.accommodationType
+    const vacationType = req.body.vacationType
+    console.log(peopleCount, budget, accommodationType, vacationType)
+
+    res.sendStatus(418)
+})
+
 module.exports = router;

@@ -1,6 +1,7 @@
 const axios = require('axios');
 const keys = require('../apiKeys')
 require('dotenv').config();
+
 const API_KEY = process.env.API_KEY ? process.env.API_KEY : keys.WEATHER_KEY;
 
 module.exports.getWeather = async function getWeather(city) {
@@ -20,8 +21,8 @@ module.exports.getWeather = async function getWeather(city) {
 
     try {
         const response = await axios.request(options);
-        return response.data
+        return Promise.resolve(response.data);
     } catch (error) {
-        console.error(error);
+        return Promise.reject(error);
     }
 }
