@@ -5,15 +5,15 @@
         <h1>What type of vacation do you wish to do?</h1>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row justify="center">
       <v-col
           v-for="card in cards"
           :key="card.id"
           :cols="getColsCountFromBreakpoints()"
       >
         <v-card hover @click="toggleCard(card)" :class="{'highlighted': card.isSelected}">
-          <v-card-title>{{ card.title }}</v-card-title>
-          <v-card-text>{{ card.content }}</v-card-text>
+          <v-img :src="card.image" aspect-ratio="1.7"></v-img>
+          <v-card-title>{{ card.title}}</v-card-title>
         </v-card>
       </v-col>
     </v-row>
@@ -24,7 +24,7 @@
 import vacationTypes from "@/data/vacationTypes";
 let cards = [];
 Object.values(vacationTypes).forEach((type) => {
-  cards.push({title: type.toUpperCase(), isSelected: false});
+  cards.push({title: type.title.toUpperCase(), image: type.image, isSelected: false});
 })
 export default {
   data() {
@@ -43,23 +43,17 @@ export default {
       }
     },
     toggleCard(card) {
-      if (card.isSelected) {
-        card.isSelected = false;
-        return;
-      }
-      this.cards.forEach((card) => {
-        card.isSelected = false;
-      })
-      card.isSelected = true;
+      card.isSelected = !card.isSelected;
     },
 
     getVacationType() {
-      for (let i = 0; i < this.cards.length; i++) {
-        if (this.cards[i].isSelected) {
-          return this.cards[i].title;
+      const selectedTypes = [];
+      for (let card of this.cards) {
+        if (card.isSelected) {
+          selectedTypes.push(card.title);
         }
       }
-      return null;
+      return selectedTypes;
     },
   }
 };

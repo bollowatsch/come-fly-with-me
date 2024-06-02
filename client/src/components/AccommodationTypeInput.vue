@@ -5,7 +5,7 @@
         <h1>What type of accommodation do you wish to have?</h1>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row justify="center">
       <v-col
           v-for="card in cards"
           :key="card.id"

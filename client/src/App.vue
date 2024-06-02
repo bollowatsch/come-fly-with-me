@@ -61,7 +61,7 @@ export default {
       ],
       formData: {
         peopleCount: null,
-        vacationType: null,
+        vacationType: [],
         accommodationType: null,
         maxPrice: null,
       },
@@ -103,8 +103,8 @@ export default {
     },
     submitForm() {
       this.updateFormData();
-      alert(`Persons: ${this.formData.peopleCount}\nBudget: ${this.formData.maxPrice}\nVacation Type: ${this.formData.vacationType}\nAccommodation Type: ${this.formData.accommodationType}`);
-    },
+      alert(`Persons: ${this.formData.peopleCount}\nBudget: ${this.formData.maxPrice}\nVacation Types: ${this.formData.vacationType.join(', ')}\nAccommodation Type: ${this.formData.accommodationType}`);
+    }
   },
 };
 </script>
