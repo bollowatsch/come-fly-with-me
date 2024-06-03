@@ -6,7 +6,7 @@
       </v-toolbar-title>
     </v-app-bar>
 
-    <v-container>
+    <v-container class="container">
       <v-row>
         <v-col cols="12">
           <v-spacer class="space-ah"></v-spacer>
@@ -110,7 +110,15 @@ export default {
 </script>
 
 <style>
+body{
+  display: flex;
+  justify-content: center;
+  background-image: url("assets/background.jpg");
+  background-size: cover;
+}
+
 #app {
+  width: 60vw;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
