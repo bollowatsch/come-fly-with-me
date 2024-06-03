@@ -34,10 +34,12 @@
       </v-row>
     </v-container>
 
-    <v-footer class="footer">
-      <v-card-text class="text-center">&copy; Come Fly With Me! - 2024</v-card-text>
+    <v-footer
+        border
+        class="footer">
+      <v-card-text class="text-center" style="width: 45%">&copy; Come Fly With Me! - 2024</v-card-text>
       <v-divider vertical></v-divider>
-      <v-card-text>
+      <v-card-text style="width: 45%">
         <v-btn
             href="https://www.github.com/bollowatsch/come-fly-with-me"
             target="_blank"
@@ -136,6 +138,8 @@ body{
 
 .footer{
   max-height: 5vw;
+  display: flex;
+  justify-content: space-between;
 
 }
 #app {
