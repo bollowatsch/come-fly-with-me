@@ -135,7 +135,7 @@ body{
 }
 
 .footer{
-  max-height: 10vw;
+  max-height: 5vw;
 
 }
 #app {
