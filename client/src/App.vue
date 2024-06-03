@@ -33,6 +33,13 @@
         </v-col>
       </v-row>
     </v-container>
+
+    <v-footer>
+      <v-card-text class="text-center">&copy; Come Fly With Me! - 2024</v-card-text>
+<v-card-text>
+  <v-btn icon="mdi-github"></v-btn>
+</v-card-text>
+    </v-footer>
   </v-app>
 </template>
 
@@ -41,6 +48,7 @@ import PeopleCountInput from "./components/PeopleCountInput.vue";
 import VacationTypeInput from "./components/VacationTypeInput.vue";
 import AccommodationTypeInput from "./components/AccommodationTypeInput.vue";
 import MaxPriceInput from "./components/MaxPriceInput.vue";
+import FooterBanner from "./components/FooterBanner.vue";
 
 export default {
   name: "App",
@@ -49,6 +57,7 @@ export default {
     VacationTypeInput,
     AccommodationTypeInput,
     MaxPriceInput,
+    FooterBanner
   },
   data() {
     return {
@@ -116,7 +125,9 @@ body{
   background-image: url("assets/background.jpg");
   background-size: cover;
 }
-
+#v-footer{
+  background-color: #2c3e50;
+}
 #app {
   width: 60vw;
   font-family: Avenir, Helvetica, Arial, sans-serif;
