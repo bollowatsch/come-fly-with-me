@@ -67,6 +67,8 @@ export default {
 </script>
 <style scoped>
 .highlighted {
-  background-color: #89cff0;
+  /* Flip colors if selected */
+  background-color: rgba(var(--v-theme-primary));
+  color: rgba(var(--v-theme-on-primary));
 }
 </style>

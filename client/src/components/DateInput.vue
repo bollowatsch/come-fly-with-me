@@ -3,7 +3,7 @@
     <v-row justify="space-around">
       <p>Pick your available timeframe: </p>
       <v-date-picker
-          color=on-background
+          color=primary
           range
       ></v-date-picker>
     </v-row>
@@ -29,19 +29,6 @@ export default {
     };
   },
   methods: {
-    getColsCountFromBreakpoints() {
-      if (this.$vuetify.display.smAndDown) {
-        return 6;
-      } else if (this.$vuetify.display.mdAndDown) {
-        return 4;
-      } else {
-        return 3;
-      }
-    },
-    toggleCard(card) {
-      card.isSelected = !card.isSelected;
-    },
-
     getVacationType() {
       const selectedTypes = [];
       for (let card of this.cards) {
@@ -56,8 +43,4 @@ export default {
 
 </script>
 <style scoped>
-/*TODO change to actual highlighting style*/
-.highlighted {
-  background-color: #89cff0; /* Change to your desired highlight color */
-}
 </style>

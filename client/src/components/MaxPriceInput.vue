@@ -15,7 +15,7 @@
             ticks="always"
             tick-size="3"
             class="custom-slider"
-            color= on-background
+            color= primary
         ></v-slider>
         <div class="text-center">
           <span>{{ maxPrice }} € per person per night</span>

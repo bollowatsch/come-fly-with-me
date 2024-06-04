@@ -182,7 +182,7 @@ body {
 }
 
 .progress-bar::-webkit-progress-value {
-  background-color: rgba(var(--v-theme-on-background));
+  background-color: rgba(var(--v-theme-primary));
   border-radius: 5px 0 0 5px;
 }
 

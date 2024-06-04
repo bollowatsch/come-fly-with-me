@@ -63,7 +63,7 @@ export default {
 /*TODO change to actual highlighting style*/
 .highlighted {
   /* Flip colors if selected */
-  background-color: rgba(var(--v-theme-on-background));
-  color: rgba(var(--v-theme-background));
+  background-color: rgba(var(--v-theme-primary));
+  color: rgba(var(--v-theme-on-primary));
 }
 </style>

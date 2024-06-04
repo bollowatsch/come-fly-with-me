@@ -15,7 +15,7 @@
             ticks="always"
             tick-size="3"
             class="custom-slider"
-            color=#89cff0
+            color=primary
         ></v-slider>
         <div class="text-center">
           <span>{{ peopleCount }} Person{{ peopleCount > 1 ? 's' : '' }}</span>
