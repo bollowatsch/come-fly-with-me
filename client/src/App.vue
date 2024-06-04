@@ -4,7 +4,7 @@
       <v-toolbar-title class="text-center">
         <img src="test.png" alt="Logo" class="logo">
       </v-toolbar-title>
-      <v-btn-toggle @click="toggleTheme" icon="mdi-theme-light-dark"></v-btn-toggle>
+      <v-btn-toggle @click="toggleTheme" icon="mdi-theme-light-dark">dfsdf</v-btn-toggle>
     </v-app-bar>
     <v-main class="container">
       <v-row>
@@ -170,7 +170,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  //color: #2c3e50;
   margin-top: 60px;
 }
 
@@ -182,7 +182,7 @@ body {
 }
 
 .progress-bar::-webkit-progress-value {
-  background-color: #89cff0;
+  background-color: rgba(var(--v-theme-on-background));
   border-radius: 5px 0 0 5px;
 }
 

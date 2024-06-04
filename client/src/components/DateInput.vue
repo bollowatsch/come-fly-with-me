@@ -3,7 +3,7 @@
     <v-row justify="space-around">
       <p>Pick your available timeframe: </p>
       <v-date-picker
-          color="primary"
+          color=on-background
           range
       ></v-date-picker>
     </v-row>

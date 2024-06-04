@@ -11,7 +11,7 @@
           :key="card.id"
           :cols="getColsCountFromBreakpoints()"
       >
-        <v-card hover @click="toggleCard(card)" :class="{'highlighted': card.isSelected}">
+        <v-card id=card hover @click="toggleCard(card)" :class="{'highlighted': card.isSelected}">
           <v-img :src="card.image" aspect-ratio="1.7"></v-img>
           <v-card-title>{{ card.title}}</v-card-title>
         </v-card>
@@ -62,6 +62,8 @@ export default {
 <style scoped>
 /*TODO change to actual highlighting style*/
 .highlighted {
-  background-color: #89cff0; /* Change to your desired highlight color */
+  /* Flip colors if selected */
+  background-color: rgba(var(--v-theme-on-background));
+  color: rgba(var(--v-theme-background));
 }
 </style>
