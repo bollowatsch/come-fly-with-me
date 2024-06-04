@@ -1,9 +1,13 @@
 <template>
   <v-app>
-    <v-app-bar app class="app-bar">
+    <v-app-bar
+        app
+        class="app-bar">
+      <v-app-bar-title class="hidden-sm-and-down">Come Fly </v-app-bar-title>
       <v-toolbar-title class="text-center">
         <img src="test.png" alt="Logo" class="logo">
       </v-toolbar-title>
+      <v-app-bar-title class="hidden-sm-and-down">with me!</v-app-bar-title>
       <v-btn @click="toggleTheme" icon="mdi-theme-light-dark"></v-btn>
     </v-app-bar>
     <v-main class="container">
