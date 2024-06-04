@@ -53,7 +53,7 @@ import PeopleCountInput from "./components/PeopleCountInput.vue";
 import VacationTypeInput from "./components/VacationTypeInput.vue";
 import AccommodationTypeInput from "./components/AccommodationTypeInput.vue";
 import MaxPriceInput from "./components/MaxPriceInput.vue";
-
+import DateInput from "@/components/DateInput.vue";
 export default {
   name: "App",
   components: {
@@ -61,6 +61,7 @@ export default {
     VacationTypeInput,
     AccommodationTypeInput,
     MaxPriceInput,
+    DateInput
   },
   data() {
     return {
@@ -70,6 +71,7 @@ export default {
         "VacationTypeInput",
         "AccommodationTypeInput",
         "MaxPriceInput",
+          "DateInput"
       ],
       formData: {
         peopleCount: null,
