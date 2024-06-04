@@ -4,6 +4,7 @@
       <v-toolbar-title class="text-center">
         <img src="test.png" alt="Logo" class="logo">
       </v-toolbar-title>
+      <v-btn-toggle @click="toggleTheme" icon="mdi-theme-light-dark"></v-btn-toggle>
     </v-app-bar>
     <v-main class="container">
       <v-row>
@@ -27,7 +28,9 @@
       <v-row>
         <v-col cols="12" class="d-flex justify-space-between">
           <v-btn @click="previousStep" :disabled="currentStep === 0">Back</v-btn>
-          <v-btn v-if="currentStep < steps.length - 1" @click="nextStep" :disabled="currentStep === steps.length - 1">Next</v-btn>
+          <v-btn v-if="currentStep < steps.length - 1" @click="nextStep" :disabled="currentStep === steps.length - 1">
+            Next
+          </v-btn>
           <v-btn v-if="currentStep === steps.length - 1" @click="submitForm">Submit</v-btn>
         </v-col>
       </v-row>
@@ -48,13 +51,22 @@
     </v-footer>
   </v-app>
 </template>
+<script setup>
+import { useTheme } from 'vuetify'
 
+const theme = useTheme()
+
+function toggleTheme () {
+  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+}
+</script>
 <script>
 import PeopleCountInput from "./components/PeopleCountInput.vue";
 import VacationTypeInput from "./components/VacationTypeInput.vue";
 import AccommodationTypeInput from "./components/AccommodationTypeInput.vue";
 import MaxPriceInput from "./components/MaxPriceInput.vue";
 import DateInput from "@/components/DateInput.vue";
+
 export default {
   name: "App",
   components: {
@@ -72,7 +84,7 @@ export default {
         "VacationTypeInput",
         "AccommodationTypeInput",
         "MaxPriceInput",
-          "DateInput"
+        "DateInput"
       ],
       formData: {
         peopleCount: null,
@@ -125,7 +137,7 @@ export default {
 </script>
 
 <style>
-body{
+body {
   display: flex;
   justify-content: center;
   background-image: url("assets/background.jpg");
@@ -133,22 +145,24 @@ body{
   min-height: 100vh;
 }
 
-.container{
+.container {
   flex-direction: column;
   flex-grow: 1;
   padding: 5vh 5vw;
 }
 
-.app-bar{
+.app-bar {
   min-height: 60px;
   max-height: 5vh;
 }
-.footer{
+
+.footer {
   min-height: 60px;
   max-height: 5vh;
   display: flex;
   justify-content: space-between;
 }
+
 #app {
   display: flex;
   align-items: center;
