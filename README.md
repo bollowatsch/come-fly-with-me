@@ -1,7 +1,7 @@
 # client
 
 ## Project setup
-You need to install dependices separately for the server and client side. To install, execute the following code snippets:
+You need to install dependencies separately for the server and client side. To install, execute the following code snippets:
 ### Installation
 #### Windows (Powershell)
 ```
