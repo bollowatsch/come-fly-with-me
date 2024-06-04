@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app>
+    <v-app-bar app class="app-bar">
       <v-toolbar-title class="text-center">
         <img src="test.png" alt="Logo" class="logo">
       </v-toolbar-title>
@@ -33,6 +33,7 @@
       </v-row>
     </v-main>
     <v-footer
+        app
         border
         class="footer">
       <v-card-text class="text-center" style="width: 45%">&copy; Come Fly With Me! - 2024</v-card-text>
@@ -138,11 +139,15 @@ body{
   padding: 5vh 5vw;
 }
 
+.app-bar{
+  min-height: 60px;
+  max-height: 5vh;
+}
 .footer{
-  max-height: 5vw;
+  min-height: 60px;
+  max-height: 5vh;
   display: flex;
   justify-content: space-between;
-
 }
 #app {
   display: flex;
