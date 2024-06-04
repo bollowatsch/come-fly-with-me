@@ -5,8 +5,7 @@
         <img src="test.png" alt="Logo" class="logo">
       </v-toolbar-title>
     </v-app-bar>
-
-    <v-container class="container">
+    <v-main class="container">
       <v-row>
         <v-col cols="12">
           <v-spacer class="space-ah"></v-spacer>
@@ -32,8 +31,7 @@
           <v-btn v-if="currentStep === steps.length - 1" @click="submitForm">Submit</v-btn>
         </v-col>
       </v-row>
-    </v-container>
-
+    </v-main>
     <v-footer
         border
         class="footer">
@@ -133,7 +131,9 @@ body{
 }
 
 .container{
+  flex-direction: column;
   flex-grow: 1;
+  padding: 5vh 5vw;
 }
 
 .footer{
@@ -143,8 +143,9 @@ body{
 
 }
 #app {
-  width: 60vw;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

@@ -37,9 +37,9 @@ export default {
       if (this.$vuetify.display.smAndDown) {
         return 6;
       } else if (this.$vuetify.display.mdAndDown) {
-        return 3;
+        return 4;
       } else {
-        return 2;
+        return 3;
       }
     },
     toggleCard(card) {
