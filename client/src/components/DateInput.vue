@@ -1,21 +1,41 @@
 <template>
   <v-container>
-    <v-row justify="space-around">
-      <p>Pick your available timeframe: </p>
-      <v-date-picker
-          color=primary
-          range
-      ></v-date-picker>
-    </v-row>
-    <v-row>
-      <p>How many nights do you wish to stay?</p>
-      <v-text-field
-          hint="Enter how many nights you wish to stay"
-          type="number"
-          step="1"
-          min="1"
-          max="21"
-      ></v-text-field>
+    <v-row dense>
+      <v-col cols="12" lg="6">
+        <v-card>
+          <v-card-title>Choose your timeframe!</v-card-title>
+          <v-card-item>
+            <v-date-input
+                v-model="possibleDates"
+                label="Select a date"
+                prepend-icon=""
+                prepend-inner-icon="$calendar"
+                variant="outlined"
+                multiple="range"
+            ></v-date-input>
+          </v-card-item>
+        </v-card>
+      </v-col>
+      <v-col cols="12" lg="6">
+        <v-card>
+          <v-card-title>How many nights do you want to stay?</v-card-title>
+          <v-card-item>
+            <v-number-input
+                v-model="numberOfNights"
+                :reverse="false"
+                controlVariant="stacked"
+                label="Nights to stay"
+                :hideInput="false"
+                :inset="false"
+                variant="outlined"
+                :step="1"
+                :min="0"
+                :max=maxNumberOfNights
+                @click="updateMaxNumberOfNights"
+            ></v-number-input>
+          </v-card-item>
+        </v-card>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -25,19 +45,28 @@
 export default {
   data() {
     return {
-
-    };
+      possibleDates: null,
+      maxNumberOfNights: 0,
+      numberOfNights: null,
+    }
   },
   methods: {
-    getVacationType() {
-      const selectedTypes = [];
-      for (let card of this.cards) {
-        if (card.isSelected) {
-          selectedTypes.push(card.title);
-        }
-      }
-      return selectedTypes;
+    // TODO: binding of numberOfDays not working
+    // TODO: calculation of maxNumberOfDays is not working
+    updateMaxNumberOfNights() {
+      const timeDifference = this.getEndDate().getTime() - this.getBeginDate().getTime();
+      const differenceInDays = Math.round(timeDifference / (1000 * 3600 * 24));
+      this.maxNumberOfNights = differenceInDays;
     },
+    getBeginDate() {
+      return new Date(Math.min(...(this.possibleDates)))
+    },
+    getEndDate(){
+      return new Date(Math.max(...(this.possibleDates)))
+    },
+    getNumberOfNights() {
+      return this.numberOfNights
+    }
   }
 };
 

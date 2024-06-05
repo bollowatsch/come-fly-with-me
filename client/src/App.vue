@@ -95,6 +95,9 @@ export default {
         vacationType: [],
         accommodationType: null,
         maxPrice: null,
+        beginDate: null,
+        endDate: null,
+        numberOfNights: null,
       },
     };
   },
@@ -130,11 +133,22 @@ export default {
         case "MaxPriceInput":
           this.formData.maxPrice = component.getMaxPrice();
           break;
+        case "DateInput":
+          this.formData.beginDate = component.getBeginDate();
+          this.formData.endDate = component.getEndDate();
+          this.formData.numberOfNights = component.getNumberOfNights();
+          break;
       }
     },
     submitForm() {
       this.updateFormData();
-      alert(`Persons: ${this.formData.peopleCount}\nBudget: ${this.formData.maxPrice}\nVacation Types: ${this.formData.vacationType.join(', ')}\nAccommodation Type: ${this.formData.accommodationType}`);
+      alert(`Persons: ${this.formData.peopleCount}\n
+        Budget: ${this.formData.maxPrice}\n
+        Vacation Types: ${this.formData.vacationType.join(', ')}\n
+        Accommodation Type: ${this.formData.accommodationType}\n
+        Date: ${this.formData.beginDate} - ${this.formData.endDate}\n
+        Number of Nights: ${this.formData.numberOfNights}\n`);
+      console.log(this.formData);
     }
   },
 };

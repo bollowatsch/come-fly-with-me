@@ -7,6 +7,8 @@ import '@mdi/font/css/materialdesignicons.css'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import { VDateInput } from 'vuetify/labs/VDateInput'
+import { VNumberInput } from 'vuetify/labs/VNumberInput'
 
 // Components
 import App from './App.vue'
@@ -14,7 +16,11 @@ import App from './App.vue'
 
 
 const vuetify = createVuetify({
-    components,
+    components:{
+        ...components,
+        VDateInput,
+        VNumberInput
+    },
     directives,
     theme:{
     defaultTheme: 'dark',
