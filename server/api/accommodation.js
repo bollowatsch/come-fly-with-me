@@ -1,5 +1,5 @@
 const axios = require('axios');
-const keys = require('../apiKeys')
+const keys = require('../apiKeys.env')
 require("dotenv").config();
 const API_KEY = process.env.API_KEY ? process.env.API_KEY : keys.ACCOMMODATIONS_KEY;
 
