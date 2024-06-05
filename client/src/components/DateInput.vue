@@ -12,6 +12,7 @@
                 prepend-inner-icon="$calendar"
                 variant="outlined"
                 multiple="range"
+                @change="updateMaxNumberOfNights"
             ></v-date-input>
           </v-card-item>
         </v-card>
@@ -29,9 +30,8 @@
                 :inset="false"
                 variant="outlined"
                 :step="1"
-                :min="0"
+                :min="1"
                 :max=maxNumberOfNights
-                @click="updateMaxNumberOfNights"
             ></v-number-input>
           </v-card-item>
         </v-card>
@@ -46,17 +46,22 @@ export default {
   data() {
     return {
       possibleDates: null,
-      maxNumberOfNights: 0,
+      maxNumberOfNights: null,
       numberOfNights: null,
     }
   },
+  watch: {
+    possibleDates: {
+      handler() {
+        this.updateMaxNumberOfNights();
+      },
+      deep: true,
+    },
+  },
   methods: {
-    // TODO: binding of numberOfDays not working
-    // TODO: calculation of maxNumberOfDays is not working
     updateMaxNumberOfNights() {
       const timeDifference = this.getEndDate().getTime() - this.getBeginDate().getTime();
-      const differenceInDays = Math.round(timeDifference / (1000 * 3600 * 24));
-      this.maxNumberOfNights = differenceInDays;
+      this.maxNumberOfNights = Math.round(timeDifference / (1000 * 3600 * 24)) - 1;
     },
     getBeginDate() {
       return new Date(Math.min(...(this.possibleDates)))
