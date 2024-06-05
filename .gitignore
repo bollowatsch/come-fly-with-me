@@ -25,4 +25,4 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-/server/.env
+/server/apiKeys.env
