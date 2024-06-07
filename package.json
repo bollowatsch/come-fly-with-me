@@ -4,6 +4,6 @@
     "client": "cd client && npm run client && cd .."
   },
   "dependencies": {
-
+    "dotenv": "^16.4.5"
   }
 }

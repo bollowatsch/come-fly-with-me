@@ -1,7 +1,5 @@
 const axios = require('axios');
-const keys = require('../apiKeys.env')
-require("dotenv").config();
-const API_KEY = process.env.API_KEY ? process.env.API_KEY : keys.ACCOMMODATIONS_KEY;
+const API_KEY = process.env.ACCOMMODATIONS_API_KEY;
 
 /**
  * https://rapidapi.com/tipsters/api/booking-com/

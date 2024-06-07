@@ -13,8 +13,6 @@ import { VNumberInput } from 'vuetify/labs/VNumberInput'
 // Components
 import App from './App.vue'
 
-
-
 const vuetify = createVuetify({
     components:{
         ...components,

@@ -71,6 +71,8 @@ import AccommodationTypeInput from "./components/AccommodationTypeInput.vue";
 import MaxPriceInput from "./components/MaxPriceInput.vue";
 import DateInput from "@/components/DateInput.vue";
 
+const axios = require('axios')
+
 export default {
   name: "App",
   components: {
@@ -140,8 +142,31 @@ export default {
           break;
       }
     },
-    submitForm() {
+    async submitForm() {
       this.updateFormData();
+
+      const options = {
+        method: 'POST',
+        url: 'http://localhost:3000/sendData',
+        data: {
+          peopleCount: this.formData.peopleCount,
+          maxPrice: this.formData.maxPrice,
+          vacationType: this.formData.vacationType,
+          accommodationType: this.formData.accommodationType,
+          beginDate: this.formData.beginDate,
+          endDate: this.formData.endDate,
+          numberOfNight: this.formData.numberOfNights,
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+
+      //TODO show resultPage if success
+      await axios.request(options)
+          .then(response => alert(response))
+          .catch(error => alert(error))
+
       alert(`Persons: ${this.formData.peopleCount}\n
         Budget: ${this.formData.maxPrice}\n
         Vacation Types: ${this.formData.vacationType.join(', ')}\n

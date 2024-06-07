@@ -1,6 +1,5 @@
 const axios = require('axios');
-const keys = require('../apiKeys.env')
-const API_KEY = process.env.API_KEY ? process.env.API_KEY : keys.BOOKING_KEY;
+const API_KEY = process.env.BOOKING_KEY;
 
 module.exports.get = async function getAccommodation() {
     const options = {
