@@ -5,14 +5,14 @@ const accommodationsApi = require("../api/accommodation");
 const booking = require("../api/booking");
 const weather = require("../api/weather");
 
-const controller = require("../controller/controller");
+//const controller = require("../controller/controller");
 
 /**
  * This router provides all endpoints for the frontend to make api calls
  */
 
 // localhost:5000/api
-router.get('/', controller.get);
+//router.get('/', controller.get);
 
 // localhost:5000/api/hotels/vienna
 router.get('/hotels/:city', async function (req, res) {

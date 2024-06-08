@@ -4,7 +4,7 @@
         app
         class="app-bar">
       <div class="header-content">
-        <v-app-bar-title class="hidden-sm-and-down">Come Fly </v-app-bar-title>
+        <v-app-bar-title class="hidden-sm-and-down">Come fly </v-app-bar-title>
         <img src="test.png" alt="Logo" class="logo">
         <v-app-bar-title class="hidden-sm-and-down">with me!</v-app-bar-title>
       </div>
