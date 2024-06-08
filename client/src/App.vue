@@ -3,12 +3,15 @@
     <v-app-bar
         app
         class="app-bar">
-      <v-app-bar-title class="hidden-sm-and-down">Come Fly </v-app-bar-title>
-      <v-toolbar-title class="text-center">
+      <div class="header-content">
+        <v-app-bar-title class="hidden-sm-and-down">Come Fly </v-app-bar-title>
         <img src="test.png" alt="Logo" class="logo">
-      </v-toolbar-title>
-      <v-app-bar-title class="hidden-sm-and-down">with me!</v-app-bar-title>
-      <v-btn @click="toggleTheme" icon="mdi-theme-light-dark"></v-btn>
+        <v-app-bar-title class="hidden-sm-and-down">with me!</v-app-bar-title>
+      </div>
+      <v-spacer></v-spacer>
+      <v-btn @click="toggleTheme" class="theme-btn" style="width: 30px; height: 30px">
+        <v-icon>mdi-theme-light-dark</v-icon>
+      </v-btn>
     </v-app-bar>
     <v-main class="container">
       <v-row>
@@ -43,15 +46,15 @@
         app
         border
         class="footer">
-      <v-card-text class="text-center" style="width: 45%">&copy; Come Fly With Me! - 2024</v-card-text>
-      <v-divider vertical></v-divider>
-      <v-card-text style="width: 45%">
+      <div class="footer-content">
+        <v-card-text >&copy; Come Fly With Me! - 2024</v-card-text>
         <v-btn
             href="https://www.github.com/bollowatsch/come-fly-with-me"
             target="_blank"
             icon="mdi-github"
+            class="hidden-sm-and-down"
         ></v-btn>
-      </v-card-text>
+      </div>
     </v-footer>
   </v-app>
 </template>
@@ -195,15 +198,77 @@ body {
 }
 
 .app-bar {
-  min-height: 60px;
-  max-height: 5vh;
+  min-height: 64px;
 }
 
-.footer {
-  min-height: 60px;
-  max-height: 5vh;
+.header-content {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-height: 45px;
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-height: 45px;
+}
+
+.logo {
+  align-items: center;
+  height: 64px;
+}
+
+.theme-btn {
+  margin-left: auto;
+  padding: 0; /* Ensure no extra padding */
+  right: 15px;
+  width: 35px; /* Smaller button width for mobile */
+  height: 35px; /* Smaller button height for mobile */
+  font-size: 15px; /* Smaller icon size for mobile */
+}
+
+@media (max-width: 400px) {
+  .app-bar {
+    min-height: 35px;
+    max-height: 35px;
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-height: 25px;
+  }
+
+  .footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-height: 25px;
+  }
+
+  .logo {
+    height: 45px;
+    margin-bottom: 15px;
+    align-content: center;
+  }
+
+  .theme-btn {
+    margin-left: auto;
+    padding: 0;
+    right: 15px;
+    width: 15px;
+    height: 15px;
+    font-size: 8px;
+    bottom: 15px;
+  }
+
 }
 
 #app {
@@ -229,12 +294,13 @@ body {
   border-radius: 5px 0 0 5px;
 }
 
-.logo {
-  margin-top: 25px;
-  height: 100px;
+.space-ah {
+  margin-top: 55px;
 }
 
-.space-ah {
-  margin-top: 100px;
+.footer {
+  max-height: 45px;
+  padding: 0 16px;
 }
+
 </style>

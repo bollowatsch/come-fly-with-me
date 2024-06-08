@@ -10,7 +10,7 @@
         <v-slider
             v-model="maxPrice"
             :min="50"
-            :max="5000"
+            :max="2000"
             :step="50"
             ticks="always"
             tick-size="3"

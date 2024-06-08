@@ -9,7 +9,7 @@
       <v-col
           v-for="card in cards"
           :key="card.id"
-          :cols="getColsCountFromBreakpoints()"
+          cols="8" sm="6" md="6" lg="6"
       >
         <v-card hover @click="toggleCard(card)" :class="{'highlighted': card.isSelected}">
           <v-card-title>{{ card.title }}</v-card-title>
