@@ -15,14 +15,14 @@
     </v-app-bar>
     <v-main class="container">
       <v-row>
-        <v-col cols="12">
+        <v-col cols="12" v-if="currentStep !== 0">
           <v-spacer class="space-ah"></v-spacer>
         </v-col>
       </v-row>
 
       <v-row>
-        <v-col cols="12">
-          <progress :value="currentStep + 1" :max="steps.length" class="progress-bar"></progress>
+        <v-col cols="12" v-if="currentStep !== 0">
+          <progress :value="currentStep" :max="steps.length - 1" class="progress-bar"></progress>
         </v-col>
       </v-row>
 
@@ -33,9 +33,12 @@
       </v-row>
 
       <v-row>
-        <v-col cols="12" class="d-flex justify-space-between">
-          <v-btn @click="previousStep" :disabled="currentStep === 0">Back</v-btn>
-          <v-btn v-if="currentStep < steps.length - 1" @click="nextStep" :disabled="currentStep === steps.length - 1">
+        <v-col v-if="currentStep === 0" class="d-flex justify-center">
+          <v-btn v-if="currentStep === 0" @click="nextStep">Start booking you trip</v-btn>
+        </v-col>
+        <v-col v-else cols="12" class="d-flex justify-space-between">
+          <v-btn @click="previousStep" v-show="currentStep !== 0">Back</v-btn>
+          <v-btn v-if="currentStep > 0 && currentStep < steps.length - 1" @click="nextStep" :disabled="currentStep === steps.length - 1">
             Next
           </v-btn>
           <v-btn v-if="currentStep === steps.length - 1" @click="submitForm">Submit</v-btn>
@@ -73,12 +76,14 @@ import VacationTypeInput from "./components/VacationTypeInput.vue";
 import AccommodationTypeInput from "./components/AccommodationTypeInput.vue";
 import MaxPriceInput from "./components/MaxPriceInput.vue";
 import DateInput from "@/components/DateInput.vue";
+import LandingPage from "@/components/LandingPage.vue";
 
 const axios = require('axios')
 
 export default {
   name: "App",
   components: {
+    LandingPage,
     PeopleCountInput,
     VacationTypeInput,
     AccommodationTypeInput,
@@ -89,6 +94,7 @@ export default {
     return {
       currentStep: 0,
       steps: [
+        "LandingPage",
         "PeopleCountInput",
         "VacationTypeInput",
         "AccommodationTypeInput",
@@ -194,7 +200,7 @@ body {
 .container {
   flex-direction: column;
   flex-grow: 1;
-  padding: 5vh 5vw;
+  padding: 1vh 5vw 10vh 5vw;
 }
 
 .app-bar {
