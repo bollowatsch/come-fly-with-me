@@ -1,6 +1,5 @@
 const swaggerJsdoc = require('swagger-jsdoc');
-const app = require('./app');
-const port = 3000//app.address().port;
+const port = process.env.PORT || 3000;
 
 const options = {
     definition: {
@@ -12,7 +11,7 @@ const options = {
         },
         servers: [
             {
-                url: `http://localhost:{port}`,
+                url: `http://localhost:${port}`,
             },
         ],
     },
