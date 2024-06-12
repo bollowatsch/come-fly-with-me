@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "server": "node ./bin/www"
+    "server": "nodemon ./bin/www"
   },
   "dependencies": {
     "axios": "^1.7.2",
@@ -18,5 +18,8 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "vary": "^1.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
   }
 }
