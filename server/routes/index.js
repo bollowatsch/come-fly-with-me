@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const {inputDataSchema, bookingSchema} = require('../swagger/schemas');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -10,6 +11,26 @@ router.get('/api', function (req, res) {
     res.sendStatus(418)
 })
 //localhost:3000/sendData
+//TODO: add example data
+/**
+ * @swagger
+ * /sendData:
+ *   post:
+ *     summary: send user information to find the best possible travel destination
+ *     requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/InputData'
+ *     responses:
+ *       200:
+ *         description: Booking data corresponding to provided user data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '##/components/schemas/InputData'
+ */
 router.post('/sendData', function (req, res, next) {
     const data = req.body
 

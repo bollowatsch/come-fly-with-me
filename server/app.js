@@ -2,7 +2,7 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const swaggerUi = require('swagger-ui-express');
-const specs = require('./swaggerConfig');
+const specs = require('./swagger/swaggerConfig');
 
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');

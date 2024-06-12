@@ -1,5 +1,7 @@
 const swaggerJsdoc = require('swagger-jsdoc');
+const {bookingSchema, inputDataSchema} = require("./schemas");
 const port = process.env.PORT || 3000;
+
 
 const options = {
     definition: {
@@ -14,6 +16,12 @@ const options = {
                 url: `http://localhost:${port}`,
             },
         ],
+        components: {
+            schemas: {
+                InputData: inputDataSchema,
+                Booking: bookingSchema,
+            },
+        },
     },
     apis: ['./routes/*.js'], // Path to your API route files
 };
