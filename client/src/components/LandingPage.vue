@@ -48,4 +48,19 @@ export default {
 .text h2 {
   margin-top: 1em;
 }
+
+@media (max-width: 400px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  p,
+  li {
+    font-size: 0.9rem;
+  }
+}
 </style>

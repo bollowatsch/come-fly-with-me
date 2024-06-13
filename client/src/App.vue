@@ -5,7 +5,7 @@
         class="app-bar">
       <div class="header-content">
         <v-app-bar-title class="hidden-sm-and-down">Come fly </v-app-bar-title>
-        <img src="test.png" alt="Logo" class="logo">
+        <img src="test.png" alt="Logo" class="logo" @click="goToStart">
         <v-app-bar-title class="hidden-sm-and-down">with me!</v-app-bar-title>
       </div>
       <v-spacer></v-spacer>
@@ -55,7 +55,7 @@
             href="https://www.github.com/bollowatsch/come-fly-with-me"
             target="_blank"
             icon="mdi-github"
-            class="hidden-sm-and-down"
+            class="github-btn hidden-sm-and-down"
         ></v-btn>
       </div>
     </v-footer>
@@ -118,6 +118,9 @@ export default {
     },
   },
   methods: {
+    goToStart() {
+      this.currentStep = 0; // Zur Startseite zurückkehren
+    },
     nextStep() {
       if (this.currentStep < this.steps.length - 1) {
         this.updateFormData();
@@ -195,16 +198,20 @@ body {
   background-image: url("assets/background.jpg");
   background-size: cover;
   min-height: 100vh;
+  margin: 0;
+  font-size: 1rem;
 }
 
 .container {
   flex-direction: column;
   flex-grow: 1;
-  padding: 1vh 5vw 10vh 5vw;
+  padding: 2vh 5vw 5vh 5vw;
+  margin: 0;
 }
 
 .app-bar {
-  min-height: 64px;
+  max-height: 10vh;
+  margin: 0;
 }
 
 .header-content {
@@ -212,7 +219,8 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-height: 45px;
+  max-height: 5vh;
+  margin: 0;
 }
 
 .footer-content {
@@ -220,27 +228,42 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-height: 45px;
+  max-height: 10vh;
 }
 
 .logo {
-  align-items: center;
-  height: 64px;
+  height: 6vh;
+  margin-top: 1vh;
+}
+
+.logo:hover {
+  transform: scale(1.3);
 }
 
 .theme-btn {
   margin-left: auto;
-  padding: 0; /* Ensure no extra padding */
-  right: 15px;
-  width: 35px; /* Smaller button width for mobile */
-  height: 35px; /* Smaller button height for mobile */
-  font-size: 15px; /* Smaller icon size for mobile */
+  padding: 0;
+  width: 5vh;
+  height: 5vh;
+  font-size: 2vh;
+}
+
+.github-btn {
+  width: 5vh;
+  height: 5vh;
+  font-size: 1vh;
 }
 
 @media (max-width: 400px) {
+  body {
+    background-image: none;
+  }
+
   .app-bar {
-    min-height: 35px;
-    max-height: 35px;
+    min-height: 7vh;
+    max-height: 7vh;
+    margin: 0;
+    padding: 0;
   }
 
   .header-content {
@@ -248,7 +271,9 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-height: 25px;
+    max-height: 7vh;
+    margin: 0;
+    padding: 0;
   }
 
   .footer-content {
@@ -256,25 +281,30 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-height: 25px;
+    max-height: 7vh;
   }
 
   .logo {
-    height: 45px;
-    margin-bottom: 15px;
-    align-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 6vh;
+    margin: 0 auto;
   }
 
   .theme-btn {
     margin-left: auto;
-    padding: 0;
-    right: 15px;
-    width: 15px;
-    height: 15px;
-    font-size: 8px;
-    bottom: 15px;
+    width: 4vh;
+    height: 4vh;
+    font-size: 2vh;
+    bottom: 1vh;
   }
 
+  .github-btn {
+    width: 4vh;
+    height: 4vh;
+    font-size: 2vh;
+  }
 }
 
 #app {
@@ -284,13 +314,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  //color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0;
+  padding: 5vh 0;
 }
 
 .progress-bar {
   width: 100%;
-  height: 10px;
+  height: 1vh;
   -webkit-appearance: none;
   appearance: none;
 }
@@ -301,12 +331,11 @@ body {
 }
 
 .space-ah {
-  margin-top: 55px;
+  margin-top: 10vh;
 }
 
 .footer {
-  max-height: 45px;
-  padding: 0 16px;
+  max-height: 10vh;
+  padding: 0 5vw;
 }
-
 </style>
