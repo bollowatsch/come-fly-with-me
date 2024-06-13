@@ -29,7 +29,7 @@ router.get('/api', function (req, res) {
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '##/components/schemas/InputData'
+ *               $ref: '#/components/schemas/Booking'
  */
 router.post('/sendData', function (req, res, next) {
     const data = req.body

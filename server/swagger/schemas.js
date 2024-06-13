@@ -9,10 +9,16 @@ const inputDataSchema = {
             type: 'integer',
         },
         vacationType: {
-            type: 'string',
+            type: 'array',
+            items: {
+                type: 'string',
+            }
         },
         accommodationType: {
-            type: 'string',
+            type: 'array',
+            items: {
+                type: 'string',
+            },
         },
         beginDate: {
             type: 'string',
