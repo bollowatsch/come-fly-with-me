@@ -1,6 +1,5 @@
 const axios = require('axios');
-const API_KEY = process.env.ATTRACTIONS_API_KEY;
-
+const API_KEY = process.env.ATTRACTIONS_KEY;
 
 module.exports.getLocationID = async function getLocationID(city) {
     const options = {

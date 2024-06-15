@@ -2,9 +2,15 @@ const express = require('express');
 const router = express.Router();
 const {inputDataSchema, bookingSchema} = require('../swagger/schemas');
 
-/* GET home page. */
+/**
+ * This router handles all the endpoints for communication between FE & BE.
+ */
+
+/**
+ * Redirecting user to the frontend if wrong url is entered.
+ */
 router.get('/', function (req, res, next) {
-    res.render('index', {title: 'Express'});
+    res.writeHead(301, {Location: `http://localhost:8080`}).end()
 });
 
 router.get('/api', function (req, res) {
@@ -41,7 +47,6 @@ router.post('/sendData', function (req, res, next) {
     const beginDate = data.beginDate
     const endDate = data.endDate
     const numberOfNights = data.numberOfNights
-
 
     //TODO: This endpoint should be used to request matching hotels for given criteria, so this endpoint
     // 1. makes API call
