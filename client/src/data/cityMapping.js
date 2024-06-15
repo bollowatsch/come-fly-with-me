@@ -30,5 +30,3 @@ const cityMapping = {
         "Verbier", "Zermatt", "Zugspitze", "Zurich", "Zweisimmen", "Åre"
     ]
 };
-
-export default cityMapping;

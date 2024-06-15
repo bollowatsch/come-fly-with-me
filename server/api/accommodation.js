@@ -1,11 +1,11 @@
 const axios = require('axios');
-const API_KEY = process.env.ACCOMMODATIONS_API_KEY;
+const API_KEY = process.env.ACCOMMODATIONS_KEY;
 
 /**
  * https://rapidapi.com/tipsters/api/booking-com/
  */
 
-module.exports.get = async function getLocations(city) {
+module.exports.getLocationID = async function getLocations(city) {
     const options = {
         method: 'GET',
         url: 'https://booking-com.p.rapidapi.com/v1/hotels/locations',
@@ -38,6 +38,16 @@ module.exports.searchAccommodations = async function search(dest_id) {
         price: 'price'
     }
 
+    const destinationType = {
+        city: "city",
+        region: "region",
+        landmark: "landmark",
+        district: "district",
+        hotel: "hotel",
+        country: "country",
+        airport: "airport"
+    }
+
     const options = {
         method: 'GET',
         url: 'https://booking-com.p.rapidapi.com/v1/hotels/search',
@@ -47,19 +57,18 @@ module.exports.searchAccommodations = async function search(dest_id) {
             filter_by_currency: 'EUR',
             room_number: '1',
             dest_id: dest_id,
-            dest_type: 'city',
+            dest_type: destinationType.city,
             adults_number: '2',
             checkin_date: '2024-09-14',
             locale: 'en-gb',
             //Params below are optional
-            units: 'metric',
-            page_number: '0'
+            units: 'metric'
         },
         headers: {
-            'X-RapidAPI-Key': API_KEY,
+            'X-RapidAPI-Key': 'cd1b47b54fmsh7aeea4b245f13bfp1c422fjsnfcccee70a4f7',
             'X-RapidAPI-Host': 'booking-com.p.rapidapi.com'
         }
-    };
+    }
 
     try {
         const response = await axios.request(options);

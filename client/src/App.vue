@@ -159,7 +159,7 @@ export default {
 
       const options = {
         method: 'POST',
-        url: 'http://localhost:3000/sendData',
+        url: 'http://localhost:5000/sendData',
         data: {
           peopleCount: this.formData.peopleCount,
           maxPrice: this.formData.maxPrice,
@@ -167,7 +167,7 @@ export default {
           accommodationType: this.formData.accommodationType,
           beginDate: this.formData.beginDate,
           endDate: this.formData.endDate,
-          numberOfNight: this.formData.numberOfNights,
+          numberOfNights: this.formData.numberOfNights,
         },
         headers: {
           'Content-Type': 'application/json'

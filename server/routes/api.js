@@ -4,12 +4,9 @@ const router = express.Router();
 const accommodationsApi = require("../api/accommodation");
 const booking = require("../api/booking");
 const weather = require("../api/weather");
-const cityMapping = require("../models/cityMapping");
+const allCities = require("../models/allCities");
 
-const uniqueCities = new Set()
-cityMapping.forEach(city => uniqueCities.add(city.toLowerCase()))
-
-//const controller = require("../controller/controller");
+const controller = require("../controller/controller");
 
 /**
  * This router provides all api endpoints.
@@ -27,9 +24,9 @@ router.get('/hotels/:city', async function (req, res) {
     const city = req.params.city
     const budget = 250
 
-    if (city !== undefined && city !== null) {
-        let dest_id;
-        await accommodationsApi.get(city)
+    if (city !== undefined && city !== null && allCities.includes(city)) {
+        let dest_id = '-1995499';
+        await accommodationsApi.getLocationID(city)
             .then(hotels => dest_id = hotels[0].dest_id)
             .then(async () => {
                 let hotels = []
@@ -57,15 +54,23 @@ router.get('/hotels/:city', async function (req, res) {
                 res.send({city: city, budget: budget, result: fit})
             })
             .catch(error => res.sendStatus(error.response.status || 5000))
-    }
+    } else res.sendStatus(400)
 })
 
-// localhost:5000/api/weather/vienna
+
+/**
+ * This endpoint is used to request weather data for a certain city.
+ * Checks if city is valid and part of the mapped cities.
+ * http://localhost:5000/api/weather/vienna
+ * @returns status 200 and weather data if successful, else error code and message.
+ */
 router.get('/weather/:city', async function (req, res) {
     const city = req.params.city
 
+    const found = allCities.includes(city)
+
     // Only make request if city was found in mappedCities.
-    if (city !== undefined && city !== null && uniqueCities.has(city)) {
+    if (city !== undefined && city !== null && found) {
         await weather.getWeather(city)
             .then(result => res.status(200).send(result))
             .catch(error => res.sendStatus(error.response.status || 5000))
@@ -77,6 +82,7 @@ router.get('/attractions/:city', async function (req, res) {
     //TODO: Call corresponding API to retrieve attractions in the current city.
     // filter best results.
     // return to caller.
+    res.sendStatus(501)
 })
 
 module.exports = router;
