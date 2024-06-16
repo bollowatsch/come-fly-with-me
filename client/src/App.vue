@@ -38,22 +38,12 @@
         </v-col>
         <v-col v-else cols="12" class="d-flex justify-space-between">
           <v-btn @click="previousStep" v-show="currentStep !== 0">Back</v-btn>
-          <v-btn v-if="currentStep > 0 && currentStep < steps.length - 1" @click="nextStep">
+          <v-btn v-if="currentStep > 0 && currentStep < steps.length - 1" @click="nextStep" :disabled="currentStep === steps.length - 1">
             Next
           </v-btn>
           <v-btn v-if="currentStep === steps.length - 1" @click="submitForm">Submit</v-btn>
         </v-col>
       </v-row>
-      <v-dialog v-model="dialog" max-width="400">
-        <v-card>
-          <v-card-title>Can't proceed!</v-card-title>
-          <v-card-text>Please make a pick, otherwise you can't proceed!</v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="dialog = false">Close</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
     </v-main>
     <v-footer
         app
@@ -103,7 +93,6 @@ export default {
   data() {
     return {
       currentStep: 0,
-      dialog: false,
       steps: [
         "LandingPage",
         "PeopleCountInput",
@@ -130,14 +119,9 @@ export default {
   },
   methods: {
     goToStart() {
-      this.currentStep = 0;
+      this.currentStep = 0; // Zur Startseite zurückkehren
     },
     nextStep() {
-      const component = this.$refs.currentComponent;
-      if (!component.isValid()) {
-        this.dialog = true;
-        return;
-      }
       if (this.currentStep < this.steps.length - 1) {
         this.updateFormData();
         this.currentStep++;
@@ -171,11 +155,6 @@ export default {
       }
     },
     async submitForm() {
-      const component = this.$refs.currentComponent;
-      if (component && typeof component.isValid === 'function' && !component.isValid()) {
-        this.dialog=true;
-        return;
-      }
       this.updateFormData();
 
       const options = {
@@ -221,12 +200,6 @@ body {
   min-height: 100vh;
   margin: 0;
   font-size: 1rem;
-}
-
-.v-btn:disabled {
-  background-color: grey !important;
-  color: white !important;
-  cursor: not-allowed;
 }
 
 .container {
