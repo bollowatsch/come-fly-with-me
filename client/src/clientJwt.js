@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function storeOptionsInJWT(options) {
     try {
-        const response = await axios.post('http://localhost:3000/jwt/create-jwt', { options });
+        const response = await axios.post('http://localhost:5000/jwt/create-jwt', { options });
         const token = response.data.token;
         localStorage.setItem('userOptionsToken', token);
     } catch (error) {
@@ -15,7 +15,7 @@ export async function getOptionsFromJWT() {
     if (!token) return null;
 
     try {
-        const response = await axios.post('http://localhost:3000/jwt/verify-jwt', { token });
+        const response = await axios.post('http://localhost:5000/jwt/verify-jwt', { token });
         return response.data.options;
     } catch (error) {
         console.error('Error verifying JWT:', error);
