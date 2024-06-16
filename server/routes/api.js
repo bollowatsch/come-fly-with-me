@@ -57,6 +57,20 @@ router.get('/hotels/:city', async function (req, res) {
     } else res.sendStatus(400)
 })
 
+router.get('/:city', async function (req, res) {
+    const city = req.params.city
+    let ids = []
+    if (city !== undefined && city !== null && allCities.includes(city)) {
+        await accommodationsApi.getLocationID(city).then(result => {
+            result.forEach(location => {
+                ids.push(location.dest_id)
+
+
+            })
+            res.status(200).send(ids)
+        }).catch(error => res.sendStatus(error.response.status || 500))
+    } else res.sendStatus(400)
+})
 
 /**
  * This endpoint is used to request weather data for a certain city.
@@ -67,13 +81,11 @@ router.get('/hotels/:city', async function (req, res) {
 router.get('/weather/:city', async function (req, res) {
     const city = req.params.city
 
-    const found = allCities.includes(city)
-
     // Only make request if city was found in mappedCities.
-    if (city !== undefined && city !== null && found) {
+    if (city !== undefined && city !== null && allCities.includes(city)) {
         await weather.getWeather(city)
             .then(result => res.status(200).send(result))
-            .catch(error => res.sendStatus(error.response.status || 5000))
+            .catch(error => res.sendStatus(error.response.status || 500))
     } else res.sendStatus(400)
 })
 

@@ -62,50 +62,11 @@ router.post('/sendData', async function (req, res, next) {
 
     const dayDifference = Math.round((endDate.getTime() - beginDate.getTime()) / (1000 * 3600 * 24)) - 1
 
-    const getCityByCriteria = (criteriaArray) => {
-        if (!Array.isArray(criteriaArray) || criteriaArray.length === 0) return [];
+    let destination = getRandomCityBasedOnVacationType(vacationType)
 
-        // Start with the cities in the first criteria
-        let commonCities = new Set(cityMapping[criteriaArray[0]]);
-
-        // Intersect with the cities in the subsequent criteria
-        for (let i = 1; i < criteriaArray.length; i++) {
-            const citiesSet = new Set(cityMapping[criteriaArray[i]]);
-            commonCities = new Set([...commonCities].filter(city => citiesSet.has(city)));
-        }
-
-        return [...commonCities];
-    };
-
-    let criteria = []
-    vacationType.forEach(type => criteria.push(type));
-
-    //No match with ADVENTURE + CITY
-    const selectedCities = getCityByCriteria(criteria)
-    const randomIndex = Math.floor(Math.random() * selectedCities.length);
-    const destination = selectedCities[randomIndex];
-
-    console.log(destination);
-
-    if (destination !== undefined) {
-        /*
-        await accommodations.getLocationID(destination)
-            .then(locationID => {
-                accommodations.searchAccommodations(locationID)
-                    .then(result => console.log(result))
-            })
-            .catch(error => res.sendStatus(error.response.status || 500))
-         */
-
-        /*
-        await weather.getWeather(destination)
-            .then(result => {
-                console.log(result.current_observation.condition.temperature)
-                res.status(200).send(result)
-            })
-            .catch(error => res.sendStatus(error.response.status || 500))
-         */
-    } else res.sendStatus(418)
+    if (destination !== null) {
+        console.log(destination);
+    }
 
     //TODO: This endpoint should be used to request matching hotels for given criteria, so this endpoint
     // 1. makes API call
@@ -117,5 +78,68 @@ router.post('/sendData', async function (req, res, next) {
     // TODO if booking success, save into db and notify caller,
     //  if failure tell caller
 })
+
+/**
+ * This function takes an array of vacation types and returns a random city that matches either all or any of the given vacation types.
+ * It first attempts to find cities that match all types (intersection).
+ * If no common cities are found, it then considers cities that match any of the types (union).
+ * @param vacationType (Array): An array of vacation type keys used to determine the criteria for selecting cities.
+ * @returns {String|null} A random city that matches the criteria. Returns <code>null</code> if no cities match any of the given vacation types.
+ */
+function getRandomCityBasedOnVacationType(vacationType) {
+    let criteria = []
+    vacationType.forEach(type => criteria.push(type))
+
+    let intersection = getIntersection(criteria)
+
+    if (intersection.length === 0) {
+        let union = getUnion(criteria)
+
+        if (union.length === 0) return null     //no match found at all.
+
+        let randomIndex = Math.floor(Math.random() * union.length);
+        return union[randomIndex];
+    }
+
+    let randomIndex = Math.floor(Math.random() * intersection.length);
+    return intersection[randomIndex];
+}
+
+/**
+ * This function takes an array of criteria and returns an array of cities that meet all the given criteria (intersection of the cities).
+ * @param criteriaArray An array of criteria keys to find the intersection of cities.
+ * @returns {any[]|*[]} An array of cities that meet all the criteria. Returns an empty array if no common cities are found or if the criteria array is empty.
+ */
+function getIntersection(criteriaArray) {
+    //No match with ADVENTURE + CITY
+    if (!Array.isArray(criteriaArray) || criteriaArray.length === 0) return []
+
+    let commonCities = new Set(cityMapping[criteriaArray[0]])
+
+    for (let i = 1; i < criteriaArray.length; i++) {
+        const citiesSet = new Set(cityMapping[criteriaArray[i]])
+        commonCities = new Set([...commonCities].filter(city => citiesSet.has(city)))
+    }
+
+    return [...commonCities]
+}
+
+/**
+ * This function takes an array of criteria and returns an array of cities that meet any of the given criteria (union of the cities).
+ * @param criteriaArray An array of criteria keys to find the union of cities.
+ * @returns {any[]|*[]} An array of cities that meet any of the criteria. Returns an empty array if no cities match or if the criteria array is empty.
+ */
+function getUnion(criteriaArray) {
+    if (!Array.isArray(criteriaArray) || criteriaArray.length === 0) return []
+
+    let commonCities = new Set()
+
+    for (let i = 0; i < criteriaArray.length; i++) {
+        const citiesSet = new Set(cityMapping[criteriaArray[i]])
+        commonCities = new Set([...commonCities, ...citiesSet])
+    }
+
+    return [...commonCities]
+}
 
 module.exports = router;

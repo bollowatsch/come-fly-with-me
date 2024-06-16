@@ -1,4 +1,6 @@
 const axios = require('axios');
+require('dotenv').config();
+
 const API_KEY = process.env.BOOKING_KEY;
 
 module.exports.get = async function getAccommodation() {

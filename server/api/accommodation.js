@@ -1,4 +1,6 @@
 const axios = require('axios');
+require('dotenv').config();
+
 const API_KEY = process.env.ACCOMMODATIONS_KEY;
 
 /**
@@ -14,10 +16,10 @@ module.exports.getLocationID = async function getLocations(city) {
             locale: 'en-gb'
         },
         headers: {
-            'X-RapidAPI-Key': API_KEY,
-            'X-RapidAPI-Host': 'booking-com.p.rapidapi.com'
+            'x-rapidapi-key': API_KEY,
+            'x-rapidapi-host': 'booking-com.p.rapidapi.com'
         }
-    };
+    }
 
     try {
         const response = await axios.request(options);

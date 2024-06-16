@@ -1,4 +1,6 @@
 const axios = require('axios');
+require('dotenv').config();
+
 const API_KEY = process.env.ATTRACTIONS_KEY;
 
 module.exports.getLocationID = async function getLocationID(city) {
