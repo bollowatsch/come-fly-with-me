@@ -9,10 +9,11 @@
       <v-col
           v-for="card in cards"
           :key="card.id"
-          cols="6" sm="6" md="4" lg="4"
+          cols="12" sm="12" md="4" lg="2"
+          class="d-flex align-center justify-center"
       >
         <v-card id=card hover @click="toggleCard(card)" :class="{'highlighted': card.isSelected}" class="vacation-card">
-          <v-img :src="card.image" aspect-ratio="16/9" class="align-end"></v-img>
+          <v-img :src="card.image" ></v-img>
           <v-card-title>{{ card.title}}</v-card-title>
         </v-card>
       </v-col>
@@ -57,7 +58,6 @@ export default {
 </script>
 <style scoped>
 .highlighted {
-  /* Flip colors if selected */
   background-color: rgba(var(--v-theme-primary));
   color: rgba(var(--v-theme-on-primary));
 }
@@ -81,6 +81,7 @@ export default {
   text-align: center;
   font-size: 1rem;
   padding: 10px 0;
+  text-overflow: clip;
 }
 
 @media (max-width: 600px) {
@@ -90,8 +91,19 @@ export default {
     text-align: center;
   }
 
-  .vacation-card .v-card-title {
-    font-size: 1rem;
+  .vacation-card v-img {
+    height: auto;
+    object-fit: cover;
+  }
+
+  .vacation-card v-card-title {
+    background-color: rgba(255, 255, 255, 0.8);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    padding: 10px 0;
   }
 
   h1 {
@@ -106,5 +118,6 @@ export default {
   li {
     font-size: 0.9rem;
   }
+
 }
 </style>

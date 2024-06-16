@@ -9,9 +9,9 @@
       <v-col :cols="12">
         <v-slider
             v-model="maxPrice"
-            :min="50"
-            :max="1000"
-            :step="10"
+            :min="100"
+            :max="500"
+            :step="25"
             ticks="always"
             tick-size="3"
             class="custom-slider"
@@ -29,7 +29,7 @@
 export default {
   data() {
     return {
-      maxPrice: 50,
+      maxPrice: 100,
     };
   },
   methods: {
