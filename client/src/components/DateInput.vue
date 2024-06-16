@@ -71,6 +71,9 @@ export default {
     },
     getNumberOfNights() {
       return this.numberOfNights
+    },
+    isValid() {
+      return this.possibleDates && this.possibleDates.length > 0;
     }
   }
 };

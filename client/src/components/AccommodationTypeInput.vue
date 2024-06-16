@@ -33,16 +33,6 @@ export default {
     };
   },
   methods: {
-    //TODO don't use display breakpoints but parent container size?
-    getColsCountFromBreakpoints() {
-      if (this.$vuetify.display.smAndDown) {
-        return 6;
-      } else if (this.$vuetify.display.mdAndDown) {
-        return 3;
-      } else {
-        return 2;
-      }
-    },
     toggleCard(card) {
       if (card.isSelected) {
         card.isSelected = false;
@@ -61,6 +51,9 @@ export default {
       }
       return null;
     },
+    isValid() {
+      return this.cards.some(card => card.isSelected);
+    }
   }
 };
 

@@ -36,6 +36,9 @@ export default {
     getPeopleCount() {
       return this.peopleCount;
     },
+    isValid() {
+      return true;
+    },
   },
 };
 </script>

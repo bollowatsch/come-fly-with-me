@@ -36,6 +36,9 @@ export default {
     getMaxPrice() {
       return this.maxPrice;
     },
+    isValid() {
+      return true; // Slider always has valid default-value
+    }
   },
 };
 </script>

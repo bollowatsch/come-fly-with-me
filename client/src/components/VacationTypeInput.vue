@@ -46,6 +46,11 @@ export default {
       }
       return selectedTypes;
     },
+
+    isValid() {
+      return this.cards.some(card => card.isSelected);
+    }
+
   }
 };
 

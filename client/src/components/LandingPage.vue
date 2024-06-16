@@ -7,6 +7,9 @@ export default {
     getLandingPage() {
       return this;
     },
+    isValid() {
+      return true;
+    }
   },
 };
 </script>
