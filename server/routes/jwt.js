@@ -3,10 +3,8 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 
-const secretKey = 'test'
+const secretKey = process.env.JWT_SECRET || 'secret_key';
 const router = express.Router();
-
-console.log(process.env.JWT_SECRET);
 
 
 //create JWT

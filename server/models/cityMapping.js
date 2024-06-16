@@ -15,7 +15,7 @@ const cityMapping = {
         "Åre", "Bled", "Chamonix", "Cortina d'Ampezzo", "Geiranger", "Gimmelwald", "Grindelwald", "Innsbruck",
         "Interlaken", "Jungfrau", "Kitzbühel", "Kotor", "Lake Bled", "Lauterbrunnen", "Lech", "Lucerne",
         "Mont Blanc", "Nærøyfjord", "Oberstdorf", "Plitvice", "Reykjavik", "Sankt Anton", "Sölden",
-        "St. Moritz", "Tromsø", "Val d'Isère", "Verbier", "Zell am See", "Zermatt", "Zugspitze"
+        "St. Moritz", "Tromsø", "Val d'Isère", "Verbier", "Zell am See", "Zermatt"
     ],
     CITY: [
         "Amsterdam", "Athens", "Barcelona", "Berlin", "Brussels", "Bucharest", "Budapest", "Copenhagen",
@@ -27,7 +27,7 @@ const cityMapping = {
         "Chamonix", "Fuerteventura", "Innsbruck", "Kitzbühel", "Lanzarote", "Leogang", "Livigno", "Mallorca",
         "Marbella", "Marseille", "Milan", "Munich", "Oberstdorf", "Porto", "Saint-Jean-de-Luz", "Sankt Anton",
         "Sestriere", "Sierra Nevada", "Solden", "St. Moritz", "Tignes", "Torremolinos", "Turin", "Valencia",
-        "Verbier", "Zermatt", "Zugspitze", "Zurich", "Zweisimmen", "Åre"
+        "Verbier", "Zermatt", "Zurich", "Zweisimmen", "Åre"
     ]
 };
 

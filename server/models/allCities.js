@@ -83,7 +83,6 @@ const allCities = [
     "verbier",
     "zell am see",
     "zermatt",
-    "zugspitze",
     "brussels",
     "bucharest",
     "dublin",
