@@ -38,10 +38,11 @@
         </v-col>
         <v-col v-else cols="12" class="d-flex justify-space-between">
           <v-btn @click="previousStep" v-show="currentStep !== 0">Back</v-btn>
-          <v-btn v-if="currentStep > 0 && currentStep < steps.length - 1" @click="nextStep" :disabled="currentStep === steps.length - 1">
+          <v-btn v-if="currentStep > 0 && currentStep < steps.length - 2" @click="nextStep" :disabled="currentStep === steps.length - 1">
             Next
           </v-btn>
-          <v-btn v-if="currentStep === steps.length - 1" @click="submitForm">Submit</v-btn>
+          <v-btn v-if="currentStep === steps.length - 2" @click="submitForm">Submit</v-btn>
+          <v-btn v-if="currentStep === steps.length - 1" @click="submitPersonalDetails">Book bindingly</v-btn>
         </v-col>
       </v-row>
 
@@ -91,6 +92,7 @@ import AccommodationTypeInput from "./components/AccommodationTypeInput.vue";
 import MaxPriceInput from "./components/MaxPriceInput.vue";
 import DateInput from "@/components/DateInput.vue";
 import LandingPage from "@/components/LandingPage.vue";
+import PersonalDetailsInput from "@/components/PersonalDetailsInput.vue";
 
 const axios = require('axios')
 
@@ -102,7 +104,8 @@ export default {
     VacationTypeInput,
     AccommodationTypeInput,
     MaxPriceInput,
-    DateInput
+    DateInput,
+    PersonalDetailsInput
   },
   data() {
     return {
@@ -114,7 +117,8 @@ export default {
         "VacationTypeInput",
         "AccommodationTypeInput",
         "MaxPriceInput",
-        "DateInput"
+        "DateInput",
+        "PersonalDetailsInput"
       ],
       formData: {
         peopleCount: null,
@@ -202,6 +206,8 @@ export default {
         }
       };
 
+      this.nextStep();
+
       //TODO show resultPage if success
       await axios.request(options)
           .then(response => alert(response.data))
@@ -214,7 +220,23 @@ export default {
         Date: ${this.formData.beginDate} - ${this.formData.endDate}\n
         Number of Nights: ${this.formData.numberOfNights}\n`);
       console.log(this.formData);
-    }
+    },
+    submitPersonalDetails() {
+      //const component = this.$refs.currentComponent;
+      //const personalDetails = component.getPersonalDetails();
+      //this.sendPersonalDetails(personalDetails);
+    },
+    /*    async sendPersonalDetails(details) {
+          //TODO: implement Patch method
+          const options = {
+            method: 'PATCH',
+            url: '',
+            data: JSON.stringify(details),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        }*/
   },
 };
 </script>
