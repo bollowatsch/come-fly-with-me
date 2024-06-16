@@ -12,6 +12,7 @@
                 prepend-inner-icon="$calendar"
                 variant="outlined"
                 multiple="range"
+                :min="minDate"
                 @change="updateMaxNumberOfNights"
             ></v-date-input>
           </v-card-item>
@@ -48,6 +49,7 @@ export default {
       possibleDates: null,
       maxNumberOfNights: null,
       numberOfNights: null,
+      minDate: this.calculateMinDate(),
     }
   },
   watch: {
@@ -59,6 +61,11 @@ export default {
     },
   },
   methods: {
+    calculateMinDate() {
+      const today = new Date();
+      today.setDate(today.getDate() + 6);
+      return today.toISOString();
+    },
     updateMaxNumberOfNights() {
       const timeDifference = this.getEndDate().getTime() - this.getBeginDate().getTime();
       this.maxNumberOfNights = Math.round(timeDifference / (1000 * 3600 * 24)) - 1;
