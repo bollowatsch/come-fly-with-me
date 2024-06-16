@@ -204,7 +204,7 @@ export default {
 
       //TODO show resultPage if success
       await axios.request(options)
-          .then(response => alert(response))
+          .then(response => alert(response.data))
           .catch(error => alert(error))
 
       alert(`Persons: ${this.formData.peopleCount}\n

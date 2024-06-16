@@ -66,7 +66,8 @@ router.post('/sendData', async function (req, res, next) {
 
     if (destination !== null) {
         console.log(destination);
-    }
+        res.status(200).send(destination)
+    } else res.sendStatus(501)
 
     //TODO: This endpoint should be used to request matching hotels for given criteria, so this endpoint
     // 1. makes API call
@@ -100,7 +101,6 @@ function getRandomCityBasedOnVacationType(vacationType) {
         let randomIndex = Math.floor(Math.random() * union.length);
         return union[randomIndex];
     }
-
     let randomIndex = Math.floor(Math.random() * intersection.length);
     return intersection[randomIndex];
 }
