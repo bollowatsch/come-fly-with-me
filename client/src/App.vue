@@ -4,7 +4,7 @@
         app
         class="app-bar">
       <div class="header-content">
-        <v-app-bar-title class="hidden-sm-and-down">Come fly </v-app-bar-title>
+        <v-app-bar-title class="hidden-sm-and-down">Come fly</v-app-bar-title>
         <img src="test.png" alt="Logo" class="logo" @click="goToStart">
         <v-app-bar-title class="hidden-sm-and-down">with me!</v-app-bar-title>
       </div>
@@ -38,10 +38,12 @@
         </v-col>
         <v-col v-else cols="12" class="d-flex justify-space-between">
           <v-btn @click="previousStep" v-show="currentStep !== 0">Back</v-btn>
-          <v-btn v-if="currentStep > 0 && currentStep < steps.length - 1" @click="nextStep" :disabled="currentStep === steps.length - 1">
+          <v-btn v-if="currentStep > 0 && currentStep < steps.length - 2" @click="nextStep"
+                 :disabled="currentStep === steps.length - 1">
             Next
           </v-btn>
-          <v-btn v-if="currentStep === steps.length - 1" @click="submitForm">Submit</v-btn>
+          <v-btn v-if="currentStep === steps.length - 2" @click="submitForm">Submit</v-btn>
+          <v-btn v-if="currentStep === steps.length - 1" @click="submitPersonalDetails">Book bindingly</v-btn>
         </v-col>
       </v-row>
     </v-main>
@@ -50,7 +52,7 @@
         border
         class="footer">
       <div class="footer-content">
-        <v-card-text >&copy; Come Fly With Me! - 2024</v-card-text>
+        <v-card-text>&copy; Come Fly With Me! - 2024</v-card-text>
         <v-btn
             href="https://www.github.com/bollowatsch/come-fly-with-me"
             target="_blank"
@@ -62,11 +64,11 @@
   </v-app>
 </template>
 <script setup>
-import { useTheme } from 'vuetify'
+import {useTheme} from 'vuetify'
 
 const theme = useTheme()
 
-function toggleTheme () {
+function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 }
 </script>
@@ -77,6 +79,7 @@ import AccommodationTypeInput from "./components/AccommodationTypeInput.vue";
 import MaxPriceInput from "./components/MaxPriceInput.vue";
 import DateInput from "@/components/DateInput.vue";
 import LandingPage from "@/components/LandingPage.vue";
+import PersonalDetailsInput from "@/components/PersonalDetailsInput.vue";
 
 const axios = require('axios')
 
@@ -88,7 +91,8 @@ export default {
     VacationTypeInput,
     AccommodationTypeInput,
     MaxPriceInput,
-    DateInput
+    DateInput,
+    PersonalDetailsInput
   },
   data() {
     return {
@@ -99,7 +103,8 @@ export default {
         "VacationTypeInput",
         "AccommodationTypeInput",
         "MaxPriceInput",
-        "DateInput"
+        "DateInput",
+        "PersonalDetailsInput"
       ],
       formData: {
         peopleCount: null,
@@ -179,6 +184,8 @@ export default {
           .then(response => alert(response))
           .catch(error => alert(error))
 
+      this.nextStep();
+
       alert(`Persons: ${this.formData.peopleCount}\n
         Budget: ${this.formData.maxPrice}\n
         Vacation Types: ${this.formData.vacationType.join(', ')}\n
@@ -186,7 +193,23 @@ export default {
         Date: ${this.formData.beginDate} - ${this.formData.endDate}\n
         Number of Nights: ${this.formData.numberOfNights}\n`);
       console.log(this.formData);
-    }
+    },
+    submitPersonalDetails() {
+      //const component = this.$refs.currentComponent;
+      //const personalDetails = component.getPersonalDetails();
+      //this.sendPersonalDetails(personalDetails);
+    },
+/*    async sendPersonalDetails(details) {
+      //TODO: implement Patch method
+      const options = {
+        method: 'PATCH',
+        url: '',
+        data: JSON.stringify(details),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    }*/
   },
 };
 </script>

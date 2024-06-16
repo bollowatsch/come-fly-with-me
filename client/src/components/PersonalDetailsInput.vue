@@ -1,0 +1,64 @@
+<script>
+export default {
+  data() {
+    return {
+      first: null,
+      last: null,
+      email: null,
+      rules: {
+        required: value => !!value || 'Required.',
+        counter: value => value.length <= 30 || 'Max 30 characters',
+        email: value => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(value) || 'Invalid E-mail.'
+        },
+      }
+    }
+  },
+  methods : {
+    getPersonalDetails() {
+      return {
+        first: this.first,
+        last: this.last,
+        email: this.email
+      };
+    }
+  }
+};
+</script>
+
+<template>
+    <v-container>
+      <h1>Just one more step to your dream trip.</h1>
+      <p>We have put together an individual trip for you based on your preferences. In order to finalize your booking, please enter your personal details in the form below.</p>
+      <p></p>
+      <v-text-field
+          v-model="first"
+          :rules="[rules.required, rules.counter]"
+          color="primary"
+          label="First name"
+      ></v-text-field>
+
+      <v-text-field
+          v-model="last"
+          :rules="[rules.required, rules.counter]"
+          color="primary"
+          label="Last name"
+      ></v-text-field>
+
+      <v-text-field
+          v-model="email"
+          :rules="[rules.required, rules.email]"
+          color="primary"
+          label="E-mail"
+      ></v-text-field>
+    </v-container>
+
+</template>
+
+<style>
+p {
+  padding-bottom: 1vh;
+}
+
+</style>
