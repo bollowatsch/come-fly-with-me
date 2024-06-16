@@ -44,6 +44,20 @@
           <v-btn v-if="currentStep === steps.length - 1" @click="submitForm">Submit</v-btn>
         </v-col>
       </v-row>
+
+      <v-dialog v-model="dialog" max-width="350">
+        <v-card>
+          <v-card-title class="headline">Validation Error</v-card-title>
+          <v-card-text>
+            Please make a selection to proceed!
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="dialog = false">OK</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </v-main>
     <v-footer
         app
@@ -93,6 +107,7 @@ export default {
   data() {
     return {
       currentStep: 0,
+      dialog: false,
       steps: [
         "LandingPage",
         "PeopleCountInput",
@@ -119,9 +134,15 @@ export default {
   },
   methods: {
     goToStart() {
-      this.currentStep = 0; // Zur Startseite zurückkehren
+      this.currentStep = 0;
     },
     nextStep() {
+      const component = this.$refs.currentComponent;
+
+      if (!component.isValid()) {
+        this.dialog = true;
+        return;
+      }
       if (this.currentStep < this.steps.length - 1) {
         this.updateFormData();
         this.currentStep++;
@@ -155,6 +176,13 @@ export default {
       }
     },
     async submitForm() {
+      const component = this.$refs.currentComponent;
+
+      if (!component.isValid()) {
+        this.dialog = true;
+        return;
+      }
+
       this.updateFormData();
 
       const options = {
