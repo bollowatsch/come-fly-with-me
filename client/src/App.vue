@@ -94,6 +94,8 @@ import DateInput from "@/components/DateInput.vue";
 import LandingPage from "@/components/LandingPage.vue";
 import PersonalDetailsInput from "@/components/PersonalDetailsInput.vue";
 
+import { storeOptionsInJWT, getOptionsFromJWT } from './clientJwt';
+
 const axios = require('axios')
 
 export default {
@@ -140,7 +142,7 @@ export default {
     goToStart() {
       this.currentStep = 0;
     },
-    nextStep() {
+    async nextStep() {
       const component = this.$refs.currentComponent;
 
       if (!component.isValid()) {
@@ -150,7 +152,9 @@ export default {
       if (this.currentStep < this.steps.length - 1) {
         this.updateFormData();
         this.currentStep++;
+        await storeOptionsInJWT(this.formData);
       }
+      console.log(this.formData);
     },
     previousStep() {
       if (this.currentStep > 0) {
@@ -206,7 +210,7 @@ export default {
         }
       };
 
-      this.nextStep();
+      await this.nextStep();
 
       //TODO show resultPage if success
       await axios.request(options)
@@ -220,6 +224,20 @@ export default {
         Date: ${this.formData.beginDate} - ${this.formData.endDate}\n
         Number of Nights: ${this.formData.numberOfNights}\n`);
       console.log(this.formData);
+    },
+    getIncompleteStep() {
+      if (this.formData.peopleCount === null) return 1;
+      if (this.formData.vacationType === null) return 2;
+      if (this.formData.accommodationType === null) return 3;
+      if (this.formData.maxPrice === null) return 4;
+      if (this.formData.beginDate === null || this.formData.endDate === null || this.formData.numberOfNights === null) return 5;
+
+      const allFieldsFilled = Object.values(this.formData).every(value => value !== null);
+      if (allFieldsFilled) {
+        return 6;
+      }
+
+      return 0; //if no data has been selected yet
     },
     submitPersonalDetails() {
       //const component = this.$refs.currentComponent;
@@ -238,6 +256,25 @@ export default {
           }
         }*/
   },
+  async mounted() {
+    const savedOptions = await getOptionsFromJWT();
+    if (savedOptions) {
+      this.formData.peopleCount = savedOptions.peopleCount;
+      this.formData.vacationType = savedOptions.vacationType;
+      this.formData.accommodationType = savedOptions.accommodationType;
+      this.formData.maxPrice = savedOptions.maxPrice;
+      this.formData.beginDate = savedOptions.beginDate;
+      this.formData.endDate = savedOptions.endDate;
+      this.formData.numberOfNights = savedOptions.numberOfNights;
+
+      console.log(this.formData);
+      //go to the first step without a value
+      const incompleteStepIndex = this.getIncompleteStep();
+      if (incompleteStepIndex !== -1) {
+        this.currentStep = incompleteStepIndex;
+      }
+    }
+  }
 };
 </script>
 

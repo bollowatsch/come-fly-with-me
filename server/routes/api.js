@@ -6,7 +6,7 @@ const booking = require("../api/booking");
 const weather = require("../api/weather");
 const allCities = require("../models/allCities");
 
-const controller = require("../controller/controller");
+//const controller = require("../controller/controller");
 
 /**
  * This router provides all api endpoints.

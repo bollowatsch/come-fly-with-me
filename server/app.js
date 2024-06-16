@@ -10,6 +10,7 @@ const cors = require('cors')
 
 const indexRouter = require('./routes');
 const apiRouter= require('./routes/api');
+const jwtRouter = require('./routes/jwt');
 
 const app = express();
 
@@ -29,7 +30,10 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/', indexRouter);
 
 //use localhost/api to handle all api requests
-app.use('/api', apiRouter)
+app.use('/api', apiRouter);
+
+//use localhost/jwt to handle all jwt requests
+app.use('/jwt', jwtRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
