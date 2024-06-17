@@ -99,11 +99,11 @@ const mongooseBookingSchema = new mongoose.Schema({
         totalPrice: {
             type: Number,
         },
-        city: {
-            cityId: {
+        destination: {
+            destinationId: {
                 type: String,
             },
-            cityName: {
+            destinationName: {
                 type: String,
             }
         },

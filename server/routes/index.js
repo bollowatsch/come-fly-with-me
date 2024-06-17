@@ -26,17 +26,15 @@ router.get('/api', function (req, res) {
     res.sendStatus(418)
 })
 
-async function testDBEntry() {
+async function createNewDbEntry(peopleCount, totalPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl, beginDate, endDate, flightNumber) {
     const mongooseBookingSchema = require("../swagger/schemas").mongooseBookingSchema
     const Booking = mongoose.model("Booking", mongooseBookingSchema)
 
     const newBooking = new Booking({
-        firstName: "Max",
-        lastName: "Muster",
-        mailAddress: "bla@bla.at"
+        peopleCount, totalPrice, destination:{destinationId, destinationName}, hotel:{hotelId, hotelName, hotelUrl}, beginDate, endDate, flightNumber
     })
     await newBooking.save()
-    console.log(`ID of new element: ${newBooking._id}`)
+    return newBooking._id
 }
 
 //TODO: add example data
@@ -52,7 +50,7 @@ async function testDBEntry() {
  *             schema:
  *               $ref: '#/components/schemas/InputData'
  *             example:
- *               peopleCount: 3,
+ *               peopleCount: 3
  *               maxPrice: 2350
  *               vacationType: ["Adventure","City"]
  *               accommodationType: ["Hotel","Hostel","Vacation Homes"]
@@ -73,15 +71,8 @@ async function testDBEntry() {
  *                 id: "507f1f77bcf86cd799439011"
  */
 router.post('/sendData', async function (req, res, next) {
-    //TODO: delete after testing DB
-    testDBEntry();
-
-    //TODO: input validation?
-    // vacationType could be null
-    // accommodationType could be null
-    // numberOfNights could be null
     const data = req.body
-
+    // validation is done in frontend
     const peopleCount = data.peopleCount
     const maxPrice = data.maxPrice
     const vacationType = data.vacationType
@@ -92,22 +83,33 @@ router.post('/sendData', async function (req, res, next) {
 
     const dayDifference = Math.round((endDate.getTime() - beginDate.getTime()) / (1000 * 3600 * 24)) - 1
 
-    let destination = getRandomCityBasedOnVacationType(vacationType)
+    let destinationName = getRandomCityBasedOnVacationType(vacationType)
 
-    if (destination !== null) {
-        console.log(destination);
-        res.status(200).send(destination)
-    } else res.sendStatus(501)
+    //TODO: what should be done here?
+    if (destinationName !== null) {
+        console.log(destinationName);
+        //res.status(200).send(destinationName)
+    } //else res.sendStatus(501)
 
-    //TODO: This endpoint should be used to request matching hotels for given criteria, so this endpoint
-    // 1. makes API call
-    // 2. filters response by given criteria
-    // 3. selects the best fit
-    // 4. if needed uses another API to request detailed information about this hotel
-    // 5. returns to the caller
+    //TODO: call flight API and get flightnumber
+    const flightNumber = "flightNumber"
 
-    // TODO if booking success, save into db and notify caller,
-    //  if failure tell caller
+    //TODO: get cityId from booking API
+    const destinationId = "testID"
+
+    //TODO: get best fitted accommodation based on criteria
+    const hotelName = "hotelName"
+    const hotelId = "hotelId"
+    const hotelUrl = "hotel.com"
+
+    //save data into DB
+    try {
+        const bookingId = await createNewDbEntry(peopleCount, maxPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl, beginDate, endDate, flightNumber)
+        res.status(200).send(bookingId)
+    } catch (err) {
+        console.log(err)
+    }
+
 })
 
 /**
