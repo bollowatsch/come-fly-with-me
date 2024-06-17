@@ -52,23 +52,29 @@ const bookingSchema = {
         totalPrice: {
             type: 'number',
         },
-        city: {
-            cityId: {
-                type: 'string',
-            },
-            cityName: {
-                type: 'string',
+        destination: {
+            type: 'object',
+            properties: {
+                destinationId: {
+                    type: 'string',
+                },
+                destinationName: {
+                    type: 'string',
+                }
             }
         },
         hotel: {
-            hotelId:{
-                type: 'string',
-            },
-            hotelName: {
-                type: 'string',
-            },
-            hotelUrl:{
-                type: 'string',
+            type: 'object',
+            properties: {
+                hotelId: {
+                    type: 'string',
+                },
+                hotelName: {
+                    type: 'string',
+                },
+                hotelUrl: {
+                    type: 'string',
+                }
             }
         },
         beginDate: {

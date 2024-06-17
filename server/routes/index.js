@@ -131,6 +131,8 @@ router.post('/sendData', async function (req, res, next) {
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Booking'
+ *             example:
+ *
  */
 router.get('/booking/:id', async function (req, res) {
     const id = req.params.id
