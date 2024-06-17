@@ -22,6 +22,7 @@ const mongoURI = `mongodb+srv://${mongoDBUser}:${mongoDBPassword}@comeflywithme.
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  dbName: "bookingData"
 })
     .then(() => console.log('MongoDB connected...'))
     .catch(err => console.log(err));

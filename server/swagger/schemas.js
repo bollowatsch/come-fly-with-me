@@ -1,4 +1,5 @@
 // input provided by user and sent to endpoint
+const mongoose = require("mongoose");
 const inputDataSchema = {
     type: 'object',
     properties: {
@@ -82,4 +83,50 @@ const bookingSchema = {
     }
 }
 
-module.exports = {inputDataSchema, bookingSchema};
+const mongooseBookingSchema = new mongoose.Schema({
+        firstName: {
+            type: String,
+        },
+        lastName: {
+            type: String,
+        },
+        mailAddress: {
+            type: String,
+        },
+        peopleCount: {
+            type: Number,
+        },
+        totalPrice: {
+            type: Number,
+        },
+        city: {
+            cityId: {
+                type: String,
+            },
+            cityName: {
+                type: String,
+            }
+        },
+        hotel: {
+            hotelId:{
+                type: String,
+            },
+            hotelName: {
+                type: String,
+            },
+            hotelUrl:{
+                type: String,
+            }
+        },
+        beginDate: {
+            type: String,
+        },
+        endDate: {
+            type: String,
+        },
+        flightNumber: {
+            type: String,
+        }
+})
+
+module.exports = {inputDataSchema, bookingSchema, mongooseBookingSchema};

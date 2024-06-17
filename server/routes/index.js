@@ -9,6 +9,7 @@ const weather = require("../api/weather");
 const allCities = require("../models/allCities");
 const cityMapping = require("../models/cityMapping");
 const accommodationsApi = require("../api/accommodation");
+const mongoose = require("mongoose");
 
 /**
  * This router handles all the endpoints for communication between FE & BE.
@@ -24,6 +25,19 @@ router.get('/', function (req, res, next) {
 router.get('/api', function (req, res) {
     res.sendStatus(418)
 })
+
+async function testDBEntry() {
+    const mongooseBookingSchema = require("../swagger/schemas").mongooseBookingSchema
+    const Booking = mongoose.model("Booking", mongooseBookingSchema)
+
+    const newBooking = new Booking({
+        firstName: "Max",
+        lastName: "Muster",
+        mailAddress: "bla@bla.at"
+    })
+    await newBooking.save()
+    console.log(`ID of new element: ${newBooking._id}`)
+}
 
 //TODO: add example data
 /**
@@ -60,7 +74,7 @@ router.get('/api', function (req, res) {
  */
 router.post('/sendData', async function (req, res, next) {
     //TODO: delete after testing DB
-
+    testDBEntry();
 
     //TODO: input validation?
     // vacationType could be null
