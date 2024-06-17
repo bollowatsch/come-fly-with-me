@@ -89,4 +89,4 @@ function onListening() {
     console.log(`Listening on http://localhost:${port}.`)
 }
 
-module.exports = server
+module.exports = { server, normalizePort }

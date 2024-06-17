@@ -93,6 +93,7 @@ import MaxPriceInput from "./components/MaxPriceInput.vue";
 import DateInput from "@/components/DateInput.vue";
 import LandingPage from "@/components/LandingPage.vue";
 import PersonalDetailsInput from "@/components/PersonalDetailsInput.vue";
+import AirportInput from "@/components/AirportInput.vue";
 
 import { storeOptionsInJWT, getOptionsFromJWT } from './clientJwt';
 
@@ -105,6 +106,7 @@ export default {
     PeopleCountInput,
     VacationTypeInput,
     AccommodationTypeInput,
+    AirportInput,
     MaxPriceInput,
     DateInput,
     PersonalDetailsInput
@@ -118,6 +120,7 @@ export default {
         "PeopleCountInput",
         "VacationTypeInput",
         "AccommodationTypeInput",
+        "AirportInput",
         "MaxPriceInput",
         "DateInput",
         "PersonalDetailsInput"
@@ -126,6 +129,7 @@ export default {
         peopleCount: null,
         vacationType: [],
         accommodationType: null,
+        airport: null,
         maxPrice: null,
         beginDate: null,
         endDate: null,
@@ -172,6 +176,9 @@ export default {
           break;
         case "AccommodationTypeInput":
           this.formData.accommodationType = component.getAccommodationType();
+          break;
+        case "AirportInput":
+          this.formData.airport = component.getAirport();
           break;
         case "MaxPriceInput":
           this.formData.maxPrice = component.getMaxPrice();
@@ -229,12 +236,13 @@ export default {
       if (this.formData.peopleCount === null) return 1;
       if (this.formData.vacationType === null) return 2;
       if (this.formData.accommodationType === null) return 3;
-      if (this.formData.maxPrice === null) return 4;
-      if (this.formData.beginDate === null || this.formData.endDate === null || this.formData.numberOfNights === null) return 5;
+      if (this.formData.airport === null) return 4;
+      if (this.formData.maxPrice === null) return 5;
+      if (this.formData.beginDate === null || this.formData.endDate === null || this.formData.numberOfNights === null) return 6;
 
       const allFieldsFilled = Object.values(this.formData).every(value => value !== null);
       if (allFieldsFilled) {
-        return 6;
+        return 7;
       }
 
       return 0; //if no data has been selected yet
@@ -262,6 +270,7 @@ export default {
       this.formData.peopleCount = savedOptions.peopleCount;
       this.formData.vacationType = savedOptions.vacationType;
       this.formData.accommodationType = savedOptions.accommodationType;
+      this.formData.airport = savedOptions.airport;
       this.formData.maxPrice = savedOptions.maxPrice;
       this.formData.beginDate = savedOptions.beginDate;
       this.formData.endDate = savedOptions.endDate;
