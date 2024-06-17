@@ -10,6 +10,7 @@ const API_KEY = process.env.WEATHER_KEY;
  */
 module.exports.getWeather = async function getWeather(city) {
     //cannot retrieve weather data for: 'nærøyfjord', 'zugspitze'
+
     const options = {
         method: 'GET',
         url: 'https://yahoo-weather5.p.rapidapi.com/weather',

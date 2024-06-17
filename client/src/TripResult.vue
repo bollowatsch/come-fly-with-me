@@ -9,14 +9,27 @@ function toggleTheme() {
 
 </script>
 <script>
+import axios from "axios";
+
 export default {
-  data: () => ({
-    show: false,
-  }),
+  data() {
+    return {
+      show: false,
+    }
 
+  },
   methods: {
-
-
+    async getWeather() {
+      const city = 'rome'
+      try {
+        const weather = await axios.get(`http://localhost:5000/api/weather/${city}`);
+        console.log('Weather Data:', weather.data);
+        return weather.data;
+      } catch (error) {
+        console.error('Error retrieving weather data:', error);
+        throw error;
+      }
+    }
   }
 };
 
@@ -75,6 +88,7 @@ export default {
               </div>
             </v-expand-transition>
           </v-card>
+          <v-btn @click="getWeather">Show Weather</v-btn>
         </v-col>
 
         <v-col cols="12" sm="4" md="2" lg="3">
