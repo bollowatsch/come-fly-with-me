@@ -36,6 +36,15 @@ const inputDataSchema = {
 const bookingSchema = {
     type: 'object',
     properties: {
+        firstName: {
+            type: 'string',
+        },
+        lastName: {
+            type: 'string',
+        },
+        mailAddress: {
+            type: 'string',
+        },
         peopleCount: {
             type: 'integer',
         },
@@ -43,7 +52,7 @@ const bookingSchema = {
             type: 'number',
         },
         city: {
-            cityURL: {
+            cityId: {
                 type: 'string',
             },
             cityName: {
@@ -57,6 +66,9 @@ const bookingSchema = {
             hotelName: {
                 type: 'string',
             },
+            hotelUrl:{
+                type: 'string',
+            }
         },
         beginDate: {
             type: 'string',
@@ -64,6 +76,9 @@ const bookingSchema = {
         endDate: {
             type: 'string',
         },
+        flightNumber: {
+            type: 'string',
+        }
     }
 }
 

@@ -59,6 +59,9 @@ router.get('/api', function (req, res) {
  *                 id: "507f1f77bcf86cd799439011"
  */
 router.post('/sendData', async function (req, res, next) {
+    //TODO: delete after testing DB
+
+
     //TODO: input validation?
     // vacationType could be null
     // accommodationType could be null

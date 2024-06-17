@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 const specs = require('./swagger/swaggerConfig');
+const mongoose = require('mongoose');
 
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -13,6 +14,18 @@ const apiRouter= require('./routes/api');
 const jwtRouter = require('./routes/jwt');
 
 const app = express();
+
+// setup DB connection
+const mongoDBUser = process.env.MONGODB_USER;
+const mongoDBPassword = process.env.MONGODB_PASSWORD;
+const mongoURI = `mongodb+srv://${mongoDBUser}:${mongoDBPassword}@comeflywithme.wk9esje.mongodb.net/`;
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+    .then(() => console.log('MongoDB connected...'))
+    .catch(err => console.log(err));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
