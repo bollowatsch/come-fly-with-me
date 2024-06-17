@@ -32,7 +32,7 @@ const inputDataSchema = {
     }
 }
 
-//data sent back after successful booking
+//data sent back from booking database
 const bookingSchema = {
     type: 'object',
     properties: {
@@ -43,7 +43,7 @@ const bookingSchema = {
             type: 'number',
         },
         city: {
-            cityId: {
+            cityURL: {
                 type: 'string',
             },
             cityName: {
@@ -63,9 +63,6 @@ const bookingSchema = {
         },
         endDate: {
             type: 'string',
-        },
-        numberOfNights: {
-            type: 'integer',
         },
     }
 }

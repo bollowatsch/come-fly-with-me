@@ -8,6 +8,7 @@ const booking = require("../api/booking");
 const weather = require("../api/weather");
 const allCities = require("../models/allCities");
 const cityMapping = require("../models/cityMapping");
+const accommodationsApi = require("../api/accommodation");
 
 /**
  * This router handles all the endpoints for communication between FE & BE.
@@ -24,7 +25,6 @@ router.get('/api', function (req, res) {
     res.sendStatus(418)
 })
 
-//localhost:3000/sendData
 //TODO: add example data
 /**
  * @swagger
@@ -37,13 +37,26 @@ router.get('/api', function (req, res) {
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/InputData'
+ *             example:
+ *               peopleCount: 3,
+ *               maxPrice: 2350
+ *               vacationType: ["Adventure","City"]
+ *               accommodationType: ["Hotel","Hostel","Vacation Homes"]
+ *               beginDate: "2024-06-14"
+ *               endDate: "2024-06-17"
+ *               numberOfNights: 3
  *     responses:
  *       200:
- *         description: Booking data corresponding to provided user data
+ *         description: database ID for booking
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Booking'
+ *               type: object
+ *               properties:
+ *                 id:
+ *                  type: string
+ *               example:
+ *                 id: "507f1f77bcf86cd799439011"
  */
 router.post('/sendData', async function (req, res, next) {
     //TODO: input validation?
@@ -79,6 +92,36 @@ router.post('/sendData', async function (req, res, next) {
     // TODO if booking success, save into db and notify caller,
     //  if failure tell caller
 })
+
+/**
+ * @swagger
+ * /booking/{bookingID}:
+ *   get:
+ *     summary: get booking details from database to provided ID
+ *     parameters:
+ *         - in: path
+ *           name: bookingID
+ *           required: true
+ *           schema:
+ *             type: string
+ *             example: "507f1f77bcf86cd799439011"
+ *     responses:
+ *       200:
+ *         description: database entry for provided ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Booking'
+ */
+router.get('/booking/:id', async function (req, res) {
+    const id = req.params.id
+    //TODO: Call MongoDB with ID and retrieve booking information
+    // 1. call mongoDB with
+    // 2. construct result with provided schema from /schemas.js
+    // 3. return result in body
+    res.status(200).send("You called /booking/:id - This endpoint is not yet implemented");
+})
+
 
 /**
  * This function takes an array of vacation types and returns a random city that matches either all or any of the given vacation types.
