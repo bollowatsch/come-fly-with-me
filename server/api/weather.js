@@ -43,8 +43,8 @@ module.exports.getWeatherFaster = async function getWeatherFaster(city) {
 
     const options = {
         method: 'GET',
-        url: 'https://weatherapi-com.p.rapidapi.com/current.json',
-        params: {q: city},
+        url: 'https://weatherapi-com.p.rapidapi.com/forecast.json',
+        params: {q: city, days: 7},
         headers: {
             'x-rapidapi-key': API_KEY,
             'x-rapidapi-host': 'weatherapi-com.p.rapidapi.com'
@@ -52,6 +52,7 @@ module.exports.getWeatherFaster = async function getWeatherFaster(city) {
     };
 
     try {
+        console.log(options)
         const response = await axios.request(options);
         return Promise.resolve(response.data);
     } catch (error) {
