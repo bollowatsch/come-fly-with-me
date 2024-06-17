@@ -9,12 +9,12 @@
       <v-col
           v-for="card in cards"
           :key="card.id"
-          cols="12" sm="6" md="4" lg="2"
+          cols="6" sm="6" md="4" lg="2"
           class="d-flex align-center justify-center"
       >
         <v-card hover @click="toggleCard(card)" :class="{'highlighted': card.isSelected}" class="accommodation-card">
           <v-img :src="card.image" aspect-ratio="16/9" class="align-end"></v-img>
-          <v-card-title>{{ card.title }}</v-card-title>
+          <v-card-title style="font-size: 0.75rem;">{{ card.title }}</v-card-title>
         </v-card>
       </v-col>
     </v-row>

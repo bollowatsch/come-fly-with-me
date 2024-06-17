@@ -9,12 +9,12 @@
       <v-col
           v-for="card in cards"
           :key="card.id"
-          cols="12" sm="12" md="4" lg="2"
+          cols="6" sm="6" md="4" lg="2"
           class="d-flex align-center justify-center"
       >
         <v-card id=card hover @click="toggleCard(card)" :class="{'highlighted': card.isSelected}" class="vacation-card">
           <v-img :src="card.image" ></v-img>
-          <v-card-title>{{ card.title}}</v-card-title>
+          <v-card-title style="font-size: 0.75rem;">{{ card.title}}</v-card-title>
         </v-card>
       </v-col>
     </v-row>
@@ -74,14 +74,13 @@ export default {
 }
 
 .vacation-card v-card-title {
-  background-color: rgba(255, 255, 255, 0.8);
   position: absolute;
   bottom: 0;
   width: 100%;
   text-align: center;
-  font-size: 1rem;
+  font-size: 0.4rem;
   padding: 10px 0;
-  text-overflow: clip;
+
 }
 
 @media (max-width: 600px) {
@@ -97,12 +96,12 @@ export default {
   }
 
   .vacation-card v-card-title {
+    font-size: 0.4rem;
     background-color: rgba(255, 255, 255, 0.8);
     position: absolute;
     bottom: 0;
     width: 100%;
     text-align: center;
-    font-size: 0.8rem;
     padding: 10px 0;
   }
 

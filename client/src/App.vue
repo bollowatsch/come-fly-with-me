@@ -4,15 +4,16 @@
         app
         class="app-bar">
       <div class="header-content">
-        <v-app-bar-title class="hidden-sm-and-down">Come fly </v-app-bar-title>
+        <v-app-bar-title class="hidden-sm-and-down" style="font-size: 0.85rem;">Come fly </v-app-bar-title>
         <img src="test.png" alt="Logo" class="logo" @click="goToStart">
-        <v-app-bar-title class="hidden-sm-and-down">with me!</v-app-bar-title>
+        <v-app-bar-title class="hidden-sm-and-down" style="font-size: 0.85rem;">with me!</v-app-bar-title>
       </div>
       <v-spacer></v-spacer>
       <v-btn @click="toggleTheme" class="theme-btn" style="width: 30px; height: 30px">
         <v-icon>mdi-theme-light-dark</v-icon>
       </v-btn>
     </v-app-bar>
+
     <v-main class="container">
       <v-row>
         <v-col cols="12" v-if="currentStep !== 0">
@@ -54,12 +55,12 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="dialog = false">OK</v-btn>
+            <v-btn color="primary" @click="dialog = false">OK</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
-
     </v-main>
+
     <v-footer
         app
         border
@@ -302,12 +303,12 @@ body {
   flex-direction: column;
   flex-grow: 1;
   padding: 2vh 5vw 5vh 5vw;
-  margin: 0;
 }
 
 .app-bar {
-  max-height: 10vh;
-  margin: 0;
+  max-height: 6vh;
+  align-items: center;
+  justify-content: center;
 }
 
 .header-content {
@@ -315,8 +316,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-height: 5vh;
-  margin: 0;
+  max-height: 6vh;
 }
 
 .footer-content {
@@ -330,10 +330,6 @@ body {
 .logo {
   height: 6vh;
   margin-top: 1vh;
-}
-
-.logo:hover {
-  transform: scale(1.3);
 }
 
 .theme-btn {
@@ -350,16 +346,16 @@ body {
   font-size: 1vh;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
   body {
     background-image: none;
   }
 
   .app-bar {
-    min-height: 7vh;
-    max-height: 7vh;
-    margin: 0;
-    padding: 0;
+    min-height: 3vh;
+    max-height: 5vh;
+    align-items: center;
+    justify-content: center;
   }
 
   .header-content {
@@ -367,9 +363,7 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-height: 7vh;
-    margin: 0;
-    padding: 0;
+    max-height: 5vh;
   }
 
   .footer-content {
@@ -377,15 +371,12 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-height: 7vh;
+    max-height: 5vh;
   }
 
   .logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     height: 6vh;
-    margin: 0 auto;
+    margin-left: 14vw;
   }
 
   .theme-btn {
@@ -393,7 +384,6 @@ body {
     width: 4vh;
     height: 4vh;
     font-size: 2vh;
-    bottom: 1vh;
   }
 
   .github-btn {
