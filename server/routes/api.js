@@ -12,31 +12,6 @@ const allCities = require("../models/allCities");
  * This router provides all api endpoints.
  */
 
-/**
- * @swagger
- * /hotels/{city}:
- *   get:
- *     summary: get all possibles hotels for provided information
- *     parameters:
- *       - in: path
- *         name: city
- *         required: true
- *         schema:
- *           type: string
- *           example: "vienna"
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *           example:
- *     responses:
- *       200:
- *         description: array of hotels, that fit provided constraints
- *         content:
- *           application/json:
- *             schema:
- */
 router.get('/hotels/:city', async function (req, res) {
     //TODO: This endpoint should be used to request matching hotels for given criteria, so this endpoint
     // 1. makes API call
