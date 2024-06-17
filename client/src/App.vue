@@ -72,6 +72,8 @@
             target="_blank"
             icon="mdi-github"
             class="github-btn hidden-sm-and-down"
+            max-width="2vw"
+            max-height="2vw"
         ></v-btn>
       </div>
     </v-footer>
@@ -341,9 +343,11 @@ body {
 }
 
 .github-btn {
+  margin-left: auto;
+  padding: 0;
   width: 5vh;
   height: 5vh;
-  font-size: 1vh;
+  font-size: 2vh;
 }
 
 @media (max-width: 600px) {
@@ -386,11 +390,6 @@ body {
     font-size: 2vh;
   }
 
-  .github-btn {
-    width: 4vh;
-    height: 4vh;
-    font-size: 2vh;
-  }
 }
 
 #app {
@@ -421,7 +420,7 @@ body {
 }
 
 .footer {
-  max-height: 10vh;
+  max-height: 6vh;
   padding: 0 5vw;
 }
 </style>
