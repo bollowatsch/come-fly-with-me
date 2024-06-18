@@ -9,7 +9,7 @@ const weather = require("../api/weather");
 const allCities = require("../models/allCities");
 const cityMapping = require("../models/cityMapping");
 const accommodationsApi = require("../api/accommodation");
-const mongoose = require("mongoose");
+const databaseHandler = require('../databaseHandler')
 
 /**
  * This router handles all the endpoints for communication between FE & BE.
@@ -26,18 +26,6 @@ router.get('/api', function (req, res) {
     res.sendStatus(418)
 })
 
-async function createNewDbEntry(peopleCount, totalPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl, beginDate, endDate, flightNumber) {
-    const mongooseBookingSchema = require("../swagger/schemas").mongooseBookingSchema
-    const Booking = mongoose.model("Booking", mongooseBookingSchema)
-
-    const newBooking = new Booking({
-        peopleCount, totalPrice, destination:{destinationId, destinationName}, hotel:{hotelId, hotelName, hotelUrl}, beginDate, endDate, flightNumber
-    })
-    await newBooking.save()
-    return newBooking._id
-}
-
-//TODO: add example data
 /**
  * @swagger
  * /sendData:
@@ -101,13 +89,13 @@ router.post('/sendData', async function (req, res, next) {
     const hotelName = "hotelName"
     const hotelId = "hotelId"
     const hotelUrl = "hotel.com"
-
+    const totalPrice = 123.54
     //save data into DB
     try {
-        const bookingId = await createNewDbEntry(peopleCount, maxPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl, beginDate, endDate, flightNumber)
+        const bookingId = await databaseHandler.createNewDbEntry(peopleCount,totalPrice,destinationId,destinationName,hotelId,hotelName,hotelUrl,beginDate,endDate,flightNumber)
         res.status(200).send(bookingId)
     } catch (err) {
-        console.log(err)
+        res.status(500).send("Error while trying to create a new booking entry in database: " + err)
     }
 
 })
@@ -150,11 +138,14 @@ router.post('/sendData', async function (req, res, next) {
  */
 router.get('/booking/:id', async function (req, res) {
     const id = req.params.id
-    //TODO: Call MongoDB with ID and retrieve booking information
-    // 1. call mongoDB with
-    // 2. construct result with provided schema from /schemas.js
-    // 3. return result in body
-    res.status(200).send("You called /booking/:id - This endpoint is not yet implemented");
+    databaseHandler.getBookingDataFromDatabase(id).then(bookingData => {
+        if(bookingData !== null){
+            console.log("data retrieved from db: " + bookingData)
+            res.status(200).send(JSON.stringify(bookingData))
+        } else {
+            res.status(404).send(`No booking information was found for id: ${id}`)
+        }
+    })
 })
 
 
