@@ -10,7 +10,7 @@ const allCities = require("../models/allCities");
 const cityMapping = require("../models/cityMapping");
 const accommodationsApi = require("../api/accommodation");
 const databaseHandler = require('../databaseHandler')
-
+const sendMail = require('../mailHandler')
 /**
  * This router handles all the endpoints for communication between FE & BE.
  */
@@ -148,6 +148,11 @@ router.get('/booking/:id', async function (req, res) {
     })
 })
 
+function getDestinationNameFromId(id) {
+    //TODO: query db and return destinationName
+    return "sampleCity"
+}
+
 router.patch('/updatePersonalDetails', async (req, res) => {
     const data = req.body;
     const id = data.id;
@@ -167,6 +172,7 @@ router.patch('/updatePersonalDetails', async (req, res) => {
         if (!updatedBooking) {
             return res.status(404).json({ message: 'Booking not found' });
         }
+        sendMail(email, getDestinationNameFromId(), `http://localhost:8080/result/${id}`,)
         res.status(200).json(updatedBooking);
     } catch (error) {
         res.status(500).json({ message: 'Internal server error', error: error.message });
