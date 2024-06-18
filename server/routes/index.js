@@ -132,7 +132,21 @@ router.post('/sendData', async function (req, res, next) {
  *             schema:
  *               $ref: '#/components/schemas/Booking'
  *             example:
- *
+ *               firstName: "David"
+ *               lastName: "Alaba"
+ *               mailAddress: "footballgod@oefb.at"
+ *               peopleCount: 3
+ *               totalPrice: 3735.75
+ *               destination:
+ *                 destinationId: "randomIdOfVienna"
+ *                 destinationName: "Vienna"
+ *               hotel:
+ *                 hotelId: "randomHotelId"
+ *                 hotelName: "Vienna Marriott Hotel"
+ *                 hotelUrl: "https://www.booking.com/hotel/at/vienna-marriott.de.html"
+ *               beginDate: "2024-06-14"
+ *               endDate: "2024-06-17"
+ *               flightNumber: "OS477"
  */
 router.get('/booking/:id', async function (req, res) {
     const id = req.params.id
