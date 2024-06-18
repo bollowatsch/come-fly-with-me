@@ -4,7 +4,7 @@
         app
         class="app-bar">
       <div class="header-content">
-        <v-app-bar-title class="hidden-sm-and-down" style="font-size: 0.85rem;">Come fly </v-app-bar-title>
+        <v-app-bar-title class="hidden-sm-and-down" style="font-size: 0.85rem;">Come fly</v-app-bar-title>
         <img src="test.png" alt="Logo" class="logo" @click="goToStart">
         <v-app-bar-title class="hidden-sm-and-down" style="font-size: 0.85rem;">with me!</v-app-bar-title>
       </div>
@@ -39,7 +39,8 @@
         </v-col>
         <v-col v-else cols="12" class="d-flex justify-space-between">
           <v-btn @click="previousStep" v-show="currentStep !== 0">Back</v-btn>
-          <v-btn v-if="currentStep > 0 && currentStep < steps.length - 2" @click="nextStep" :disabled="currentStep === steps.length - 1">
+          <v-btn v-if="currentStep > 0 && currentStep < steps.length - 2" @click="nextStep"
+                 :disabled="currentStep === steps.length - 1">
             Next
           </v-btn>
           <v-btn v-if="currentStep === steps.length - 2" @click="submitForm">Submit</v-btn>
@@ -66,7 +67,7 @@
         border
         class="footer">
       <div class="footer-content">
-        <v-card-text >&copy; Come Fly With Me! - 2024</v-card-text>
+        <v-card-text>&copy; Come Fly With Me! - 2024</v-card-text>
         <v-btn
             href="https://www.github.com/bollowatsch/come-fly-with-me"
             target="_blank"
@@ -80,11 +81,11 @@
   </v-app>
 </template>
 <script setup>
-import { useTheme } from 'vuetify'
+import {useTheme} from 'vuetify'
 
 const theme = useTheme()
 
-function toggleTheme () {
+function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 }
 </script>
@@ -98,7 +99,7 @@ import LandingPage from "@/components/LandingPage.vue";
 import PersonalDetailsInput from "@/components/PersonalDetailsInput.vue";
 import AirportInput from "@/components/AirportInput.vue";
 
-import { storeOptionsInJWT, getOptionsFromJWT } from './clientJwt';
+import {storeOptionsInJWT, getOptionsFromJWT} from './clientJwt';
 
 const axios = require('axios')
 
@@ -250,23 +251,37 @@ export default {
 
       return 0; //if no data has been selected yet
     },
-    submitPersonalDetails() {
-      //const component = this.$refs.currentComponent;
-      //const personalDetails = component.getPersonalDetails();
-      //this.sendPersonalDetails(personalDetails);
+    async submitPersonalDetails() {
+      const component = this.$refs.currentComponent;
+      const personalDetails = component.getPersonalDetails();
+      const bookingID = "";
+      await this.sendPersonalDetails({...personalDetails, id: bookingID});
     },
-    /*    async sendPersonalDetails(details) {
-          //TODO: implement Patch method
-          const options = {
-            method: 'PATCH',
-            url: '',
-            data: JSON.stringify(details),
-            headers: {
-              'Content-Type': 'application/json'
-            }
+
+    async sendPersonalDetails(details) {
+      try {
+        const options = {
+          method: 'PATCH',
+          url: 'http://localhost:5000/updatePersonalDetails',
+          data: {
+            bookingID: details.bookingID,
+            firstName: details.first,
+            lastName: details.last,
+            email: details.email
+          },
+          headers: {
+            'Content-Type': 'application/json'
           }
-        }*/
+        };
+
+        const response = await axios.request(options);
+        alert(`Personal details updated:\nFirst Name: ${response.data.firstName}\nLast Name: ${response.data.lastName}\nEmail: ${response.data.email}`);
+      } catch (error) {
+        alert(`Error updating personal details: ${error.message}`);
+      }
+    }
   },
+
   async mounted() {
     const savedOptions = await getOptionsFromJWT();
     if (savedOptions) {
@@ -308,7 +323,7 @@ body {
 }
 
 .app-bar {
-  max-height: 6vh;
+  max-height: 5vh;
   align-items: center;
   justify-content: center;
 }
@@ -318,7 +333,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-height: 6vh;
+  max-height: 5vh;
 }
 
 .footer-content {
@@ -370,6 +385,10 @@ body {
     max-height: 5vh;
   }
 
+  .space-ah {
+    margin-top: 0vh;
+  }
+
   .footer-content {
     display: flex;
     align-items: center;
@@ -416,11 +435,10 @@ body {
 }
 
 .space-ah {
-  margin-top: 10vh;
+  margin-top: 8vh;
 }
 
 .footer {
-  max-height: 6vh;
-  padding: 0 5vw;
+  max-height: 5vh;
 }
 </style>

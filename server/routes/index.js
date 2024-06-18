@@ -148,6 +148,31 @@ router.get('/booking/:id', async function (req, res) {
     })
 })
 
+router.patch('/updatePersonalDetails', async (req, res) => {
+    const data = req.body;
+    const id = data.id;
+    const firstName = data.firstName;
+    const lastName = data.lastName;
+    const email = data.email;
+
+    if (!id || !firstName || !lastName || !email) {
+        return res.status(400).json({ message: 'Invalid data, something is missing!' });
+    }
+
+    try {
+        const updatedBooking = await databaseHandler.updateBookingDetails(
+            id,
+            { firstName, lastName, mailAddress: email },
+        );
+        if (!updatedBooking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+        res.status(200).json(updatedBooking);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error: error.message });
+    }
+});
+
 
 /**
  * This function takes an array of vacation types and returns a random city that matches either all or any of the given vacation types.

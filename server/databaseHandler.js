@@ -34,4 +34,17 @@ async function createNewDbEntry(peopleCount,totalPrice,destinationId,destination
     return newBooking._id
 }
 
-module.exports = {getBookingDataFromDatabase, createNewDbEntry};
+async function updateBookingDetails (id, updateData) {
+    try {
+        const updatedBooking = await Booking.findByIdAndUpdate(
+            id,
+            updateData,
+        );
+        return updatedBooking;
+    } catch (error) {
+        throw new Error('Error updating booking information:', error);
+    }
+}
+
+
+module.exports = {getBookingDataFromDatabase, createNewDbEntry, updateBookingDetails};
