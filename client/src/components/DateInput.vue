@@ -85,11 +85,27 @@ export default {
   }
 };
 
-
-
 </script>
 <style scoped>
-@media (max-width: 400px) {
+.vacation-card v-card-title {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 0.4rem;
+  padding: 10px 0;
+}
+
+@media (max-width: 600px) {
+  .vacation-card v-card-title {
+    background-color: rgba(255, 255, 255, 0.8);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+  }
+
   h1 {
     font-size: 1.5rem;
   }

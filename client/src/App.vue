@@ -4,15 +4,16 @@
         app
         class="app-bar">
       <div class="header-content">
-        <v-app-bar-title class="hidden-sm-and-down">Come fly </v-app-bar-title>
+        <v-app-bar-title class="hidden-sm-and-down" style="font-size: 0.85rem;">Come fly</v-app-bar-title>
         <img src="test.png" alt="Logo" class="logo" @click="goToStart">
-        <v-app-bar-title class="hidden-sm-and-down">with me!</v-app-bar-title>
+        <v-app-bar-title class="hidden-sm-and-down" style="font-size: 0.85rem;">with me!</v-app-bar-title>
       </div>
       <v-spacer></v-spacer>
       <v-btn @click="toggleTheme" class="theme-btn" style="width: 30px; height: 30px">
         <v-icon>mdi-theme-light-dark</v-icon>
       </v-btn>
     </v-app-bar>
+
     <v-main class="container">
       <v-row>
         <v-col cols="12" v-if="currentStep !== 0">
@@ -38,7 +39,8 @@
         </v-col>
         <v-col v-else cols="12" class="d-flex justify-space-between">
           <v-btn @click="previousStep" v-show="currentStep !== 0">Back</v-btn>
-          <v-btn v-if="currentStep > 0 && currentStep < steps.length - 2" @click="nextStep" :disabled="currentStep === steps.length - 1">
+          <v-btn v-if="currentStep > 0 && currentStep < steps.length - 2" @click="nextStep"
+                 :disabled="currentStep === steps.length - 1">
             Next
           </v-btn>
           <v-btn v-if="currentStep === steps.length - 2" @click="submitForm">Submit</v-btn>
@@ -54,34 +56,36 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="dialog = false">OK</v-btn>
+            <v-btn color="primary" @click="dialog = false">OK</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
-
     </v-main>
+
     <v-footer
         app
         border
         class="footer">
       <div class="footer-content">
-        <v-card-text >&copy; Come Fly With Me! - 2024</v-card-text>
+        <v-card-text>&copy; Come Fly With Me! - 2024</v-card-text>
         <v-btn
             href="https://www.github.com/bollowatsch/come-fly-with-me"
             target="_blank"
             icon="mdi-github"
             class="github-btn hidden-sm-and-down"
+            max-width="2vw"
+            max-height="2vw"
         ></v-btn>
       </div>
     </v-footer>
   </v-app>
 </template>
 <script setup>
-import { useTheme } from 'vuetify'
+import {useTheme} from 'vuetify'
 
 const theme = useTheme()
 
-function toggleTheme () {
+function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 }
 </script>
@@ -93,8 +97,9 @@ import MaxPriceInput from "./components/MaxPriceInput.vue";
 import DateInput from "@/components/DateInput.vue";
 import LandingPage from "@/components/LandingPage.vue";
 import PersonalDetailsInput from "@/components/PersonalDetailsInput.vue";
+import AirportInput from "@/components/AirportInput.vue";
 
-import { storeOptionsInJWT, getOptionsFromJWT } from './clientJwt';
+import {storeOptionsInJWT, getOptionsFromJWT} from './clientJwt';
 
 const axios = require('axios')
 
@@ -105,6 +110,7 @@ export default {
     PeopleCountInput,
     VacationTypeInput,
     AccommodationTypeInput,
+    AirportInput,
     MaxPriceInput,
     DateInput,
     PersonalDetailsInput
@@ -118,6 +124,7 @@ export default {
         "PeopleCountInput",
         "VacationTypeInput",
         "AccommodationTypeInput",
+        "AirportInput",
         "MaxPriceInput",
         "DateInput",
         "PersonalDetailsInput"
@@ -126,6 +133,7 @@ export default {
         peopleCount: null,
         vacationType: [],
         accommodationType: null,
+        airport: null,
         maxPrice: null,
         beginDate: null,
         endDate: null,
@@ -172,6 +180,9 @@ export default {
           break;
         case "AccommodationTypeInput":
           this.formData.accommodationType = component.getAccommodationType();
+          break;
+        case "AirportInput":
+          this.formData.airport = component.getAirport();
           break;
         case "MaxPriceInput":
           this.formData.maxPrice = component.getMaxPrice();
@@ -229,39 +240,55 @@ export default {
       if (this.formData.peopleCount === null) return 1;
       if (this.formData.vacationType === null) return 2;
       if (this.formData.accommodationType === null) return 3;
-      if (this.formData.maxPrice === null) return 4;
-      if (this.formData.beginDate === null || this.formData.endDate === null || this.formData.numberOfNights === null) return 5;
+      if (this.formData.airport === null) return 4;
+      if (this.formData.maxPrice === null) return 5;
+      if (this.formData.beginDate === null || this.formData.endDate === null || this.formData.numberOfNights === null) return 6;
 
       const allFieldsFilled = Object.values(this.formData).every(value => value !== null);
       if (allFieldsFilled) {
-        return 6;
+        return 7;
       }
 
       return 0; //if no data has been selected yet
     },
-    submitPersonalDetails() {
-      //const component = this.$refs.currentComponent;
-      //const personalDetails = component.getPersonalDetails();
-      //this.sendPersonalDetails(personalDetails);
+    async submitPersonalDetails() {
+      const component = this.$refs.currentComponent;
+      const personalDetails = component.getPersonalDetails();
+      const bookingID = "";
+      await this.sendPersonalDetails({...personalDetails, id: bookingID});
     },
-    /*    async sendPersonalDetails(details) {
-          //TODO: implement Patch method
-          const options = {
-            method: 'PATCH',
-            url: '',
-            data: JSON.stringify(details),
-            headers: {
-              'Content-Type': 'application/json'
-            }
+
+    async sendPersonalDetails(details) {
+      try {
+        const options = {
+          method: 'PATCH',
+          url: 'http://localhost:5000/updatePersonalDetails',
+          data: {
+            bookingID: details.bookingID,
+            firstName: details.first,
+            lastName: details.last,
+            email: details.email
+          },
+          headers: {
+            'Content-Type': 'application/json'
           }
-        }*/
+        };
+
+        const response = await axios.request(options);
+        alert(`Personal details updated:\nFirst Name: ${response.data.firstName}\nLast Name: ${response.data.lastName}\nEmail: ${response.data.email}`);
+      } catch (error) {
+        alert(`Error updating personal details: ${error.message}`);
+      }
+    }
   },
+
   async mounted() {
     const savedOptions = await getOptionsFromJWT();
     if (savedOptions) {
       this.formData.peopleCount = savedOptions.peopleCount;
       this.formData.vacationType = savedOptions.vacationType;
       this.formData.accommodationType = savedOptions.accommodationType;
+      this.formData.airport = savedOptions.airport;
       this.formData.maxPrice = savedOptions.maxPrice;
       this.formData.beginDate = savedOptions.beginDate;
       this.formData.endDate = savedOptions.endDate;
@@ -293,12 +320,12 @@ body {
   flex-direction: column;
   flex-grow: 1;
   padding: 2vh 5vw 5vh 5vw;
-  margin: 0;
 }
 
 .app-bar {
-  max-height: 10vh;
-  margin: 0;
+  max-height: 5vh;
+  align-items: center;
+  justify-content: center;
 }
 
 .header-content {
@@ -307,7 +334,6 @@ body {
   justify-content: center;
   width: 100%;
   max-height: 5vh;
-  margin: 0;
 }
 
 .footer-content {
@@ -323,10 +349,6 @@ body {
   margin-top: 1vh;
 }
 
-.logo:hover {
-  transform: scale(1.3);
-}
-
 .theme-btn {
   margin-left: auto;
   padding: 0;
@@ -336,21 +358,23 @@ body {
 }
 
 .github-btn {
+  margin-left: auto;
+  padding: 0;
   width: 5vh;
   height: 5vh;
-  font-size: 1vh;
+  font-size: 2vh;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
   body {
     background-image: none;
   }
 
   .app-bar {
-    min-height: 7vh;
-    max-height: 7vh;
-    margin: 0;
-    padding: 0;
+    min-height: 3vh;
+    max-height: 5vh;
+    align-items: center;
+    justify-content: center;
   }
 
   .header-content {
@@ -358,9 +382,11 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-height: 7vh;
-    margin: 0;
-    padding: 0;
+    max-height: 5vh;
+  }
+
+  .space-ah {
+    margin-top: 0vh;
   }
 
   .footer-content {
@@ -368,15 +394,12 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-height: 7vh;
+    max-height: 5vh;
   }
 
   .logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     height: 6vh;
-    margin: 0 auto;
+    margin-left: 14vw;
   }
 
   .theme-btn {
@@ -384,14 +407,8 @@ body {
     width: 4vh;
     height: 4vh;
     font-size: 2vh;
-    bottom: 1vh;
   }
 
-  .github-btn {
-    width: 4vh;
-    height: 4vh;
-    font-size: 2vh;
-  }
 }
 
 #app {
@@ -418,11 +435,10 @@ body {
 }
 
 .space-ah {
-  margin-top: 10vh;
+  margin-top: 8vh;
 }
 
 .footer {
-  max-height: 10vh;
-  padding: 0 5vw;
+  max-height: 5vh;
 }
 </style>

@@ -12,7 +12,6 @@ const allCities = require("../models/allCities");
  * This router provides all api endpoints.
  */
 
-// localhost:5000/api/hotels/vienna
 router.get('/hotels/:city', async function (req, res) {
     //TODO: This endpoint should be used to request matching hotels for given criteria, so this endpoint
     // 1. makes API call
@@ -83,7 +82,7 @@ router.get('/weather/:city', async function (req, res) {
 
     // Only make request if city was found in mappedCities.
     if (city !== undefined && city !== null && allCities.includes(city)) {
-        await weather.getWeather(city)
+        await weather.getWeatherFaster(city)
             .then(result => res.status(200).send(result))
             .catch(error => res.sendStatus(error.response.status || 500))
     } else res.sendStatus(400)

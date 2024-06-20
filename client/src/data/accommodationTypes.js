@@ -11,7 +11,7 @@ const accommodationTypes = {
         },
     bedAndBreakfast:
         {
-            title: "Bed and Breakfast",
+            title: "Bed & Breakfast",
             image: require('@/assets/AccommodationTypePics/bnb.webp')
         },
     vacationHomes:
