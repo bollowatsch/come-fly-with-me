@@ -49,13 +49,13 @@ export default {
   margin-top: 10px;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
   h1 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
   h2 {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   p,

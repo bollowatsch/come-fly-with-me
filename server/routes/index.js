@@ -4,6 +4,7 @@ const {inputDataSchema, bookingSchema} = require('../swagger/schemas');
 
 const mapping = require('../models/mapping');
 const apiHandler = require("../models/apiHandler");
+const {updateBookingDetails} = require("../databaseHandler");
 
 /**
  * This router handles all the endpoints for communication between FE & BE.
@@ -86,6 +87,53 @@ router.post('/sendData', async function (req, res, next) {
     res.send(booking)
     console.timeEnd('sendData')
 })
+
+/**
+ * @swagger
+ * /updatePersonalDetails:
+ *   patch:
+ *     summary: Update personal details of the booking
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/InputData'
+ *     responses:
+ *       200:
+ *         description: Personal details updated successfully
+ *       400:
+ *         description: Invalid booking ID or data
+ *       500:
+ *         description: Internal server error
+ */
+router.patch('/updatePersonalDetails', async function (req, res) {
+    const data = req.body;
+    const bookingID = data.bookingID;
+    const firstName = data.firstName;
+    const lastName = data.lastName;
+    const email = data.email;
+
+    try {
+        const updateData = {
+            firstName,
+            lastName,
+            email
+        };
+        const updatedBooking = await updateBookingDetails(bookingID, updateData);
+
+        if (updatedBooking) {
+            res.status(200).send({
+                message: 'Details updated successfully',
+                data: updatedBooking
+            });
+        } else {
+            res.status(400).send({ message: 'Invalid booking ID' });
+        }
+    } catch (error) {
+        res.status(500).send({ message: 'Internal server error', error: error.message });
+    }
+});
 
 /**
  * This function should provide the caller all booking data according to the id.

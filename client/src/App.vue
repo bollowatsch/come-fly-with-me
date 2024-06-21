@@ -9,16 +9,13 @@
         <v-app-bar-title class="hidden-sm-and-down" style="font-size: 0.85rem;">with me!</v-app-bar-title>
       </div>
       <v-spacer></v-spacer>
-      <v-btn @click="toggleTheme" class="theme-btn" style="width: 30px; height: 30px">
+      <v-btn @click="toggleTheme" class="theme-btn">
         <v-icon>mdi-theme-light-dark</v-icon>
       </v-btn>
     </v-app-bar>
-
     <v-main class="container">
       <v-row>
-        <v-col cols="12" v-if="currentStep !== 0">
-          <v-spacer class="space-ah"></v-spacer>
-        </v-col>
+        <v-col cols="12" v-if="currentStep !== 0"></v-col>
       </v-row>
 
       <v-row>
@@ -254,8 +251,10 @@ export default {
     async submitPersonalDetails() {
       const component = this.$refs.currentComponent;
       const personalDetails = component.getPersonalDetails();
-      const bookingID = "";
-      await this.sendPersonalDetails({...personalDetails, id: bookingID});
+      const tokenData = await getOptionsFromJWT();
+      const bookingID = tokenData.bookingID;
+      alert("ID:"+ bookingID);
+      await this.sendPersonalDetails({...personalDetails, id: 1});
     },
 
     async sendPersonalDetails(details) {
@@ -326,8 +325,8 @@ body {
   max-height: 5vh;
   align-items: center;
   justify-content: center;
+  margin-bottom: 2vh;
 }
-
 .header-content {
   display: flex;
   align-items: center;
@@ -354,7 +353,7 @@ body {
   padding: 0;
   width: 5vh;
   height: 5vh;
-  font-size: 2vh;
+  font-size: 1rem;
 }
 
 .github-btn {
@@ -362,7 +361,7 @@ body {
   padding: 0;
   width: 5vh;
   height: 5vh;
-  font-size: 2vh;
+  font-size:1rem;
 }
 
 @media (max-width: 600px) {
@@ -385,8 +384,8 @@ body {
     max-height: 5vh;
   }
 
-  .space-ah {
-    margin-top: 0vh;
+  .container {
+    min-width: 100vw;
   }
 
   .footer-content {
@@ -432,10 +431,6 @@ body {
 .progress-bar::-webkit-progress-value {
   background-color: rgba(var(--v-theme-primary));
   border-radius: 5px 0 0 5px;
-}
-
-.space-ah {
-  margin-top: 8vh;
 }
 
 .footer {

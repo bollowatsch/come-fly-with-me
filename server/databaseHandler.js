@@ -42,7 +42,7 @@ async function updateBookingDetails (id, updateData) {
         );
         return updatedBooking;
     } catch (error) {
-        throw new Error('Error updating booking information:', error);
+        throw new Error(error);
     }
 }
 

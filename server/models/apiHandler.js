@@ -1,4 +1,4 @@
-const flights = require('../api/flights');
+//const flights = require('../api/flights');
 const accommodations = require('../api/accommodation');
 
 const mapping = require('./mapping');

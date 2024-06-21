@@ -3,7 +3,7 @@
     <v-row dense>
       <v-col cols="12" lg="6">
         <v-card>
-          <v-card-title>Choose your timeframe!</v-card-title>
+          <v-card-title class="v_title">Choose your timeframe!</v-card-title>
           <v-card-item>
             <v-date-input
                 v-model="possibleDates"
@@ -20,7 +20,7 @@
       </v-col>
       <v-col cols="12" lg="6">
         <v-card>
-          <v-card-title>How many nights do you want to stay?</v-card-title>
+          <v-card-title class="v_title">How many nights do you want to stay?</v-card-title>
           <v-card-item>
             <v-number-input
                 v-model="numberOfNights"
@@ -87,6 +87,9 @@ export default {
 
 </script>
 <style scoped>
+.v_title{
+  font-size: 1rem;
+}
 .vacation-card v-card-title {
   position: absolute;
   bottom: 0;
@@ -98,6 +101,7 @@ export default {
 
 @media (max-width: 600px) {
   .vacation-card v-card-title {
+    font-size: 0.4rem;
     background-color: rgba(255, 255, 255, 0.8);
     position: absolute;
     bottom: 0;
@@ -107,11 +111,11 @@ export default {
   }
 
   h1 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
   h2 {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   p,

@@ -60,13 +60,22 @@ export default {
   margin-top: 1em;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
+
+  .container{
+    align-items: center;
+  }
+
+  .text{
+    margin: 4vh;
+  }
+
   h1 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
   h2 {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   p,
