@@ -21,6 +21,7 @@ async function getFlight(departureIATA, arrivalIATA, outboundDate, returnDate) {
 
 async function getAccommodation(destination, checkInDate, checkOutDate, numberOfTravelers) {
     try {
+        //TODO: Update selection of dest_id. hotel array may contain multiple dest_id's for a city. the first in the array is always the most expensive one.
         let dest_id
         await accommodations.getLocationID(destination).then(hotels => dest_id = hotels[0].dest_id)
         const numberOfRooms = calculateRooms(numberOfTravelers)

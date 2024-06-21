@@ -1,0 +1,835 @@
+{
+  "search_metadata": {
+    "id": "6672f99966440aa6bc744876",
+    "status": "Success",
+    "json_endpoint": "https://serpapi.com/searches/d07045c3a46ab678/6672f99966440aa6bc744876.json",
+    "created_at": "2024-06-19 15:30:33 UTC",
+    "processed_at": "2024-06-19 15:30:33 UTC",
+    "google_flights_url": "https://www.google.com/travel/flights?hl=en&gl=us&q=Flights+to+AMS+from+VIE+on+2024-06-24+through+2024-06-30",
+    "raw_html_file": "https://serpapi.com/searches/d07045c3a46ab678/6672f99966440aa6bc744876.html",
+    "prettify_html_file": "https://serpapi.com/searches/d07045c3a46ab678/6672f99966440aa6bc744876.prettify",
+    "total_time_taken": 1.39
+  },
+  "search_parameters": {
+    "engine": "google_flights",
+    "hl": "en",
+    "gl": "us",
+    "departure_id": "VIE",
+    "arrival_id": "AMS",
+    "outbound_date": "2024-06-24",
+    "return_date": "2024-06-30"
+  },
+  "best_flights": [
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Vienna International Airport",
+            "id": "VIE",
+            "time": "2024-06-24 19:55"
+          },
+          "arrival_airport": {
+            "name": "Amsterdam Airport Schiphol",
+            "id": "AMS",
+            "time": "2024-06-24 21:45"
+          },
+          "duration": 110,
+          "airplane": "Boeing 737",
+          "airline": "KLM",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/KL.png",
+          "travel_class": "Economy",
+          "flight_number": "KL 1906",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "In-seat USB outlet",
+            "Carbon emissions estimate: 83 kg"
+          ]
+        }
+      ],
+      "total_duration": 110,
+      "carbon_emissions": {
+        "this_flight": 83000,
+        "typical_for_this_route": 108000,
+        "difference_percent": -23
+      },
+      "price": 260,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/KL.png",
+      "departure_token": "WyJDalJJZEd4a00wVllVbHAxWDBsQlEwUmhiRUZDUnkwdExTMHRMUzB0Y0daaVpXa3pNa0ZCUVVGQlIxcDVMVnB2UmtodmVqWkJFZ1pMVERFNU1EWWFDd2lPeXdFUUFob0RWVk5FT0J4d2pzc0IiLFtbIlZJRSIsIjIwMjQtMDYtMjQiLCJBTVMiLG51bGwsIktMIiwiMTkwNiJdXV0="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Vienna International Airport",
+            "id": "VIE",
+            "time": "2024-06-24 06:30"
+          },
+          "arrival_airport": {
+            "name": "Paris Charles de Gaulle Airport",
+            "id": "CDG",
+            "time": "2024-06-24 08:40"
+          },
+          "duration": 130,
+          "airplane": "Airbus A220-300 Passenger",
+          "airline": "Air France",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AF.png",
+          "travel_class": "Economy",
+          "flight_number": "AF 1239",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "Wi-Fi for a fee",
+            "In-seat USB outlet",
+            "Carbon emissions estimate: 93 kg"
+          ]
+        },
+        {
+          "departure_airport": {
+            "name": "Paris Charles de Gaulle Airport",
+            "id": "CDG",
+            "time": "2024-06-24 11:45"
+          },
+          "arrival_airport": {
+            "name": "Amsterdam Airport Schiphol",
+            "id": "AMS",
+            "time": "2024-06-24 13:10"
+          },
+          "duration": 85,
+          "airplane": "Airbus A320",
+          "airline": "Air France",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AF.png",
+          "travel_class": "Economy",
+          "flight_number": "AF 1640",
+          "legroom": "29 in",
+          "extensions": [
+            "Below average legroom (29 in)",
+            "Wi-Fi for a fee",
+            "In-seat USB outlet",
+            "Carbon emissions estimate: 54 kg"
+          ]
+        }
+      ],
+      "layovers": [
+        {
+          "duration": 185,
+          "name": "Paris Charles de Gaulle Airport",
+          "id": "CDG"
+        }
+      ],
+      "total_duration": 400,
+      "carbon_emissions": {
+        "this_flight": 148000,
+        "typical_for_this_route": 108000,
+        "difference_percent": 37
+      },
+      "price": 301,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AF.png",
+      "departure_token": "WyJDalJJZEd4a00wVllVbHAxWDBsQlEwUmhiRUZDUnkwdExTMHRMUzB0Y0daaVpXa3pNa0ZCUVVGQlIxcDVMVnB2UmtodmVqWkJFZzFCUmpFeU16bDhRVVl4TmpRd0dnc0l4dW9CRUFJYUExVlRSRGdjY01icUFRPT0iLFtbIlZJRSIsIjIwMjQtMDYtMjQiLCJDREciLG51bGwsIkFGIiwiMTIzOSJdLFsiQ0RHIiwiMjAyNC0wNi0yNCIsIkFNUyIsbnVsbCwiQUYiLCIxNjQwIl1dXQ=="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Vienna International Airport",
+            "id": "VIE",
+            "time": "2024-06-24 14:20"
+          },
+          "arrival_airport": {
+            "name": "Amsterdam Airport Schiphol",
+            "id": "AMS",
+            "time": "2024-06-24 16:15"
+          },
+          "duration": 115,
+          "airplane": "Boeing 737",
+          "airline": "KLM",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/KL.png",
+          "travel_class": "Economy",
+          "flight_number": "KL 1904",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "In-seat USB outlet",
+            "Carbon emissions estimate: 83 kg"
+          ]
+        }
+      ],
+      "total_duration": 115,
+      "carbon_emissions": {
+        "this_flight": 83000,
+        "typical_for_this_route": 108000,
+        "difference_percent": -23
+      },
+      "price": 363,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/KL.png",
+      "departure_token": "WyJDalJJZEd4a00wVllVbHAxWDBsQlEwUmhiRUZDUnkwdExTMHRMUzB0Y0daaVpXa3pNa0ZCUVVGQlIxcDVMVnB2UmtodmVqWkJFZ1pMVERFNU1EUWFDd2p1bWdJUUFob0RWVk5FT0J4dzdwb0MiLFtbIlZJRSIsIjIwMjQtMDYtMjQiLCJBTVMiLG51bGwsIktMIiwiMTkwNCJdXV0="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Vienna International Airport",
+            "id": "VIE",
+            "time": "2024-06-24 20:20"
+          },
+          "arrival_airport": {
+            "name": "Amsterdam Airport Schiphol",
+            "id": "AMS",
+            "time": "2024-06-24 22:15"
+          },
+          "duration": 115,
+          "airplane": "Airbus A320",
+          "airline": "Austrian",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/OS.png",
+          "travel_class": "Economy",
+          "flight_number": "OS 377",
+          "legroom": "28 in",
+          "extensions": [
+            "Below average legroom (28 in)",
+            "In-seat USB outlet",
+            "Carbon emissions estimate: 100 kg"
+          ]
+        }
+      ],
+      "total_duration": 115,
+      "carbon_emissions": {
+        "this_flight": 100000,
+        "typical_for_this_route": 108000,
+        "difference_percent": -7
+      },
+      "price": 387,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/OS.png",
+      "departure_token": "WyJDalJJZEd4a00wVllVbHAxWDBsQlEwUmhiRUZDUnkwdExTMHRMUzB0Y0daaVpXa3pNa0ZCUVVGQlIxcDVMVnB2UmtodmVqWkJFZ1ZQVXpNM054b0xDSmF1QWhBQ0dnTlZVMFE0SEhDV3JnST0iLFtbIlZJRSIsIjIwMjQtMDYtMjQiLCJBTVMiLG51bGwsIk9TIiwiMzc3Il1dXQ=="
+    }
+  ],
+  "other_flights": [
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Vienna International Airport",
+            "id": "VIE",
+            "time": "2024-06-24 06:30"
+          },
+          "arrival_airport": {
+            "name": "Paris Charles de Gaulle Airport",
+            "id": "CDG",
+            "time": "2024-06-24 08:40"
+          },
+          "duration": 130,
+          "airplane": "Airbus A220-300 Passenger",
+          "airline": "Air France",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AF.png",
+          "travel_class": "Economy",
+          "flight_number": "AF 1239",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "Wi-Fi for a fee",
+            "In-seat USB outlet",
+            "Carbon emissions estimate: 93 kg"
+          ]
+        },
+        {
+          "departure_airport": {
+            "name": "Paris Charles de Gaulle Airport",
+            "id": "CDG",
+            "time": "2024-06-24 10:15"
+          },
+          "arrival_airport": {
+            "name": "Amsterdam Airport Schiphol",
+            "id": "AMS",
+            "time": "2024-06-24 11:30"
+          },
+          "duration": 75,
+          "airplane": "Boeing 737",
+          "airline": "KLM",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/KL.png",
+          "travel_class": "Economy",
+          "flight_number": "KL 1406",
+          "ticket_also_sold_by": [
+            "Air France"
+          ],
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "In-seat USB outlet",
+            "Carbon emissions estimate: 48 kg"
+          ]
+        }
+      ],
+      "layovers": [
+        {
+          "duration": 95,
+          "name": "Paris Charles de Gaulle Airport",
+          "id": "CDG"
+        }
+      ],
+      "total_duration": 300,
+      "carbon_emissions": {
+        "this_flight": 142000,
+        "typical_for_this_route": 108000,
+        "difference_percent": 31
+      },
+      "price": 381,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/multi.png",
+      "departure_token": "WyJDalJJZEd4a00wVllVbHAxWDBsQlEwUmhiRUZDUnkwdExTMHRMUzB0Y0daaVpXa3pNa0ZCUVVGQlIxcDVMVnB2UmtodmVqWkJFZzFCUmpFeU16bDhTMHd4TkRBMkdnc0l3NmtDRUFJYUExVlRSRGdjY01PcEFnPT0iLFtbIlZJRSIsIjIwMjQtMDYtMjQiLCJDREciLG51bGwsIkFGIiwiMTIzOSJdLFsiQ0RHIiwiMjAyNC0wNi0yNCIsIkFNUyIsbnVsbCwiS0wiLCIxNDA2Il1dXQ=="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Vienna International Airport",
+            "id": "VIE",
+            "time": "2024-06-24 17:30"
+          },
+          "arrival_airport": {
+            "name": "Copenhagen Airport",
+            "id": "CPH",
+            "time": "2024-06-24 19:10"
+          },
+          "duration": 100,
+          "airplane": "Airbus A321",
+          "airline": "Austrian",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/OS.png",
+          "travel_class": "Economy",
+          "flight_number": "OS 305",
+          "ticket_also_sold_by": [
+            "Scandinavian Airlines"
+          ],
+          "legroom": "29 in",
+          "extensions": [
+            "Below average legroom (29 in)",
+            "Wi-Fi for a fee",
+            "In-seat USB outlet",
+            "Carbon emissions estimate: 99 kg"
+          ]
+        },
+        {
+          "departure_airport": {
+            "name": "Copenhagen Airport",
+            "id": "CPH",
+            "time": "2024-06-24 20:10"
+          },
+          "arrival_airport": {
+            "name": "Amsterdam Airport Schiphol",
+            "id": "AMS",
+            "time": "2024-06-24 21:35"
+          },
+          "duration": 85,
+          "airplane": "Airbus A320neo",
+          "airline": "Scandinavian Airlines",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/SK.png",
+          "travel_class": "Economy",
+          "flight_number": "SK 549",
+          "legroom": "29 in",
+          "extensions": [
+            "Below average legroom (29 in)",
+            "In-seat USB outlet",
+            "Carbon emissions estimate: 60 kg"
+          ]
+        }
+      ],
+      "layovers": [
+        {
+          "duration": 60,
+          "name": "Copenhagen Airport",
+          "id": "CPH"
+        }
+      ],
+      "total_duration": 245,
+      "carbon_emissions": {
+        "this_flight": 160000,
+        "typical_for_this_route": 108000,
+        "difference_percent": 48
+      },
+      "price": 447,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/multi.png",
+      "departure_token": "WyJDalJJZEd4a00wVllVbHAxWDBsQlEwUmhiRUZDUnkwdExTMHRMUzB0Y0daaVpXa3pNa0ZCUVVGQlIxcDVMVnB2UmtodmVqWkJFZ3RQVXpNd05YeFRTelUwT1JvTENKemRBaEFDR2dOVlUwUTRISENjM1FJPSIsW1siVklFIiwiMjAyNC0wNi0yNCIsIkNQSCIsbnVsbCwiT1MiLCIzMDUiXSxbIkNQSCIsIjIwMjQtMDYtMjQiLCJBTVMiLG51bGwsIlNLIiwiNTQ5Il1dXQ=="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Vienna International Airport",
+            "id": "VIE",
+            "time": "2024-06-24 14:55"
+          },
+          "arrival_airport": {
+            "name": "Amsterdam Airport Schiphol",
+            "id": "AMS",
+            "time": "2024-06-24 16:50"
+          },
+          "duration": 115,
+          "airplane": "Airbus A320",
+          "airline": "Austrian",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/OS.png",
+          "travel_class": "Economy",
+          "flight_number": "OS 373",
+          "legroom": "28 in",
+          "extensions": [
+            "Below average legroom (28 in)",
+            "In-seat USB outlet",
+            "Carbon emissions estimate: 100 kg"
+          ]
+        }
+      ],
+      "total_duration": 115,
+      "carbon_emissions": {
+        "this_flight": 100000,
+        "typical_for_this_route": 108000,
+        "difference_percent": -7
+      },
+      "price": 475,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/OS.png",
+      "departure_token": "WyJDalJJZEd4a00wVllVbHAxWDBsQlEwUmhiRUZDUnkwdExTMHRMUzB0Y0daaVpXa3pNa0ZCUVVGQlIxcDVMVnB2UmtodmVqWkJFZ1ZQVXpNM014b0xDSUh6QWhBQ0dnTlZVMFE0SEhDQjh3ST0iLFtbIlZJRSIsIjIwMjQtMDYtMjQiLCJBTVMiLG51bGwsIk9TIiwiMzczIl1dXQ=="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Vienna International Airport",
+            "id": "VIE",
+            "time": "2024-06-24 17:20"
+          },
+          "arrival_airport": {
+            "name": "Amsterdam Airport Schiphol",
+            "id": "AMS",
+            "time": "2024-06-24 19:15"
+          },
+          "duration": 115,
+          "airplane": "Airbus A320",
+          "airline": "Austrian",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/OS.png",
+          "travel_class": "Economy",
+          "flight_number": "OS 375",
+          "legroom": "28 in",
+          "extensions": [
+            "Below average legroom (28 in)",
+            "In-seat USB outlet",
+            "Carbon emissions estimate: 100 kg"
+          ]
+        }
+      ],
+      "total_duration": 115,
+      "carbon_emissions": {
+        "this_flight": 100000,
+        "typical_for_this_route": 108000,
+        "difference_percent": -7
+      },
+      "price": 495,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/OS.png",
+      "departure_token": "WyJDalJJZEd4a00wVllVbHAxWDBsQlEwUmhiRUZDUnkwdExTMHRMUzB0Y0daaVpXa3pNa0ZCUVVGQlIxcDVMVnB2UmtodmVqWkJFZ1ZQVXpNM05Sb0xDSStDQXhBQ0dnTlZVMFE0SEhDUGdnTT0iLFtbIlZJRSIsIjIwMjQtMDYtMjQiLCJBTVMiLG51bGwsIk9TIiwiMzc1Il1dXQ=="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Vienna International Airport",
+            "id": "VIE",
+            "time": "2024-06-24 15:00"
+          },
+          "arrival_airport": {
+            "name": "Frankfurt Airport",
+            "id": "FRA",
+            "time": "2024-06-24 16:30"
+          },
+          "duration": 90,
+          "airplane": "Airbus A320",
+          "airline": "Austrian",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/OS.png",
+          "travel_class": "Economy",
+          "flight_number": "OS 213",
+          "ticket_also_sold_by": [
+            "Lufthansa"
+          ],
+          "legroom": "28 in",
+          "extensions": [
+            "Below average legroom (28 in)",
+            "In-seat USB outlet",
+            "Carbon emissions estimate: 75 kg"
+          ]
+        },
+        {
+          "departure_airport": {
+            "name": "Frankfurt Airport",
+            "id": "FRA",
+            "time": "2024-06-24 17:20"
+          },
+          "arrival_airport": {
+            "name": "Amsterdam Airport Schiphol",
+            "id": "AMS",
+            "time": "2024-06-24 18:30"
+          },
+          "duration": 70,
+          "airplane": "Airbus A319",
+          "airline": "Lufthansa",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/LH.png",
+          "travel_class": "Economy",
+          "flight_number": "LH 998",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "Wi-Fi for a fee",
+            "Carbon emissions estimate: 64 kg"
+          ]
+        }
+      ],
+      "layovers": [
+        {
+          "duration": 50,
+          "name": "Frankfurt Airport",
+          "id": "FRA"
+        }
+      ],
+      "total_duration": 210,
+      "carbon_emissions": {
+        "this_flight": 140000,
+        "typical_for_this_route": 108000,
+        "difference_percent": 30
+      },
+      "price": 505,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/multi.png",
+      "departure_token": "WyJDalJJZEd4a00wVllVbHAxWDBsQlEwUmhiRUZDUnkwdExTMHRMUzB0Y0daaVpXa3pNa0ZCUVVGQlIxcDVMVnB2UmtodmVqWkJFZ3RQVXpJeE0zeE1TRGs1T0JvTENKeUtBeEFDR2dOVlUwUTRISENjaWdNPSIsW1siVklFIiwiMjAyNC0wNi0yNCIsIkZSQSIsbnVsbCwiT1MiLCIyMTMiXSxbIkZSQSIsIjIwMjQtMDYtMjQiLCJBTVMiLG51bGwsIkxIIiwiOTk4Il1dXQ=="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Vienna International Airport",
+            "id": "VIE",
+            "time": "2024-06-24 07:10"
+          },
+          "arrival_airport": {
+            "name": "Amsterdam Airport Schiphol",
+            "id": "AMS",
+            "time": "2024-06-24 09:05"
+          },
+          "duration": 115,
+          "airplane": "Airbus A320neo",
+          "airline": "Austrian",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/OS.png",
+          "travel_class": "Economy",
+          "flight_number": "OS 371",
+          "legroom": "28 in",
+          "extensions": [
+            "Below average legroom (28 in)",
+            "In-seat USB outlet",
+            "Carbon emissions estimate: 81 kg"
+          ]
+        }
+      ],
+      "total_duration": 115,
+      "carbon_emissions": {
+        "this_flight": 82000,
+        "typical_for_this_route": 108000,
+        "difference_percent": -24
+      },
+      "price": 629,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/OS.png",
+      "departure_token": "WyJDalJJZEd4a00wVllVbHAxWDBsQlEwUmhiRUZDUnkwdExTMHRMUzB0Y0daaVpXa3pNa0ZCUVVGQlIxcDVMVnB2UmtodmVqWkJFZ1ZQVXpNM01Sb0xDSWJyQXhBQ0dnTlZVMFE0SEhDRzZ3TT0iLFtbIlZJRSIsIjIwMjQtMDYtMjQiLCJBTVMiLG51bGwsIk9TIiwiMzcxIl1dXQ=="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Vienna International Airport",
+            "id": "VIE",
+            "time": "2024-06-24 09:20"
+          },
+          "arrival_airport": {
+            "name": "Amsterdam Airport Schiphol",
+            "id": "AMS",
+            "time": "2024-06-24 11:10"
+          },
+          "duration": 110,
+          "airplane": "Boeing 737",
+          "airline": "KLM",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/KL.png",
+          "travel_class": "Economy",
+          "flight_number": "KL 1902",
+          "legroom": "30 in",
+          "extensions": [
+            "Average legroom (30 in)",
+            "In-seat USB outlet",
+            "Carbon emissions estimate: 83 kg"
+          ]
+        }
+      ],
+      "total_duration": 110,
+      "carbon_emissions": {
+        "this_flight": 83000,
+        "typical_for_this_route": 108000,
+        "difference_percent": -23
+      },
+      "price": 676,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/KL.png",
+      "departure_token": "WyJDalJJZEd4a00wVllVbHAxWDBsQlEwUmhiRUZDUnkwdExTMHRMUzB0Y0daaVpXa3pNa0ZCUVVGQlIxcDVMVnB2UmtodmVqWkJFZ1pMVERFNU1ESWFDd2orandRUUFob0RWVk5FT0J4dy9vOEUiLFtbIlZJRSIsIjIwMjQtMDYtMjQiLCJBTVMiLG51bGwsIktMIiwiMTkwMiJdXV0="
+    }
+  ],
+  "price_insights": {
+    "lowest_price": 260,
+    "price_level": "high",
+    "typical_price_range": [
+      165,
+      255
+    ],
+    "price_history": [
+      [
+        1713564000,
+        196
+      ],
+      [
+        1713650400,
+        197
+      ],
+      [
+        1713736800,
+        197
+      ],
+      [
+        1713823200,
+        197
+      ],
+      [
+        1713909600,
+        196
+      ],
+      [
+        1713996000,
+        197
+      ],
+      [
+        1714082400,
+        197
+      ],
+      [
+        1714168800,
+        198
+      ],
+      [
+        1714255200,
+        197
+      ],
+      [
+        1714341600,
+        197
+      ],
+      [
+        1714428000,
+        197
+      ],
+      [
+        1714514400,
+        198
+      ],
+      [
+        1714600800,
+        197
+      ],
+      [
+        1714687200,
+        198
+      ],
+      [
+        1714773600,
+        198
+      ],
+      [
+        1714860000,
+        199
+      ],
+      [
+        1714946400,
+        199
+      ],
+      [
+        1715032800,
+        198
+      ],
+      [
+        1715119200,
+        210
+      ],
+      [
+        1715205600,
+        210
+      ],
+      [
+        1715292000,
+        210
+      ],
+      [
+        1715378400,
+        211
+      ],
+      [
+        1715464800,
+        211
+      ],
+      [
+        1715551200,
+        223
+      ],
+      [
+        1715637600,
+        210
+      ],
+      [
+        1715724000,
+        211
+      ],
+      [
+        1715810400,
+        211
+      ],
+      [
+        1715896800,
+        213
+      ],
+      [
+        1715983200,
+        212
+      ],
+      [
+        1716069600,
+        213
+      ],
+      [
+        1716156000,
+        213
+      ],
+      [
+        1716242400,
+        212
+      ],
+      [
+        1716328800,
+        212
+      ],
+      [
+        1716415200,
+        212
+      ],
+      [
+        1716501600,
+        212
+      ],
+      [
+        1716588000,
+        211
+      ],
+      [
+        1716674400,
+        212
+      ],
+      [
+        1716760800,
+        224
+      ],
+      [
+        1716847200,
+        212
+      ],
+      [
+        1716933600,
+        224
+      ],
+      [
+        1717020000,
+        223
+      ],
+      [
+        1717106400,
+        224
+      ],
+      [
+        1717192800,
+        224
+      ],
+      [
+        1717279200,
+        224
+      ],
+      [
+        1717365600,
+        224
+      ],
+      [
+        1717452000,
+        225
+      ],
+      [
+        1717538400,
+        225
+      ],
+      [
+        1717624800,
+        224
+      ],
+      [
+        1717711200,
+        225
+      ],
+      [
+        1717797600,
+        223
+      ],
+      [
+        1717884000,
+        223
+      ],
+      [
+        1717970400,
+        222
+      ],
+      [
+        1718056800,
+        222
+      ],
+      [
+        1718143200,
+        222
+      ],
+      [
+        1718229600,
+        223
+      ],
+      [
+        1718316000,
+        233
+      ],
+      [
+        1718402400,
+        233
+      ],
+      [
+        1718488800,
+        233
+      ],
+      [
+        1718575200,
+        233
+      ],
+      [
+        1718661600,
+        245
+      ],
+      [
+        1718748000,
+        260
+      ]
+    ]
+  }
+}

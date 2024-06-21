@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 const accommodationsApi = require("../api/accommodation");
+const flights = require("../api/flights");
 const booking = require("../api/booking");
 const weather = require("../api/weather");
-const allCities = require("../models/allCities");
+const mapping = require("../models/mapping");
+const timers = require("node:timers");
 
 //const controller = require("../controller/controller");
 
@@ -23,7 +25,7 @@ router.get('/hotels/:city', async function (req, res) {
     const city = req.params.city
     const budget = 250
 
-    if (city !== undefined && city !== null && allCities.includes(city)) {
+    if (city !== undefined && city !== null && mapping.allCities.includes(city)) {
         let dest_id = '-1995499';
         await accommodationsApi.getLocationID(city)
             .then(hotels => dest_id = hotels[0].dest_id)
@@ -56,14 +58,64 @@ router.get('/hotels/:city', async function (req, res) {
     } else res.sendStatus(400)
 })
 
-router.get('/:city', async function (req, res) {
+router.get('/hot/:adults', async function (req, res) {
+    const adults = req.params.adults
+
+    if (adults !== undefined && adults !== null) {
+        await accommodationsApi.test(adults)
+            .then(result => {
+                const mapped = result.result.map(hotel => {
+                    return {
+                        hotel_id: hotel.hotel_id,
+                        price: hotel.min_total_price,
+                        checkin_from: hotel.checkin.from,
+                        checkout_until: hotel.checkout.until,
+                        distance_to_cc: hotel.distance_to_cc,
+                        timezone: hotel.timezone,
+                        hotelName: hotel.hotel_name,
+                        currency_code: hotel.currencycode,
+                        accommodation_type: hotel.accommodation_type_name,
+                        full_address: `${hotel.address}, ${hotel.city}, ${hotel.zip}, ${hotel.country_trans}`,
+                        picture: hotel.main_photo_url,
+                        url: hotel.url
+                    }
+                })
+
+                res.send(mapped)
+            })
+    }
+})
+
+router.get('/dest/:city', async function (req, res) {
+    const city = req.params.city
+
+    if (city !== undefined && city !== null && mapping.allCities.includes(city)) {
+        await accommodationsApi.getLocationID(city).then(result => {
+
+            let ids = []
+
+            result.forEach(hotel => {
+                ids.push(hotel.dest_id)
+            })
+
+            res.status(200).send(ids[0])
+        })
+    }
+
+    //~1sec für dest_id
+    //~2-3 sec für
+})
+
+//localhost:5000/api/h/vienna
+//Only use for testing.
+router.get('/h/:city', async function (req, res) {
     const city = req.params.city
     let ids = []
-    if (city !== undefined && city !== null && allCities.includes(city)) {
+    if (city !== undefined && city !== null && mapping.allCities.includes(city)) {
         await accommodationsApi.getLocationID(city).then(result => {
             result.forEach(location => {
                 ids.push(location.dest_id)
-
+                // A city may have multiple destination id's.
 
             })
             res.status(200).send(ids)
@@ -81,11 +133,22 @@ router.get('/weather/:city', async function (req, res) {
     const city = req.params.city
 
     // Only make request if city was found in mappedCities.
-    if (city !== undefined && city !== null && allCities.includes(city)) {
+    if (city !== undefined && city !== null && mapping.allCities.includes(city)) {
         await weather.getWeatherFaster(city)
             .then(result => res.status(200).send(result))
             .catch(error => res.sendStatus(error.response.status || 500))
     } else res.sendStatus(400)
+})
+
+router.get('/flights', async function (req, res) {
+    const departure = "VIE"
+    const arrival = "AMS"
+    const outboundDate = "2024-06-24"
+    const returnDate = "2024-06-30"
+
+    await flights.getFlights(departure, arrival, outboundDate, returnDate)
+        .then(result => res.status(200).send(result))
+        .catch(error => res.sendStatus(500))
 })
 
 // localhost:5000/api/attractions/vienna

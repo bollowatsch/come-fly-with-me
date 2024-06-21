@@ -74,7 +74,7 @@ router.post('/sendData', async function (req, res, next) {
     //GET ACCOMMODATION
     accommodations = await apiHandler.getAccommodation(destination, outboundDate, returnDate, peopleCount)
 
-    //GET OVERALLPRICE
+    //GET OVERALL PRICE
     overallPrice = apiHandler.getOverallPrice(flight, accommodations)
 
     const booking = {
