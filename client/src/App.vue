@@ -257,6 +257,7 @@ export default {
       await this.sendPersonalDetails({...personalDetails, id: 1});
     },
 
+    //Patch personal Data
     async sendPersonalDetails(details) {
       try {
         const options = {
@@ -278,6 +279,28 @@ export default {
       } catch (error) {
         alert(`Error updating personal details: ${error.message}`);
       }
+    }
+  },
+
+  //nicht vergessen: Button 'delete' Hinzufügen, der ID vom User raus liest und dann die delete methode aufruft
+  async delteBooking(bookingID) {
+    try{
+      const options = {
+        method: 'DELETE',
+        url: 'http://localhost:5000/deleteBooking',
+        params: {
+          bookingID: bookingID
+        }
+      };
+
+      const res = await axios.request(options);
+      if (res.status === 200) {
+        alert("Booking deleted successfully");
+      } else {
+        alert("Failed to delete booking");
+      }
+    } catch (error){
+      alert("Error occured during delteing the booking !")
     }
   },
 

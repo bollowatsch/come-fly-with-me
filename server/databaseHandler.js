@@ -46,5 +46,14 @@ async function updateBookingDetails (id, updateData) {
     }
 }
 
+async function deleteBooking(bookingID){
+    try{
+        const res = await Booking.findByIdAndDelete(bookingID);
+        return res;
+    } catch(error) {
+        throw new Error(error);
+    }
+}
 
-module.exports = {getBookingDataFromDatabase, createNewDbEntry, updateBookingDetails};
+
+module.exports = {getBookingDataFromDatabase, createNewDbEntry, updateBookingDetails, deleteBooking};

@@ -5,6 +5,7 @@ const {inputDataSchema, bookingSchema} = require('../swagger/schemas');
 const mapping = require('../models/mapping');
 const apiHandler = require("../models/apiHandler");
 const {updateBookingDetails} = require("../databaseHandler");
+const {deleteBooking} = require('../databaseHandler');
 
 /**
  * This router handles all the endpoints for communication between FE & BE.
@@ -88,6 +89,7 @@ router.post('/sendData', async function (req, res, next) {
     console.timeEnd('sendData')
 })
 
+//localhost:3000/updatePersonalDetails
 /**
  * @swagger
  * /updatePersonalDetails:
@@ -135,6 +137,46 @@ router.patch('/updatePersonalDetails', async function (req, res) {
     }
 });
 
+//localhost:3000/deleteBooking
+/**
+ * @swagger
+ * /deleteBooking:
+ *   delete:
+ *     summary: Delete a booking by ID
+ *     parameters:
+ *       - in: query
+ *         name: bookingID
+ *         schema:
+ *           type: string
+ *         required: true  // Indicates that the bookingID parameter is mandatory
+ *         description: The ID of the booking to delete
+ *     responses:
+ *       200:
+ *         description: Booking deleted successfully
+ *       400:
+ *         description: Invalid booking ID
+ *       500:
+ *         description: Server error
+ */
+router.delete('/deleteBooking', async (req, res) => {
+    const bookingID = req.query.bookingID;
+    console.log(bookingID);
+
+    if (!bookingID) {
+        return res.status(400).send('Booking ID is required!');
+    }
+
+    try {
+        const deletedBooking = await deleteBooking(bookingID);
+        if (deletedBooking) {1
+            res.status(200).send( "Booking deleted successfully");
+        } else {
+            res.status(400).send("Invalid booking ID");
+        }
+    } catch (error) {
+        res.status(500).send("Server error");
+    }
+});
 /**
  * This function should provide the caller all booking data according to the id.
  */

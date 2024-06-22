@@ -89,6 +89,24 @@ const bookingSchema = {
     }
 }
 
+const patchDataSchema = {
+    type: 'object',
+    properties: {
+        bookingID: {
+            type: 'string',
+        },
+        firstName: {
+            type: 'string',
+        },
+        lastName: {
+            type: 'string',
+        },
+        email: {
+            type: 'string',
+        },
+    }
+}
+
 const mongooseBookingSchema = new mongoose.Schema({
         firstName: {
             type: String,
@@ -135,4 +153,4 @@ const mongooseBookingSchema = new mongoose.Schema({
         }
 })
 
-module.exports = {inputDataSchema, bookingSchema, mongooseBookingSchema};
+module.exports = {inputDataSchema, bookingSchema, mongooseBookingSchema, patchDataSchema};
