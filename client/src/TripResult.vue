@@ -1,40 +1,3 @@
-<script setup>
-import {useTheme} from 'vuetify'
-
-const theme = useTheme()
-
-function toggleTheme() {
-  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
-}
-
-</script>
-<script>
-import axios from "axios";
-
-export default {
-  data() {
-    return {
-      show: false,
-    }
-
-  },
-  methods: {
-    async getWeather() {
-      const city = 'rome'
-      try {
-        const weather = await axios.get(`http://localhost:5000/api/weather/${city}`);
-        console.log('Weather Data:', weather.data);
-        return weather.data;
-      } catch (error) {
-        console.error('Error retrieving weather data:', error);
-        throw error;
-      }
-    }
-  }
-};
-
-</script>
-
 <template>
   <v-app>
     <v-app-bar
@@ -148,20 +111,101 @@ export default {
 
 </template>
 
+<script setup>
+import {useTheme} from 'vuetify'
+
+const theme = useTheme()
+
+function toggleTheme() {
+  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+}
+
+</script>
+<script>
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      show: false,
+    }
+
+  },
+  methods: {
+    async getWeather() {
+      const city = 'rome'
+      try {
+        const weather = await axios.get(`http://localhost:5000/api/weather/${city}`);
+        console.log('Weather Data:', weather.data);
+        return weather.data;
+      } catch (error) {
+        console.error('Error retrieving weather data:', error);
+        throw error;
+      }
+    }
+  }
+};
+
+</script>
+
 <style>
 body {
+  display: flex;
   justify-content: center;
+  background-image: url("assets/background.jpg");
   background-size: cover;
-  padding: 0 0 5vh 0;
+  min-height: 100vh;
+  margin: 0;
+  font-size: 1rem;
 }
 
 .container {
-  padding: 5vh 5vw;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 2vh 5vw 5vh 5vw;
 }
 
 .app-bar {
-  min-height: 60px;
   max-height: 5vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-height: 5vh;
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-height: 10vh;
+}
+
+.logo {
+  height: 6vh;
+  margin-top: 1vh;
+}
+
+.theme-btn {
+  margin-left: auto;
+  padding: 0;
+  width: 5vh;
+  height: 5vh;
+  font-size: 2vh;
+}
+
+.github-btn {
+  margin-left: auto;
+  padding: 0;
+  width: 5vh;
+  height: 5vh;
+  font-size: 2vh;
 }
 
 .banner-pic {
@@ -193,13 +237,6 @@ body {
   padding: 1rem;
 }
 
-.footer {
-  min-height: 60px;
-  max-height: 5vh;
-  display: flex;
-  justify-content: space-between;
-}
-
 #result {
   display: flex;
   align-items: center;
@@ -208,16 +245,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   margin-top: 60px;
-}
-
-
-.logo {
-  margin-top: 25px;
-  height: 100px;
-}
-
-.space-ah {
-  margin-top: 100px;
 }
 
 </style>

@@ -9,7 +9,7 @@
       <v-col
           v-for="card in cards"
           :key="card.id"
-          cols="6" sm="6" md="4" lg="2"
+          cols="6" sm="6" md="2" lg="2"
           class="d-flex align-center justify-center"
       >
         <v-card id=card hover @click="toggleCard(card)" :class="{'highlighted': card.isSelected}" class="vacation-card">
@@ -78,7 +78,6 @@ export default {
   bottom: 0;
   width: 100%;
   text-align: center;
-  font-size: 0.4rem;
   padding: 10px 0;
 
 }
@@ -106,11 +105,11 @@ export default {
   }
 
   h1 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
   h2 {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   p,

@@ -1,3 +1,32 @@
+<template>
+  <v-container>
+    <h1>Just one last step to your dream trip.</h1>
+    <p>We have put together an individual trip for you based on your preferences. In order to finalize your booking, please enter your personal details in the form below.</p>
+    <p></p>
+    <v-text-field
+        v-model="first"
+        :rules="[rules.required, rules.counter]"
+        color="primary"
+        label="First name"
+    ></v-text-field>
+
+    <v-text-field
+        v-model="last"
+        :rules="[rules.required, rules.counter]"
+        color="primary"
+        label="Last name"
+    ></v-text-field>
+
+    <v-text-field
+        v-model="email"
+        :rules="[rules.required, rules.email]"
+        color="primary"
+        label="E-mail"
+    ></v-text-field>
+  </v-container>
+
+</template>
+
 <script>
 export default {
   data() {
@@ -27,38 +56,22 @@ export default {
 };
 </script>
 
-<template>
-    <v-container>
-      <h1>Just one last step to your dream trip.</h1>
-      <p>We have put together an individual trip for you based on your preferences. In order to finalize your booking, please enter your personal details in the form below.</p>
-      <p></p>
-      <v-text-field
-          v-model="first"
-          :rules="[rules.required, rules.counter]"
-          color="primary"
-          label="First name"
-      ></v-text-field>
-
-      <v-text-field
-          v-model="last"
-          :rules="[rules.required, rules.counter]"
-          color="primary"
-          label="Last name"
-      ></v-text-field>
-
-      <v-text-field
-          v-model="email"
-          :rules="[rules.required, rules.email]"
-          color="primary"
-          label="E-mail"
-      ></v-text-field>
-    </v-container>
-
-</template>
-
 <style>
-p {
-  padding-bottom: 1vh;
+
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+  }
+
+  p,
+  li {
+    font-size: 0.9rem;
+  }
 }
 
 </style>
