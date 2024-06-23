@@ -108,52 +108,67 @@ const patchDataSchema = {
 }
 
 const mongooseBookingSchema = new mongoose.Schema({
-        firstName: {
-            type: String,
-        },
-        lastName: {
-            type: String,
-        },
-        mailAddress: {
-            type: String,
-        },
-        peopleCount: {
-            type: Number,
-        },
-        totalPrice: {
-            type: Number,
-        },
-        destination: {
-            destinationId: {
-                type: String,
-            },
-            destinationName: {
-                type: String,
-            }
-        },
-        hotel: {
-            hotelId:{
-                type: String,
-            },
-            hotelName: {
-                type: String,
-            },
-            hotelUrl:{
-                type: String,
-            },
-            hotelPicture:{
-                type: String,
-            }
-        },
-        beginDate: {
-            type: String,
-        },
-        endDate: {
-            type: String,
-        },
-        flightNumber: {
+    peopleCount: {
+        type: Number,
+    },
+    maxPrice: {
+        type: Number,
+    },
+    vacationType: {
+        type: Array,
+        properties: {
             type: String,
         }
+    },
+    accommodationType: {
+        type: Array,
+        properties: {
+            type: String,
+        }
+    },
+    firstName: {
+        type: String,
+    },
+    lastName: {
+        type: String,
+    },
+    mailAddress: {
+        type: String,
+    },
+    totalPrice: {
+        type: Number,
+    },
+    destination: {
+        destinationId: {
+            type: String,
+        },
+        destinationName: {
+            type: String,
+        }
+    },
+    hotel: {
+        hotelId: {
+            type: String,
+        },
+        hotelName: {
+            type: String,
+        },
+        hotelUrl: {
+            type: String,
+        },
+        hotelPicture: {
+            type: String,
+        }
+    },
+    beginDate: {
+        type: String,
+    },
+    endDate: {
+        type: String,
+    },
+    flightNumber: {
+        type: String,
+    }
 })
 
 module.exports = {inputDataSchema, bookingSchema, mongooseBookingSchema, patchDataSchema};

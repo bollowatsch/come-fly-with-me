@@ -103,7 +103,7 @@ router.post('/sendData', async function (req, res, next) {
 
     //save data into DB
     try {
-        const bookingId = await createNewDbEntry(peopleCount, maxPrice, destinationId, destination, hotel.hotelId, hotel.hotelName, hotel.url , hotel.picture ,beginDate, endDate, flight.flightNumber)
+        const bookingId = await createNewDbEntry(peopleCount, maxPrice, vacationType,accommodationType,overallPrice, destinationId, destination, hotel.hotelId, hotel.hotelName, hotel.url , hotel.picture ,beginDate, endDate, flight.flightNumber)
         res.status(200).send({ id: bookingId });
     } catch (err) {
         console.log(err)
@@ -111,12 +111,12 @@ router.post('/sendData', async function (req, res, next) {
     console.timeEnd('sendData')
 })
 
-async function createNewDbEntry(peopleCount, totalPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl, hotelPicture, beginDate, endDate, flightNumber) {
+async function createNewDbEntry(peopleCount, maxPrice, vacationType, accommodationType, totalPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl , hotelPicture ,beginDate, endDate, flightNumber) {
     const mongooseBookingSchema = require("../swagger/schemas").mongooseBookingSchema
     const Booking = mongoose.model("Booking", mongooseBookingSchema)
 
     const newBooking = new Booking({
-        peopleCount, totalPrice, destination:{destinationId, destinationName}, hotel:{hotelId, hotelName, hotelUrl, hotelPicture}, beginDate, endDate, flightNumber
+        peopleCount, maxPrice, vacationType, accommodationType, totalPrice, destination:{destinationId, destinationName}, hotel:{hotelId, hotelName, hotelUrl, hotelPicture}, beginDate, endDate, flightNumber
     })
     await newBooking.save()
     return newBooking._id
