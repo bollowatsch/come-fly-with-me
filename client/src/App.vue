@@ -26,7 +26,8 @@
 
       <v-row>
         <v-col cols="12">
-          <component :is="currentComponent" ref="currentComponent"/>
+          <component :is="currentComponent" ref="currentComponent" v-if="currentComponent !== 'BookingConfirmation'"/>
+          <BookingConfirmation v-else :bookingDetails="bookingDetails" />
         </v-col>
       </v-row>
 
@@ -35,13 +36,13 @@
           <v-btn v-if="currentStep === 0" @click="nextStep">Start booking you trip</v-btn>
         </v-col>
         <v-col v-else cols="12" class="d-flex justify-space-between">
-          <v-btn @click="previousStep" v-show="currentStep !== 0">Back</v-btn>
+          <v-btn @click="previousStep" v-show="currentStep !== 0 && currentStep !== steps.length-1">Back</v-btn>
           <v-btn v-if="currentStep > 0 && currentStep < steps.length - 2" @click="nextStep"
                  :disabled="currentStep === steps.length - 1">
             Next
           </v-btn>
-          <v-btn v-if="currentStep === steps.length - 2" @click="submitForm">Submit</v-btn>
-          <v-btn v-if="currentStep === steps.length - 1" @click="submitPersonalDetails">Book bindingly</v-btn>
+          <v-btn v-if="currentStep === steps.length - 3" @click="submitForm">Submit</v-btn>
+          <v-btn v-if="currentStep === steps.length - 2" @click="submitPersonalDetails">Book bindingly</v-btn>
         </v-col>
       </v-row>
 
@@ -58,23 +59,20 @@
         </v-card>
       </v-dialog>
 
-      <v-dialog v-model="successDialog" max-width="350">
+      <v-dialog v-model="continueBookingDialog" max-width="500">
         <v-card>
-          <v-card-title class="headline">Success</v-card-title>
+          <v-card-title class="headline">Continue Booking</v-card-title>
           <v-card-text>
-            <div>
-              <p><strong>Personal details updated:</strong></p>
-              <p><strong>First Name:</strong> {{ successMessage.firstName }}</p>
-              <p><strong>Last Name:</strong> {{ successMessage.lastName }}</p>
-              <p><strong>Email:</strong> {{ successMessage.mailAddress }}</p>
-            </div>
+            Do you want to continue with your saved options or start a new booking?
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="successDialog = false">OK</v-btn>
+            <v-btn color="primary" @click="handleContinueResponse('useSavedOptions')">Continue</v-btn>
+            <v-btn color="secondary" @click="handleContinueResponse('clearOptions')">Start New</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
+
     </v-main>
 
     <v-footer
@@ -113,6 +111,8 @@ import DateInput from "@/components/DateInput.vue";
 import LandingPage from "@/components/LandingPage.vue";
 import PersonalDetailsInput from "@/components/PersonalDetailsInput.vue";
 import AirportInput from "@/components/AirportInput.vue";
+import BookingConfirmation from "@/components/BookingConfirmation.vue";
+
 
 import {storeOptionsInJWT, getOptionsFromJWT, clearOptionsinJWT} from './clientJwt';
 
@@ -128,14 +128,16 @@ export default {
     AirportInput,
     MaxPriceInput,
     DateInput,
-    PersonalDetailsInput
+    PersonalDetailsInput,
+    BookingConfirmation
   },
   data() {
     return {
       currentStep: 0,
       dialog: false,
       successDialog: false,
-      successMessage: '',
+      continueBookingDialog: false,
+      popupResponse: null,
       steps: [
         "LandingPage",
         "PeopleCountInput",
@@ -144,7 +146,8 @@ export default {
         "AirportInput",
         "MaxPriceInput",
         "DateInput",
-        "PersonalDetailsInput"
+        "PersonalDetailsInput",
+        "BookingConfirmation"
       ],
       formData: {
         peopleCount: null,
@@ -156,7 +159,8 @@ export default {
         endDate: null,
         numberOfNights: null,
       },
-      bookingID: ''
+      bookingID: '',
+      bookingDetails: {},
     };
   },
   computed: {
@@ -165,18 +169,34 @@ export default {
     },
   },
   methods: {
+    async handleContinueResponse(response) {
+      this.popupResponse = response;
+      this.continueBookingDialog = false;
+
+      if (response === 'useSavedOptions') {
+        const savedOptions = await getOptionsFromJWT();
+        this.formData.peopleCount = savedOptions.peopleCount;
+        this.formData.vacationType = savedOptions.vacationType;
+        this.formData.accommodationType = savedOptions.accommodationType;
+        this.formData.airport = savedOptions.airport;
+        this.formData.maxPrice = savedOptions.maxPrice;
+        this.formData.beginDate = savedOptions.beginDate;
+        this.formData.endDate = savedOptions.endDate;
+        this.formData.numberOfNights = savedOptions.numberOfNights;
+
+        console.log(this.formData);
+        const incompleteStepIndex = this.getIncompleteStep();
+        if (incompleteStepIndex !== -1) {
+          this.currentStep = incompleteStepIndex;
+        }
+      } else {
+        clearOptionsinJWT();
+      }
+    },
     goToStart() {
       this.currentStep = 0;
     },
-    async showPopup() {
-      return new Promise((resolve) => {
-        if (confirm("Do you want to continue with your saved options?")) {
-          resolve('useSavedOptions');
-        } else {
-          resolve('clearOptions');
-        }
-      });
-    },
+
     async nextStep() {
       const component = this.$refs.currentComponent;
 
@@ -253,21 +273,11 @@ export default {
       try{
         const response = await axios.request(options);
         this.bookingID = response.data.id;
-        alert(response.data.id)
         await storeOptionsInJWT({ ...this.formData, bookingID: this.bookingID });
       }catch (error) {
         alert(error);
       }
 
-
-
-      alert(`Persons: ${this.formData.peopleCount}\n
-        Budget: ${this.formData.maxPrice}\n
-        Vacation Types: ${this.formData.vacationType.join(', ')}\n
-        Accommodation Type: ${this.formData.accommodationType}\n
-        Date: ${this.formData.beginDate} - ${this.formData.endDate}\n
-        Number of Nights: ${this.formData.numberOfNights}\n`);
-      console.log(this.formData);
     },
     getIncompleteStep() {
       if (this.formData.peopleCount === null) return 1;
@@ -311,11 +321,20 @@ export default {
         };
 
         const response = await axios.request(options);
-        this.successMessage = {
+        this.bookingDetails = {
           firstName: response.data.firstName,
           lastName: response.data.lastName,
-          mailAddress: response.data.mailAddress
+          mailAddress: response.data.mailAddress,
+          peopleCount: this.formData.peopleCount,
+          vacationType: this.formData.vacationType,
+          accommodationType: this.formData.accommodationType,
+          airport: this.formData.airport,
+          maxPrice: this.formData.maxPrice,
+          beginDate: this.formData.beginDate,
+          endDate: this.formData.endDate,
+          numberOfNights: this.formData.numberOfNights,
         };
+        this.currentStep = this.steps.length - 1;
         this.successDialog = true;
       } catch (error) {
         alert(`Error updating personal details: ${error.message}`);
@@ -344,29 +363,9 @@ export default {
     }
   },
   async mounted() {
-
     const savedOptions = await getOptionsFromJWT();
     if (savedOptions) {
-      const userDecision = await this.showPopup();
-      if (userDecision === 'useSavedOptions') {
-        this.formData.peopleCount = savedOptions.peopleCount;
-        this.formData.vacationType = savedOptions.vacationType;
-        this.formData.accommodationType = savedOptions.accommodationType;
-        this.formData.airport = savedOptions.airport;
-        this.formData.maxPrice = savedOptions.maxPrice;
-        this.formData.beginDate = savedOptions.beginDate;
-        this.formData.endDate = savedOptions.endDate;
-        this.formData.numberOfNights = savedOptions.numberOfNights;
-
-        console.log(this.formData);
-        //go to the first step without a value
-        const incompleteStepIndex = this.getIncompleteStep();
-        if (incompleteStepIndex !== -1) {
-          this.currentStep = incompleteStepIndex;
-        }
-      } else {
-        clearOptionsinJWT();
-      }
+      this.continueBookingDialog = true;
     }
   }
 };

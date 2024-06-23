@@ -45,6 +45,9 @@ export default {
     }
   },
   methods : {
+    isValid() {
+      return this.first && this.last && this.mailAddress;
+    },
     getPersonalDetails() {
       return {
         first: this.first,
