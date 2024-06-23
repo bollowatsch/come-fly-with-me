@@ -103,9 +103,8 @@ router.post('/sendData', async function (req, res, next) {
 
     //save data into DB
     try {
-        console.log("dsfgdgdgf");
         const bookingId = await createNewDbEntry(peopleCount, maxPrice, '', '', '', '', 'hotelUrl', beginDate, endDate, 'flightNumber')
-        res.status(200).send(bookingId)
+        res.status(200).send({ id: bookingId });
     } catch (err) {
         console.log(err)
     }
@@ -121,7 +120,6 @@ async function createNewDbEntry(peopleCount, totalPrice, destinationId, destinat
     })
     await newBooking.save()
     return newBooking._id
-    console.log(`ID of new element: ${newBooking._id}`)
 }
 
 
