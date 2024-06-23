@@ -6,7 +6,8 @@ const mapping = require('../models/mapping');
 const apiHandler = require("../models/apiHandler");
 const {updateBookingDetails} = require("../databaseHandler");
 const {deleteBooking} = require('../databaseHandler');
-const {mongoose} = require('../databaseHandler')
+const mongoose = require('mongoose')
+
 
 /**
  * This router handles all the endpoints for communication between FE & BE.
@@ -88,7 +89,8 @@ router.post('/sendData', async function (req, res, next) {
 
     //save data into DB
     try {
-        const bookingId = await createNewDbEntry(peopleCount, maxPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl, beginDate, endDate, flightNumber)
+        console.log("dsfgdgdgf");
+        const bookingId = await createNewDbEntry(peopleCount, maxPrice, '', '', '', '', 'hotelUrl', beginDate, endDate, 'flightNumber')
         res.status(200).send(bookingId)
     } catch (err) {
         console.log(err)

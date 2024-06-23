@@ -163,6 +163,15 @@ export default {
     goToStart() {
       this.currentStep = 0;
     },
+    async showPopup() {
+      return new Promise((resolve) => {
+        if (confirm("Do you want to continue with your saved options?")) {
+          resolve('useSavedOptions');
+        } else {
+          resolve('clearOptions');
+        }
+      });
+    },
     async nextStep() {
       const component = this.$refs.currentComponent;
 
@@ -297,13 +306,6 @@ export default {
         alert(`Error updating personal details: ${error.message}`);
       }
     },
-    async showPopup() {
-      return new Promise((resolve) => {
-        const result = window.confirm('Do you want to use saved options?');
-        resolve(result ? 'useSavedOptions' : 'startFromScratch');
-      });
-
-    },
     //nicht vergessen: Button 'delete' Hinzufügen, der ID vom User raus liest und dann die delete methode aufruft
     async delteBooking(bookingID) {
       try{
@@ -327,6 +329,7 @@ export default {
     }
   },
   async mounted() {
+
     const savedOptions = await getOptionsFromJWT();
     if (savedOptions) {
       const userDecision = await this.showPopup();
