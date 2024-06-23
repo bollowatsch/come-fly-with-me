@@ -8,6 +8,7 @@ const {updateBookingDetails, getBookingDataFromDatabase} = require("../databaseH
 const {deleteBooking} = require('../databaseHandler');
 const mongoose = require('mongoose')
 const sendMail = require('../mailHandler')
+const moment = require('moment');
 const {getLocationID} = require("../api/accommodation");
 const axios = require("axios");
 
@@ -253,10 +254,18 @@ router.delete('/deleteBooking', async (req, res) => {
  */
 router.get('/booking/:id', async function (req, res) {
     const id = req.params.id
+    const oneWeekFromNow = moment().add(1, 'week');
     getBookingDataFromDatabase(id).then(bookingData => {
         if(bookingData !== null){
             console.log("data retrieved from db: " + bookingData)
-            res.status(200).send(JSON.stringify(bookingData))
+            const beginDateStr = bookingData.beginDate;
+            const beginDate = beginDateStr.split(' ')[1] + ' ' + beginDateStr.split(' ')[2] + ' ' + beginDateStr.split(' ')[3];
+            console.log(oneWeekFromNow)
+            if (moment(beginDate).isAfter(oneWeekFromNow)) {
+                res.status(403).send(`Data not available yet for booking id: ${id}`);
+            } else {
+                res.status(200).send(JSON.stringify(bookingData));
+            }
         } else {
             res.status(404).send(`No booking information was found for id: ${id}`)
         }

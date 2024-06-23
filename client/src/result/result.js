@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import router from '../result/router';
 
 
 // Vuetify
@@ -10,8 +11,7 @@ import * as directives from 'vuetify/directives'
 
 
 // Components
-import App from './TripResult.vue'
-
+import TripResult from './TripResult.vue'
 
 const vuetify = createVuetify({
     components:{
@@ -158,4 +158,4 @@ const vuetify = createVuetify({
         },
     }
 })
-createApp(App).use(vuetify).mount('#result')
+createApp(TripResult).use(router).use(vuetify).mount('#result')
