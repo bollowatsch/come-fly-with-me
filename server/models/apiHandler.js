@@ -13,7 +13,8 @@ function getDestination(vacationType) {
 async function getFlight(departureIATA, arrivalIATA, outboundDate, returnDate) {
     try {
         const flightData = await getFlights(departureIATA, arrivalIATA, outboundDate, returnDate)
-        console.log("flightData:" + flightData)
+        console.log("flightData:")
+        console.table(flightData)
         if (flightData !== undefined) return dataProcessor.getBestFlight(flightData)
     } catch (error) {
         console.error(error)

@@ -3,6 +3,7 @@ require('dotenv').config();
 
 const API_KEY = process.env.ATTRACTIONS_KEY;
 
+//TODO: Is this even used? there is also getLocationId() in accommodation.js
 module.exports.getLocationID = async function getLocationID(city) {
     const options = {
         method: 'GET',

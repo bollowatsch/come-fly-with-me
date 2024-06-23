@@ -140,6 +140,9 @@ const mongooseBookingSchema = new mongoose.Schema({
             },
             hotelUrl:{
                 type: String,
+            },
+            hotelPicture:{
+                type: String,
             }
         },
         beginDate: {
