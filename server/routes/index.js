@@ -33,13 +33,26 @@ router.get('/', function (req, res, next) {
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/InputData'
+ *             example:
+ *               peopleCount: 3
+ *               maxPrice: 2350
+ *               vacationType: ["Adventure","City"]
+ *               accommodationType: ["Hotel","Hostel","Vacation Homes"]
+ *               beginDate: "2024-06-14"
+ *               endDate: "2024-06-17"
+ *               numberOfNights: 3
  *     responses:
  *       200:
- *         description: Booking data corresponding to provided user data
+ *         description: database ID for booking
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Booking'
+ *               type: object
+ *               properties:
+ *                 id:
+ *                  type: string
+ *               example:
+ *                 id: "507f1f77bcf86cd799439011"
  */
 router.post('/sendData', async function (req, res, next) {
     // these variables hold all the data of the booking if successfully found one
@@ -202,15 +215,51 @@ router.delete('/deleteBooking', async (req, res) => {
     }
 });
 /**
- * This function should provide the caller all booking data according to the id.
+ * @swagger
+ * /booking/{bookingID}:
+ *   get:
+ *     summary: get booking details from database to provided ID
+ *     parameters:
+ *         - in: path
+ *           name: bookingID
+ *           required: true
+ *           schema:
+ *             type: string
+ *             example: "507f1f77bcf86cd799439011"
+ *     responses:
+ *       200:
+ *         description: database entry for provided ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Booking'
+ *             example:
+ *               firstName: "David"
+ *               lastName: "Alaba"
+ *               mailAddress: "footballgod@oefb.at"
+ *               peopleCount: 3
+ *               totalPrice: 3735.75
+ *               destination:
+ *                 destinationId: "randomIdOfVienna"
+ *                 destinationName: "Vienna"
+ *               hotel:
+ *                 hotelId: "randomHotelId"
+ *                 hotelName: "Vienna Marriott Hotel"
+ *                 hotelUrl: "https://www.booking.com/hotel/at/vienna-marriott.de.html"
+ *               beginDate: "2024-06-14"
+ *               endDate: "2024-06-17"
+ *               flightNumber: "OS477"
  */
 router.get('/booking/:id', async function (req, res) {
     const id = req.params.id
-
-    //Check if id is found in db.
-    if (id !== undefined) {
-
-    } else res.status(400).send("Invalid booking id!")
+    databaseHandler.getBookingDataFromDatabase(id).then(bookingData => {
+        if(bookingData !== null){
+            console.log("data retrieved from db: " + bookingData)
+            res.status(200).send(JSON.stringify(bookingData))
+        } else {
+            res.status(404).send(`No booking information was found for id: ${id}`)
+        }
+    })
 })
 
 module.exports = router;
