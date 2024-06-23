@@ -262,6 +262,7 @@ export default {
           beginDate: this.formData.beginDate,
           endDate: this.formData.endDate,
           numberOfNights: this.formData.numberOfNights,
+          departureAirport: this.formData.airport
         },
         headers: {
           'Content-Type': 'application/json'
