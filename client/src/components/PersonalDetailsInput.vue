@@ -18,7 +18,7 @@
     ></v-text-field>
 
     <v-text-field
-        v-model="email"
+        v-model="mailAddress"
         :rules="[rules.required, rules.email]"
         color="primary"
         label="E-mail"
@@ -33,7 +33,7 @@ export default {
     return {
       first: null,
       last: null,
-      email: null,
+      mailAddress: null,
       rules: {
         required: value => !!value || 'Required.',
         counter: value => value.length <= 30 || 'Max 30 characters',
@@ -49,7 +49,7 @@ export default {
       return {
         first: this.first,
         last: this.last,
-        email: this.email
+        mailAddress: this.mailAddress
       };
     }
   }

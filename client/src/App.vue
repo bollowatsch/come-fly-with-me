@@ -57,6 +57,19 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+
+      <v-dialog v-model="successDialog" max-width="350">
+        <v-card>
+          <v-card-title class="headline">Success</v-card-title>
+          <v-card-text>
+            {{ successMessage }}
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" @click="successDialog = false">OK</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-main>
 
     <v-footer
@@ -116,6 +129,8 @@ export default {
     return {
       currentStep: 0,
       dialog: false,
+      successDialog: false,
+      successMessage: '',
       steps: [
         "LandingPage",
         "PeopleCountInput",
@@ -253,8 +268,7 @@ export default {
       const personalDetails = component.getPersonalDetails();
       const tokenData = await getOptionsFromJWT();
       const bookingID = tokenData.bookingID;
-      alert("ID:"+ bookingID);
-      await this.sendPersonalDetails({...personalDetails, id: 1});
+      await this.sendPersonalDetails({...personalDetails, id: bookingID});
     },
 
     //Patch personal Data
@@ -264,10 +278,10 @@ export default {
           method: 'PATCH',
           url: 'http://localhost:5000/updatePersonalDetails',
           data: {
-            bookingID: details.bookingID,
+            bookingID: '66709d277c62dd3b3ec17792',
             firstName: details.first,
             lastName: details.last,
-            email: details.email
+            mailAddress: details.mailAddress
           },
           headers: {
             'Content-Type': 'application/json'
@@ -275,7 +289,9 @@ export default {
         };
 
         const response = await axios.request(options);
-        alert(`Personal details updated:\nFirst Name: ${response.data.firstName}\nLast Name: ${response.data.lastName}\nEmail: ${response.data.email}`);
+        console.log(response.data);
+        this.successMessage = `Personal details updated:\nFirst Name: ${response.data.firstName}\nLast Name: ${response.data.lastName}\nEmail: ${response.data.mailAddress}`;
+        this.successDialog = true;
       } catch (error) {
         alert(`Error updating personal details: ${error.message}`);
       }

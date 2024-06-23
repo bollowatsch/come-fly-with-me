@@ -101,7 +101,7 @@ const patchDataSchema = {
         lastName: {
             type: 'string',
         },
-        email: {
+        mailAddress: {
             type: 'string',
         },
     }

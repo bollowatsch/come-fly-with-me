@@ -38,7 +38,8 @@ async function updateBookingDetails (id, updateData) {
     try {
         const updatedBooking = await Booking.findByIdAndUpdate(
             id,
-            updateData,
+            { $set: updateData },
+            { new: true, runValidators: true }
         );
         return updatedBooking;
     } catch (error) {
