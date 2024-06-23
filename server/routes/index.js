@@ -100,7 +100,7 @@ router.post('/sendData', async function (req, res, next) {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/InputData'
+ *             $ref: '#/components/schemas/patchDataSchema'
  *     responses:
  *       200:
  *         description: Personal details updated successfully
