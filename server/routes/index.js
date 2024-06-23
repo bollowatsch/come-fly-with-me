@@ -4,7 +4,7 @@ const {inputDataSchema, bookingSchema} = require('../swagger/schemas');
 
 const mapping = require('../models/mapping');
 const apiHandler = require("../models/apiHandler");
-const {updateBookingDetails} = require("../databaseHandler");
+const {updateBookingDetails, getBookingDataFromDatabase} = require("../databaseHandler");
 const {deleteBooking} = require('../databaseHandler');
 const mongoose = require('mongoose')
 
@@ -252,7 +252,7 @@ router.delete('/deleteBooking', async (req, res) => {
  */
 router.get('/booking/:id', async function (req, res) {
     const id = req.params.id
-    databaseHandler.getBookingDataFromDatabase(id).then(bookingData => {
+    getBookingDataFromDatabase(id).then(bookingData => {
         if(bookingData !== null){
             console.log("data retrieved from db: " + bookingData)
             res.status(200).send(JSON.stringify(bookingData))
