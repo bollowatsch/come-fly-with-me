@@ -11,7 +11,7 @@ const sendConfirmationMail = function (userMailAddress, destinationName, url) {
             pass: process.env.EMAIL_PASSWORD,
         }
     });
-
+    //TODO: create better sounding email Body
     const mailBody = `Congratulations! You just booked a trip to ${destinationName}!\n`
             +`You can see your detailed booking information 10 days in advance of your vacation by clicking this URL: \n`
             +`${url}\n`
