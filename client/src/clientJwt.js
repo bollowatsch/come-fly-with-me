@@ -40,3 +40,7 @@ export async function getOptionsFromJWT() {
         return null;
     }
 }
+
+export function clearOptionsinJWT(){
+    localStorage.removeItem('userOptionsToken');
+}

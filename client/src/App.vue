@@ -96,7 +96,7 @@ import LandingPage from "@/components/LandingPage.vue";
 import PersonalDetailsInput from "@/components/PersonalDetailsInput.vue";
 import AirportInput from "@/components/AirportInput.vue";
 
-import {storeOptionsInJWT, getOptionsFromJWT} from './clientJwt';
+import {storeOptionsInJWT, getOptionsFromJWT, clearOptionsinJWT} from './clientJwt';
 
 const axios = require('axios')
 
@@ -307,20 +307,25 @@ export default {
   async mounted() {
     const savedOptions = await getOptionsFromJWT();
     if (savedOptions) {
-      this.formData.peopleCount = savedOptions.peopleCount;
-      this.formData.vacationType = savedOptions.vacationType;
-      this.formData.accommodationType = savedOptions.accommodationType;
-      this.formData.airport = savedOptions.airport;
-      this.formData.maxPrice = savedOptions.maxPrice;
-      this.formData.beginDate = savedOptions.beginDate;
-      this.formData.endDate = savedOptions.endDate;
-      this.formData.numberOfNights = savedOptions.numberOfNights;
+      const userDecision = await this.showPopup();
+      if (userDecision === 'useSavedOptions') {
+        this.formData.peopleCount = savedOptions.peopleCount;
+        this.formData.vacationType = savedOptions.vacationType;
+        this.formData.accommodationType = savedOptions.accommodationType;
+        this.formData.airport = savedOptions.airport;
+        this.formData.maxPrice = savedOptions.maxPrice;
+        this.formData.beginDate = savedOptions.beginDate;
+        this.formData.endDate = savedOptions.endDate;
+        this.formData.numberOfNights = savedOptions.numberOfNights;
 
-      console.log(this.formData);
-      //go to the first step without a value
-      const incompleteStepIndex = this.getIncompleteStep();
-      if (incompleteStepIndex !== -1) {
-        this.currentStep = incompleteStepIndex;
+        console.log(this.formData);
+        //go to the first step without a value
+        const incompleteStepIndex = this.getIncompleteStep();
+        if (incompleteStepIndex !== -1) {
+          this.currentStep = incompleteStepIndex;
+        }
+      } else {
+        clearOptionsinJWT();
       }
     }
   }
