@@ -114,20 +114,22 @@ router.patch('/updatePersonalDetails', async function (req, res) {
     const bookingID = data.bookingID;
     const firstName = data.firstName;
     const lastName = data.lastName;
-    const email = data.email;
+    const mailAddress = data.mailAddress;
 
     try {
         const updateData = {
             firstName,
             lastName,
-            email
+            mailAddress
         };
         const updatedBooking = await updateBookingDetails(bookingID, updateData);
 
         if (updatedBooking) {
             res.status(200).send({
                 message: 'Details updated successfully',
-                data: updatedBooking
+                firstName: updatedBooking.firstName,
+                lastName: updatedBooking.lastName,
+                mailAddress: updatedBooking.mailAddress
             });
         } else {
             res.status(400).send({ message: 'Invalid booking ID' });
