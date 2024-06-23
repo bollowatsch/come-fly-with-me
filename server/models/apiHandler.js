@@ -3,6 +3,7 @@ const accommodations = require('../api/accommodation');
 
 const mapping = require('./mapping');
 const dataProcessor = require('./dataProcessor')
+const {getFlights} = require("../api/flights");
 
 function getDestination(vacationType) {
     const destination = getRandomCityBasedOnVacationType(vacationType)
@@ -11,7 +12,8 @@ function getDestination(vacationType) {
 
 async function getFlight(departureIATA, arrivalIATA, outboundDate, returnDate) {
     try {
-        const flightData = await flights.getFlights(departureIATA, arrivalIATA, outboundDate, returnDate)
+        const flightData = await getFlights(departureIATA, arrivalIATA, outboundDate, returnDate)
+        console.log("flightData:" + flightData)
         if (flightData !== undefined) return dataProcessor.getBestFlight(flightData)
     } catch (error) {
         console.error(error)
@@ -86,7 +88,6 @@ function getRandomCityBasedOnVacationType(vacationType) {
 
     if (intersection.length === 0) {
         let union = getUnion(criteria)
-
         if (union.length === 0) return null     //no match found at all.
 
         let randomIndex = Math.floor(Math.random() * union.length);
@@ -126,7 +127,7 @@ function getUnion(criteriaArray) {
     let commonCities = new Set()
 
     for (let i = 0; i < criteriaArray.length; i++) {
-        const citiesSet = new Set(mapping.cityMapping[criteriaArray[i]])
+        const citiesSet = new Set(mapping.cityMapping[criteriaArray[i].toUpperCase()])
         commonCities = new Set([...commonCities, ...citiesSet])
     }
 

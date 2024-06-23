@@ -37,9 +37,9 @@ router.get('/', function (req, res, next) {
  *               peopleCount: 3
  *               maxPrice: 2350
  *               vacationType: ["Adventure","City"]
- *               accommodationType: ["Hotel","Hostel","Vacation Homes"]
- *               beginDate: "2024-06-14"
- *               endDate: "2024-06-17"
+ *               accommodationType: "Hotel"
+ *               beginDate: "2024-07-14"
+ *               endDate: "2024-07-17"
  *               numberOfNights: 3
  *     responses:
  *       200:
@@ -77,6 +77,7 @@ router.post('/sendData', async function (req, res, next) {
 
     //GET DESTINATION
     destination = apiHandler.getDestination(vacationType)
+    console.log("destination: " + destination)
     if (destination === null) res.sendStatus(500)
 
     //GET FLIGHT
