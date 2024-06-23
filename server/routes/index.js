@@ -7,7 +7,7 @@ const apiHandler = require("../models/apiHandler");
 const {updateBookingDetails, getBookingDataFromDatabase} = require("../databaseHandler");
 const {deleteBooking} = require('../databaseHandler');
 const mongoose = require('mongoose')
-
+const sendMail = require('../mailHandler')
 
 /**
  * This router handles all the endpoints for communication between FE & BE.
@@ -159,6 +159,8 @@ router.patch('/updatePersonalDetails', async function (req, res) {
         const updatedBooking = await updateBookingDetails(bookingID, updateData);
 
         if (updatedBooking) {
+            //TODO: implement sendMail, so that is provided with correct destination Name from the id and the URL of the hotel
+            sendMail(updatedBooking.mailAddress, 'destination Name', 'URL of hotel')
             res.status(200).send({
                 message: 'Details updated successfully',
                 firstName: updatedBooking.firstName,
