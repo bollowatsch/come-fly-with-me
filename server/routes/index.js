@@ -68,6 +68,7 @@ router.post('/sendData', async function (req, res, next) {
 
     const data = req.body
 
+    const departureLocation = data.departureAirport
     const peopleCount = data.peopleCount
     const maxPrice = data.maxPrice
     const vacationType = data.vacationType              //Bach, cultural, adventure
@@ -84,14 +85,12 @@ router.post('/sendData', async function (req, res, next) {
     if (destination === null) res.sendStatus(500)
 
     //GET FLIGHT
-    const departureIATA = "VIE"
+    const departureIATA = mapping.airportData[departureLocation.toLowerCase()].airports_iata//"VIE"
     const arrivalIATA = mapping.airportData[destination].airports_iata
     const outboundDate = beginDate.toISOString().split("T")[0]
     const returnDate = endDate.toISOString().split("T")[0]
 
     flight = await apiHandler.getFlight(departureIATA, arrivalIATA, outboundDate, returnDate)
-    console.log("flight:")
-    console.table(flight)
 
     //GET ACCOMMODATION
     accommodations = await apiHandler.getAccommodation(destination, outboundDate, returnDate, peopleCount)

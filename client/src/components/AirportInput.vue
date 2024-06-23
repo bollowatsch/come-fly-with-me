@@ -21,7 +21,7 @@
 export default {
   data() {
     return {
-      airports: ['Vienna'],
+      airports: ['Vienna','Berlin','Munich'],
       airportSelection: 'Vienna',
     }
   },
