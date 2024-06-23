@@ -9,7 +9,7 @@ module.exports = defineConfig({
             title: 'Come fly with me!'
         },
         result: {
-            entry: 'src/result.js',
+            entry: 'src/result/result.js',
             filename: 'result.html',
             title: 'Your trip!'
         }

@@ -10,7 +10,7 @@ router.post('/create-jwt', (req, res) => {
     const options = req.body.options;
     console.log(options);
     console.log(secretKey);
-    const token = jwt.sign({ options }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign({ options }, secretKey, { expiresIn: '24h' });
     console.log(token);
     res.json({ token });
 });

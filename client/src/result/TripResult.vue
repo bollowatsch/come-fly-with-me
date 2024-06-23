@@ -11,7 +11,7 @@
       <v-btn @click="toggleTheme" icon="mdi-theme-light-dark"></v-btn>
     </v-app-bar>
     <v-banner class="banner-pic">
-      <img src="./assets/CityPics/rome.jpg" alt="Rome">
+      <img src="../assets/CityPics/rome.jpg" alt="Rome">
       <div class="banner-text">
         <h1>Your trip goes to CITY-NAME!</h1>
       </div>
@@ -51,7 +51,6 @@
               </div>
             </v-expand-transition>
           </v-card>
-          <v-btn @click="getWeather">Show Weather</v-btn>
         </v-col>
 
         <v-col cols="12" sm="4" md="2" lg="3">
@@ -89,6 +88,19 @@
             </v-expand-transition>
           </v-card>
         </v-col>
+        <v-col>
+          <v-btn @click="getWeather">Show Weather</v-btn>
+          <div v-if="weatherData">
+            <WeatherCard
+                :city="city"
+                weatherAlert="Extreme Weather Alert"
+                :temperature="weatherData.current.temp_c"
+                :windSpeed="weatherData.current.wind_kph"
+                :humidity="weatherData.current.humidity"
+                :forecast="weatherData.forecast.forecastday"
+            />
+          </div>
+        </v-col>
       </v-row>
 
     </v-main>
@@ -123,26 +135,38 @@ function toggleTheme() {
 </script>
 <script>
 import axios from "axios";
+import weather from "@/result/weatherCard.vue";
 
 export default {
+  components: {
+    // eslint-disable-next-line vue/no-unused-components
+    weather
+  },
   data() {
     return {
+      city: '',
+      weatherData: null,
       show: false,
     }
 
   },
   methods: {
     async getWeather() {
+      //if (this.city
       const city = 'rome'
       try {
         const weather = await axios.get(`http://localhost:5000/api/weather/${city}`);
-        console.log('Weather Data:', weather.data);
-        return weather.data;
+        if (weather.status === 200) {
+          this.weatherData = weather.data;
+          console.log('Weather Data:', this.weatherData.current);
+        } else {
+          alert(`Error: ${weather.status}`);
+        }
       } catch (error) {
-        console.error('Error retrieving weather data:', error);
-        throw error;
+        console.error('Error retrieving weather data:', error.message);
       }
     }
+
   }
 };
 
@@ -152,7 +176,7 @@ export default {
 body {
   display: flex;
   justify-content: center;
-  background-image: url("assets/background.jpg");
+  background-image: url("../assets/background.jpg");
   background-size: cover;
   min-height: 100vh;
   margin: 0;

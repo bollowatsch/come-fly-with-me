@@ -295,31 +295,36 @@ export default {
       } catch (error) {
         alert(`Error updating personal details: ${error.message}`);
       }
-    }
-  },
+    },
+    async showPopup() {
+      return new Promise((resolve) => {
+        const result = window.confirm('Do you want to use saved options?');
+        resolve(result ? 'useSavedOptions' : 'startFromScratch');
+      });
 
-  //nicht vergessen: Button 'delete' Hinzufügen, der ID vom User raus liest und dann die delete methode aufruft
-  async delteBooking(bookingID) {
-    try{
-      const options = {
-        method: 'DELETE',
-        url: 'http://localhost:5000/deleteBooking',
-        params: {
-          bookingID: bookingID
+    },
+    //nicht vergessen: Button 'delete' Hinzufügen, der ID vom User raus liest und dann die delete methode aufruft
+    async delteBooking(bookingID) {
+      try{
+        const options = {
+          method: 'DELETE',
+          url: 'http://localhost:5000/deleteBooking',
+          params: {
+            bookingID: bookingID
+          }
+        };
+
+        const res = await axios.request(options);
+        if (res.status === 200) {
+          alert("Booking deleted successfully");
+        } else {
+          alert("Failed to delete booking");
         }
-      };
-
-      const res = await axios.request(options);
-      if (res.status === 200) {
-        alert("Booking deleted successfully");
-      } else {
-        alert("Failed to delete booking");
+      } catch (error){
+        alert("Error occured during delteing the booking !")
       }
-    } catch (error){
-      alert("Error occured during delteing the booking !")
     }
   },
-
   async mounted() {
     const savedOptions = await getOptionsFromJWT();
     if (savedOptions) {
