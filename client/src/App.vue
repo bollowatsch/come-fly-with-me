@@ -151,6 +151,7 @@ export default {
         endDate: null,
         numberOfNights: null,
       },
+      bookingID: ''
     };
   },
   computed: {
@@ -240,6 +241,8 @@ export default {
           .then(response => alert(JSON.stringify(response.data)))
           .catch(error => alert(error))
 
+      //await storeOptionsInJWT(this.formData, bookingID);
+
       alert(`Persons: ${this.formData.peopleCount}\n
         Budget: ${this.formData.maxPrice}\n
         Vacation Types: ${this.formData.vacationType.join(', ')}\n
@@ -266,9 +269,7 @@ export default {
     async submitPersonalDetails() {
       const component = this.$refs.currentComponent;
       const personalDetails = component.getPersonalDetails();
-      const tokenData = await getOptionsFromJWT();
-      const bookingID = tokenData.bookingID;
-      await this.sendPersonalDetails({...personalDetails, id: bookingID});
+      await this.sendPersonalDetails({...personalDetails, id: this.bookingID});
     },
 
     //Patch personal Data

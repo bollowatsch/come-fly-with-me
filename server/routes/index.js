@@ -6,6 +6,7 @@ const mapping = require('../models/mapping');
 const apiHandler = require("../models/apiHandler");
 const {updateBookingDetails} = require("../databaseHandler");
 const {deleteBooking} = require('../databaseHandler');
+const {mongoose} = require('../databaseHandler')
 
 /**
  * This router handles all the endpoints for communication between FE & BE.
@@ -85,9 +86,28 @@ router.post('/sendData', async function (req, res, next) {
         accommodation: accommodations
     }
 
-    res.send(booking)
+    //save data into DB
+    try {
+        const bookingId = await createNewDbEntry(peopleCount, maxPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl, beginDate, endDate, flightNumber)
+        res.status(200).send(bookingId)
+    } catch (err) {
+        console.log(err)
+    }
     console.timeEnd('sendData')
 })
+
+async function createNewDbEntry(peopleCount, totalPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl, beginDate, endDate, flightNumber) {
+    const mongooseBookingSchema = require("../swagger/schemas").mongooseBookingSchema
+    const Booking = mongoose.model("Booking", mongooseBookingSchema)
+
+    const newBooking = new Booking({
+        peopleCount, totalPrice, destination:{destinationId, destinationName}, hotel:{hotelId, hotelName, hotelUrl}, beginDate, endDate, flightNumber
+    })
+    await newBooking.save()
+    return newBooking._id
+    console.log(`ID of new element: ${newBooking._id}`)
+}
+
 
 //localhost:3000/updatePersonalDetails
 /**
