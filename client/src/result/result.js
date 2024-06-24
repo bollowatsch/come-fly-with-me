@@ -1,5 +1,4 @@
 import { createApp } from 'vue'
-import router from '../result/router';
 
 
 // Vuetify
@@ -158,4 +157,4 @@ const vuetify = createVuetify({
         },
     }
 })
-createApp(TripResult).use(router).use(vuetify).mount('#result')
+createApp(TripResult).use(vuetify).mount('#result')

@@ -52,6 +52,7 @@
 <script setup>
 import {useTheme} from 'vuetify'
 
+
 const theme = useTheme()
 
 function toggleTheme() {
@@ -60,12 +61,6 @@ function toggleTheme() {
 </script>
 <script>
 export default {
-  props: {
-    id: {
-      type: String,
-      required: true,
-    },
-  },
   data() {
     return {
       bookingData: null,
@@ -73,15 +68,14 @@ export default {
       error: null,
     }
   },
-  created() {
-    const id = this.id;
+  mounted() {
+    const id = window.location.pathname.split('/')[2];
     console.log(id)
-    this.fetchBookingData('6678555673c776097c31e04a');
+    this.fetchBookingData(id);
   },
   methods: {
     async fetchBookingData(bookingId) {
       try {
-        console.log(bookingId)
         const response = await fetch(`http://localhost:5000/booking/${bookingId}`);
         if (response.ok) {
           this.bookingData = await response.json();
