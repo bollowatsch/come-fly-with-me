@@ -14,7 +14,7 @@ module.exports.getAttractions = async function getAttractions(locationID) {
         params: {
             filter: place,
             lang: 'en',
-            limit: '5',
+            limit: '6',
             apiKey: API_KEY
         }
     }
@@ -38,6 +38,7 @@ module.exports.getAttractions = async function getAttractions(locationID) {
 
         const extractedData = extractFields(data.features);
         console.log(JSON.stringify(extractedData, null, 2));
+        return Promise.resolve(JSON.stringify(extractedData, null, 2));
     } catch (error) {
         console.error(error);
     }

@@ -154,9 +154,6 @@ router.get('/flights', async function (req, res) {
 
 // localhost:5000/api/attractions/vienna
 router.get('/attractions/:city', async function (req, res) {
-    //TODO: Call corresponding API to retrieve attractions in the current city.
-    // filter best results.
-    // return to caller.
     const city = req.params.city;
     let locationID = '';
     console.log(city)

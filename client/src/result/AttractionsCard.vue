@@ -1,81 +1,75 @@
 <script>
+import axios from "axios";
+
 export default {
+  props: {
+    city: String,
+  },
   data() {
     return {
-      show: false
+      show: false,
+      expand: false,
+      attractions: [],
+    }
+  },
+  mounted() {
+    this.getAttractions();
+  },
+  methods: {
+    async getAttractions() {
+      console.log(this.city)
+      try {
+        const attractions = await axios.get(`http://localhost:5000/api/attractions/${this.city}`);
+        if (attractions.status === 200) {
+          this.attractions = attractions.data;
+        }
+      } catch (error) {
+        console.error('Error retrieving attractions data:', error.message);
+      }
     }
   }
-}
+};
 
 </script>
 
 <template>
-  <v-card class="mx-auto" max-width="368">
-    <v-img
-        height="200px"
-        src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-        cover
-    ></v-img>
+  <v-container>
+    <v-row>
+      <v-col :cols="12">
+      </v-col>
+    </v-row>
+    <v-row justify="center" class="vacation-row">
+      <v-col
+          v-for="(attraction, index) in attractions" :key="index" cols="12" md="6" lg="4"
+      >
+        <v-card class="mx-auto" max-width="368">
+          <v-img
+              height="200px"
+              :src="attraction.image || 'https://www.augsburger-allgemeine.de/img/gesellschaft/crop53423091/2873898314-cv16_9-w572-owebp/AdobeStock-231946491?t=.jpg'"
+              cover
+          ></v-img>
 
-    <v-card-title>Attraction 1 name</v-card-title>
+          <v-card-title>{{ attraction.name }}</v-card-title>
 
-    <v-card-subtitle>Recommendation percentage</v-card-subtitle>
+          <v-card-subtitle>Recommendation percentage</v-card-subtitle>
 
-    <v-card-actions>
-      <v-btn color="orange-lighten-2" text="Explore"></v-btn>
+          <v-card-actions>
+            <v-btn :text="!expand ? 'Show Details' : 'Hide Details'" @click="expand = !expand"></v-btn>
+          </v-card-actions>
 
-      <v-spacer></v-spacer>
-
-      <v-btn
-          :icon="show ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-          @click="show = !show"
-      ></v-btn>
-    </v-card-actions>
-
-    <v-expand-transition>
-      <div v-show="show">
-        <v-divider></v-divider>
-
-        <v-card-text>
-          shortDescription. + Link to Booking.com (created via static Link part "https://www.booking.com/attractions/" + countrycode + slug.
-        </v-card-text>
-      </div>
-    </v-expand-transition>
-  </v-card>
-
-  <v-card class="mx-auto" max-width="368">
-    <v-img
-        height="200px"
-        src="https://r-xx.bstatic.com/xdata/images/xphoto/300x320/119069943.jpg?k=015d3b02622a4c322f12141428e4fc04490fb884bd8208b7431ae138a31f6499&o="
-        cover
-    ></v-img>
-
-    <v-card-title>Rome Walking Tour</v-card-title>
-
-    <v-card-subtitle>90% recommended</v-card-subtitle>
-
-    <v-card-actions>
-      <v-btn color="orange-lighten-2" text="Explore"></v-btn>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-          :icon="show ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-          @click="show = !show"
-      ></v-btn>
-    </v-card-actions>
-
-    <v-expand-transition>
-      <div v-show="show">
-        <v-divider></v-divider>
-
-        <v-card-text>
-          A small-group tour to see some of the city's famous landmarks.
-          Book via <a href="https://www.booking.com/attractions/it/pr52nrhakoab-rome-walking-tour.de.html" target="_blank">booking.com</a>
-        </v-card-text>
-      </div>
-    </v-expand-transition>
-  </v-card>
+          <v-expand-transition>
+            <div v-if="expand">
+              <div class="py-2">
+                <p>{{ attraction.description || 'No description available' }}</p>
+                <p>Opening Hours: {{ attraction.opening_hours || 'Unknown' }}</p>
+                <p>Website: <a :href="attraction.website" target="_blank">{{ attraction.website }}</a></p>
+              </div>
+            </div>
+          </v-expand-transition>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <style scoped>
