@@ -156,11 +156,9 @@ router.get('/flights', async function (req, res) {
 router.get('/attractions/:city', async function (req, res) {
     const city = req.params.city;
     let locationID = '';
-    console.log(city)
     if (city !== undefined && city !== null && mapping.allCities.includes(city)) {
         try {
             locationID = await attractions.getLocationID(city)
-            console.log(locationID)
         } catch(error) {
             console.error('Error retrieving location ID:', error);
             res.status(500).json({ error: 'An error occurred while retrieving the location ID.' });

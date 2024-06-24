@@ -10,6 +10,7 @@ const mapping = require('../models/mapping');
 const mongoose = require('mongoose')
 const moment = require('moment');
 const axios = require("axios");
+const pictureMapping = require('../models/pictureMapping');
 
 /**
  * This router handles all the endpoints for communication between FE & BE.
@@ -267,17 +268,21 @@ router.delete('/deleteBooking', async (req, res) => {
  */
 router.get('/booking/:id', async function (req, res) {
     const id = req.params.id
-    const oneWeekFromNow = moment().add(1, 'week');
+    const oneWeekFromNow = moment().add(2, 'weeks');
+
     databaseHandler.getBookingDataFromDatabase(id).then(bookingData => {
         if (bookingData !== null) {
+            const picture = pictureMapping.pictureData[bookingData.destination.destinationName].picture;
+            console.log(picture);
 
-            console.log("data retrieved from db: " + bookingData)
             const beginDateStr = bookingData.beginDate;
             const beginDate = beginDateStr.split(' ')[1] + ' ' + beginDateStr.split(' ')[2] + ' ' + beginDateStr.split(' ')[3];
             console.log(oneWeekFromNow)
             if (moment(beginDate).isAfter(oneWeekFromNow)) {
                 res.status(403).send(`Data not available yet for booking id: ${id}`);
             } else {
+                bookingData.hotel.hotelPicture = picture;
+                console.log(bookingData)
                 res.status(200).send(JSON.stringify(bookingData));
             }
         } else {
