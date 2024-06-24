@@ -2,14 +2,13 @@ const express = require('express');
 const router = express.Router();
 const {inputDataSchema, bookingSchema} = require('../swagger/schemas');
 
-const mapping = require('../models/mapping');
 const apiHandler = require("../models/apiHandler");
-const {updateBookingDetails, getBookingDataFromDatabase} = require("../databaseHandler");
-const {deleteBooking} = require('../databaseHandler');
+const databaseHandler = require("../databaseHandler");
+const mailHandler = require('../mailHandler')
+
+const mapping = require('../models/mapping');
 const mongoose = require('mongoose')
-const sendMail = require('../mailHandler')
 const moment = require('moment');
-const {getLocationID} = require("../api/accommodation");
 const axios = require("axios");
 
 /**
@@ -19,7 +18,7 @@ const axios = require("axios");
 /**
  * Redirecting user to the frontend if wrong url is entered.
  */
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res) {
     res.writeHead(301, {Location: `http://localhost:8080`}).end()
 });
 
@@ -57,7 +56,7 @@ router.get('/', function (req, res, next) {
  *               example:
  *                 id: "507f1f77bcf86cd799439011"
  */
-router.post('/sendData', async function (req, res, next) {
+router.post('/sendData', async function (req, res) {
     // these variables hold all the data of the booking if successfully found one
     let destination = null
     let flight = null
@@ -94,6 +93,7 @@ router.post('/sendData', async function (req, res, next) {
 
     //GET ACCOMMODATION
     accommodations = await apiHandler.getAccommodation(destination, outboundDate, returnDate, peopleCount)
+
     const hotel = accommodations.bestFit
     let destinationId
     await axios.get(`http://localhost:5000/api/dest/${destination}`).then(res => destinationId = res.data)
@@ -103,26 +103,35 @@ router.post('/sendData', async function (req, res, next) {
 
     //save data into DB
     try {
-        const bookingId = await createNewDbEntry(peopleCount, maxPrice, vacationType,accommodationType,overallPrice, destinationId, destination, hotel.hotelId, hotel.hotelName, hotel.url , hotel.picture ,beginDate, endDate, flight.flightNumber)
+        const bookingId = await createNewDbEntry(peopleCount, maxPrice, vacationType, accommodationType, overallPrice, destinationId, destination, hotel.hotelId, hotel.hotelName, hotel.url, hotel.picture, beginDate, endDate, flight.flightNumber)
         console.log(bookingId)
-        res.status(200).send({ id: bookingId });
+        res.status(200).send({id: bookingId});
     } catch (err) {
         console.log(err)
     }
     console.timeEnd('sendData')
 })
 
-async function createNewDbEntry(peopleCount, maxPrice, vacationType, accommodationType, totalPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl , hotelPicture ,beginDate, endDate, flightNumber) {
+async function createNewDbEntry(peopleCount, maxPrice, vacationType, accommodationType, totalPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl, hotelPicture, beginDate, endDate, flightNumber) {
     const mongooseBookingSchema = require("../swagger/schemas").mongooseBookingSchema
     const Booking = mongoose.model("Booking", mongooseBookingSchema)
 
     const newBooking = new Booking({
-        peopleCount, maxPrice, vacationType, accommodationType, totalPrice, destination:{destinationId, destinationName}, hotel:{hotelId, hotelName, hotelUrl, hotelPicture}, beginDate, endDate, flightNumber
+        peopleCount,
+        maxPrice,
+        vacationType,
+        accommodationType,
+        totalPrice,
+        destination: {destinationId, destinationName},
+        hotel: {hotelId, hotelName, hotelUrl, hotelPicture},
+        beginDate,
+        endDate,
+        flightNumber
     })
+
     await newBooking.save()
     return newBooking._id
 }
-
 
 //localhost:3000/updatePersonalDetails
 /**
@@ -157,16 +166,15 @@ router.patch('/updatePersonalDetails', async function (req, res) {
             lastName,
             mailAddress
         };
-        const updatedBooking = await updateBookingDetails(bookingID, updateData);
+        const updatedBooking = await databaseHandler.updateBookingDetails(bookingID, updateData);
 
         if (updatedBooking) {
-            const bookingData = await getBookingDataFromDatabase(bookingID);
+            const bookingData = await databaseHandler.getBookingDataFromDatabase(bookingID);
 
-            if(bookingData){
+            if (bookingData) {
                 const destinationName = bookingData.destination.destinationName;
-                const hotelUrl = "http//:localhost:8080/"+bookingID;
-                sendMail(mailAddress, destinationName, bookingID);
-
+                const hotelUrl = "http//:localhost:8080/" + bookingID;
+                mailHandler.sendConfirmationMail(mailAddress, destinationName, bookingID);
             }
             res.status(200).send({
                 message: 'Details updated successfully',
@@ -175,10 +183,10 @@ router.patch('/updatePersonalDetails', async function (req, res) {
                 mailAddress: updatedBooking.mailAddress
             });
         } else {
-            res.status(400).send({ message: 'Invalid booking ID' });
+            res.status(400).send({message: 'Invalid booking ID'});
         }
     } catch (error) {
-        res.status(500).send({ message: 'Internal server error', error: error.message });
+        res.status(500).send({message: 'Internal server error', error: error.message});
     }
 });
 
@@ -212,9 +220,9 @@ router.delete('/deleteBooking', async (req, res) => {
     }
 
     try {
-        const deletedBooking = await deleteBooking(bookingID);
+        const deletedBooking = await databaseHandler.deleteBooking(bookingID);
         if (deletedBooking) {
-            res.status(200).send( "Booking deleted successfully");
+            res.status(200).send("Booking deleted successfully");
         } else {
             res.status(400).send("Invalid booking ID");
         }
@@ -260,9 +268,12 @@ router.delete('/deleteBooking', async (req, res) => {
  */
 router.get('/booking/:id', async function (req, res) {
     const id = req.params.id
-    const oneWeekFromNow = moment().add(2, 'weeks');
-    getBookingDataFromDatabase(id).then(bookingData => {
-        if(bookingData !== null){
+    const oneWeekFromNow = moment().add(1, 'week');
+    databaseHandler.getBookingDataFromDatabase(id).then(bookingData => {
+        if (bookingData !== null) {
+            // make destinations first capital
+            bookingData.destination.destinationName = bookingData.destination.destinationName.charAt(0).toUpperCase() + bookingData.destination.destinationName.slice(1)
+
             console.log("data retrieved from db: " + bookingData)
             const beginDateStr = bookingData.beginDate;
             const beginDate = beginDateStr.split(' ')[1] + ' ' + beginDateStr.split(' ')[2] + ' ' + beginDateStr.split(' ')[3];

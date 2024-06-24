@@ -1,9 +1,8 @@
-//const flights = require('../api/flights');
+const flights = require('../api/flights');
 const accommodations = require('../api/accommodation');
 
 const mapping = require('./mapping');
 const dataProcessor = require('./dataProcessor')
-const {getFlights} = require("../api/flights");
 
 function getDestination(vacationType) {
     const destination = getRandomCityBasedOnVacationType(vacationType)
@@ -12,7 +11,7 @@ function getDestination(vacationType) {
 
 async function getFlight(departureIATA, arrivalIATA, outboundDate, returnDate) {
     try {
-        const flightData = await getFlights(departureIATA, arrivalIATA, outboundDate, returnDate)
+        const flightData = await flights.getFlights(departureIATA, arrivalIATA, outboundDate, returnDate)
         console.log("flightData:")
         console.table(flightData)
         if (flightData !== undefined) return dataProcessor.getBestFlight(flightData)
@@ -34,7 +33,7 @@ async function getAccommodation(destination, checkInDate, checkOutDate, numberOf
             const bestFits = dataProcessor.getBestHotel(accommodationsData)
             const cheapestFits = dataProcessor.getCheapestHotel(accommodationsData)
 
-            if (bestFits[0].hotel_id === bestFits[0].hotel_id) {
+            if (bestFits[0].hotel_id === cheapestFits[0].hotel_id) {
                 return {
                     bestFit: bestFits[0]
                 }
@@ -53,7 +52,7 @@ async function getAccommodation(destination, checkInDate, checkOutDate, numberOf
     }
 }
 
-function calculateOverallPrice(flightData, accommodationsData) {
+function getOverallPrice(flightData, accommodationsData) {
     if (flightData !== null && accommodationsData !== null) {
         const flightPrice = flightData.price !== undefined ? flightData.price : null
         const accommodationsBestFitPrice = accommodationsData.bestFit.price !== undefined ? accommodationsData.bestFit.price : 0
@@ -135,7 +134,4 @@ function getUnion(criteriaArray) {
     return [...commonCities]
 }
 
-module.exports.getDestination = getDestination
-module.exports.getFlight = getFlight
-module.exports.getAccommodation = getAccommodation
-module.exports.getOverallPrice = calculateOverallPrice
+module.exports = {getDestination, getFlight, getAccommodation, getOverallPrice}
