@@ -1,13 +1,14 @@
 <script>
 export default {
-  props: ['data'],
+  props: { data: [],
+    destination: String },
   computed: {
     timelineData() {
       return [
         {label: 'Name', value: this.data.firstName + ' ' + this.data.lastName},
         {label: 'E-Mail', value: this.data.mailAddress},
         {label: 'Travelers', value: this.data.peopleCount},
-        {label: 'Destination', value: this.data.destination.destinationName},
+        {label: 'Destination', value: this.destination},
         {label: 'Total Price', value: this.data.totalPrice},
         {label: 'Begin Date', value: this.data.beginDate},
         {label: 'End Date', value: this.data.endDate},

@@ -1,6 +1,6 @@
 <template>
   <v-card class="mx-auto" max-width="368">
-    <v-card-item :title="'Current weather in ' + city">
+    <v-card-item :title="'Current weather in ' + destination">
     </v-card-item>
 
     <v-card-text class="py-0">
@@ -25,9 +25,6 @@
 
     <v-expand-transition>
       <div v-if="expand">
-        <div class="py-2">
-          <v-slider v-model="time" :max="6" :step="1" :ticks="labels" class="mx-4" color="primary" density="compact" show-ticks="always" thumb-size="10" hide-details></v-slider>
-        </div>
 
         <v-list class="bg-transparent">
           <v-list-item v-for="item in weatherData.forecast" :key="item.day" :append-icon="item.icon" :subtitle="item.temp + ' &deg;C'" :title="item.day"></v-list-item>
@@ -49,12 +46,12 @@ import axios from "axios";
 export default {
   props: {
     city: String,
+    destination: String
   },
   data() {
     return {
       expand: false,
       time: 0,
-      labels: [0, 1, 2, 3, 4, 5, 6],
       weatherData: {}
     };
   },

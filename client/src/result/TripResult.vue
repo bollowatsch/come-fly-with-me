@@ -33,10 +33,10 @@
           </div>
           <div v-else class="d-flex justify-center">
             <v-col>
-              <component :is="BookingSummaryCard" :data="bookingData"></component>
+              <component :is="BookingSummaryCard" :data="bookingData" :destination="destination"></component>
             </v-col>
             <v-col class="components">
-              <component :is="WeatherCard" :city="bookingData.destination.destinationName"></component>
+              <component :is="WeatherCard" :city="bookingData.destination.destinationName" :destination="destination"></component>
               <div class="mt-4"></div>
               <component :is="AttractionsCard" :city="bookingData.destination.destinationName"></component>
             </v-col>
