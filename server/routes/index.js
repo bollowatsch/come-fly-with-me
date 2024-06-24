@@ -10,6 +10,7 @@ const mapping = require('../models/mapping');
 const mongoose = require('mongoose')
 const moment = require('moment');
 const axios = require("axios");
+const pictureMapping = require('../models/pictureMapping');
 
 /**
  * This router handles all the endpoints for communication between FE & BE.
@@ -147,9 +148,9 @@ router.patch('/updatePersonalDetails', async function (req, res) {
             const bookingData = await databaseHandler.getBookingDataFromDatabase(bookingID);
 
             if (bookingData) {
-                const destinationName = bookingData.destination.destinationName;
-                const hotelUrl = "http//:localhost:8080/" + bookingID;
-                mailHandler.sendConfirmationMail(mailAddress, destinationName, bookingID);
+                const beginDate = bookingData.beginDate;
+                const endDate = bookingData.endDate;
+                mailHandler.sendConfirmationMail(mailAddress, beginDate,endDate, bookingID);
             }
             res.status(200).send({
                 message: 'Details updated successfully',
@@ -188,7 +189,6 @@ router.patch('/updatePersonalDetails', async function (req, res) {
  */
 router.delete('/deleteBooking', async (req, res) => {
     const bookingID = req.query.bookingID;
-    console.log(bookingID);
 
     if (!bookingID) {
         return res.status(400).send('Booking ID is required!');
@@ -243,17 +243,21 @@ router.delete('/deleteBooking', async (req, res) => {
  */
 router.get('/booking/:id', async function (req, res) {
     const id = req.params.id
-    const oneWeekFromNow = moment().add(1, 'week');
+    const oneWeekFromNow = moment().add(2, 'weeks');
+
     databaseHandler.getBookingDataFromDatabase(id).then(bookingData => {
         if (bookingData !== null) {
+            const picture = pictureMapping.pictureData[bookingData.destination.destinationName].picture;
+            console.log(picture);
 
-            console.log("data retrieved from db: " + bookingData)
             const beginDateStr = bookingData.beginDate;
             const beginDate = beginDateStr.split(' ')[1] + ' ' + beginDateStr.split(' ')[2] + ' ' + beginDateStr.split(' ')[3];
             console.log(oneWeekFromNow)
             if (moment(beginDate).isAfter(oneWeekFromNow)) {
                 res.status(403).send(`Data not available yet for booking id: ${id}`);
             } else {
+                bookingData.hotel.hotelPicture = picture;
+                console.log(bookingData)
                 res.status(200).send(JSON.stringify(bookingData));
             }
         } else {

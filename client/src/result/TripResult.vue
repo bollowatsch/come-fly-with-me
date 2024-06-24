@@ -14,7 +14,8 @@
       </v-btn>
     </v-app-bar>
     <v-banner class="banner-pic">
-      <img src="../assets/CityPics/rome.jpg" alt="Rome">
+      <img v-if="bookingData" :src="bookingData.hotel.hotelPicture" :alt="destination">
+      <img v-if="error" src="../assets/background.jpg" alt="Venice">
       <div class="banner-text">
         <h1 v-if="bookingData">Your trip goes to {{ destination }}!</h1>
         <h1 v-if="error">Your trip is not available yet!</h1>
@@ -33,10 +34,10 @@
           </div>
           <div v-else class="d-flex justify-center">
             <v-col>
-              <component :is="BookingSummaryCard" :data="bookingData"></component>
+              <component :is="BookingSummaryCard" :data="bookingData" :destination="destination"></component>
             </v-col>
             <v-col class="components">
-              <component :is="WeatherCard" :city="bookingData.destination.destinationName"></component>
+              <component :is="WeatherCard" :city="bookingData.destination.destinationName" :destination="destination"></component>
               <div class="mt-4"></div>
               <component :is="AttractionsCard" :city="bookingData.destination.destinationName"></component>
             </v-col>
@@ -60,7 +61,7 @@
 
       <v-snackbar v-model="snackbar.show" :timeout="snackbar.timeout" :color="snackbar.color">
         {{ snackbar.message }}
-        <v-btn color="white" text @click="snackbar.show = false">
+        <v-btn color="white" @click="snackbar.show = false">
           Close
         </v-btn>
       </v-snackbar>
@@ -120,15 +121,18 @@ export default {
         bookingData: null,
         loading: true,
         error: null,
-        destination: ''
+        destination: '',
+        deleteConfirmationDialog: false
       }
   },
   mounted() {
     const id = this.bookingID;
-    console.log(id)
     this.fetchBookingData(id);
   },
   methods: {
+    deleteBookingConfirmation() {
+      this.deleteConfirmationDialog = true;
+    },
     showSnackbar(message, color) {
       this.snackbar.message = message;
       this.snackbar.color = color;
@@ -139,6 +143,7 @@ export default {
         const response = await fetch(`http://localhost:5000/booking/${bookingId}`);
         if (response.ok) {
           this.bookingData = await response.json();
+          console.log(this.bookingData.picture)
           this.destination = this.bookingData.destination.destinationName.charAt(0).toUpperCase() + this.bookingData.destination.destinationName.slice(1);
         } else if (response.status === 403) {
           this.error = 'Data not available yet.'
@@ -152,9 +157,6 @@ export default {
       } finally {
         this.loading = false;
       }
-    },
-    deleteBookingConfirmation() {
-      this.deleteConfirmationDialog = true;
     },
     async confirmDelete() {
       try{
@@ -171,7 +173,8 @@ export default {
         const res = await axios.request(options);
         if (res.status === 200) {
           this.showSnackbar("Booking deleted successfully", "success");
-          this.currentStep = 0;
+          this.deleteConfirmationDialog = false;
+          window.location.href = "http://localhost:8080/";
         } else {
           this.showSnackbar("Failed to delete booking", "error");
         }

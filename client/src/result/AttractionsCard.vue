@@ -51,7 +51,7 @@ export default {
 
           <v-card-title>{{ attraction.name }}</v-card-title>
 
-          <v-card-subtitle>Recommendation percentage</v-card-subtitle>
+          <v-card-subtitle> <a :href="attraction.website" target="_blank">Visit Website</a> </v-card-subtitle>
 
           <v-card-actions>
             <v-btn :text="!expand ? 'Show Details' : 'Hide Details'" @click="expand = !expand"></v-btn>
@@ -61,8 +61,7 @@ export default {
             <div v-if="expand">
               <div class="py-2">
                 <p>{{ attraction.description || 'No description available' }}</p>
-                <p>Opening Hours: {{ attraction.opening_hours || 'Unknown' }}</p>
-                <p>Website: <a :href="attraction.website" target="_blank">{{ attraction.website }}</a></p>
+                <p><b>Opening Hours:</b> {{ attraction.opening_hours || 'Unknown' }}</p>
               </div>
             </div>
           </v-expand-transition>

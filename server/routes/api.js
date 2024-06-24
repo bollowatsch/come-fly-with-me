@@ -135,7 +135,7 @@ router.get('/weather/:city', async function (req, res) {
 
     // Only make request if city was found in mappedCities.
     if (city !== undefined && city !== null && mapping.allCities.includes(city)) {
-        await weather.getWeatherFaster(city)
+        await weather.getWeather(city)
             .then(result => res.status(200).send(result))
             .catch(error => res.sendStatus(error.response.status || 500))
     } else res.sendStatus(400)
@@ -156,11 +156,9 @@ router.get('/flights', async function (req, res) {
 router.get('/attractions/:city', async function (req, res) {
     const city = req.params.city;
     let locationID = '';
-    console.log(city)
     if (city !== undefined && city !== null && mapping.allCities.includes(city)) {
         try {
             locationID = await attractions.getLocationID(city)
-            console.log(locationID)
         } catch(error) {
             console.error('Error retrieving location ID:', error);
             res.status(500).json({ error: 'An error occurred while retrieving the location ID.' });
