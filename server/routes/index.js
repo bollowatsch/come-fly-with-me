@@ -92,9 +92,9 @@ router.post('/sendData', async function (req, res) {
     flight = await apiHandler.getFlight(departureIATA, arrivalIATA, outboundDate, returnDate)
 
     //GET ACCOMMODATION
-    accommodations = await apiHandler.getAccommodation(destination, outboundDate, returnDate, peopleCount)
+    let hotel
+    accommodations = await apiHandler.getAccommodation(destination, outboundDate, returnDate, peopleCount).then(result => hotel = result.bestFit).catch(() => res.sendStatus(500))
 
-    const hotel = accommodations.bestFit
     let destinationId
     await axios.get(`http://localhost:5000/api/dest/${destination}`).then(res => destinationId = res.data)
 

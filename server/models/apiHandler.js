@@ -48,7 +48,7 @@ async function getAccommodation(destination, checkInDate, checkOutDate, numberOf
         return null
     } catch (error) {
         console.error(error)
-        return null
+        return error
     }
 }
 
