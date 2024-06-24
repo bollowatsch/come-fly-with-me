@@ -172,9 +172,9 @@ router.patch('/updatePersonalDetails', async function (req, res) {
             const bookingData = await databaseHandler.getBookingDataFromDatabase(bookingID);
 
             if (bookingData) {
-                const destinationName = bookingData.destination.destinationName;
-                const hotelUrl = "http//:localhost:8080/" + bookingID;
-                mailHandler.sendConfirmationMail(mailAddress, destinationName, bookingID);
+                const beginDate = bookingData.beginDate;
+                const endDate = bookingData.endDate;
+                mailHandler.sendConfirmationMail(mailAddress, beginDate,endDate, bookingID);
             }
             res.status(200).send({
                 message: 'Details updated successfully',
@@ -213,7 +213,6 @@ router.patch('/updatePersonalDetails', async function (req, res) {
  */
 router.delete('/deleteBooking', async (req, res) => {
     const bookingID = req.query.bookingID;
-    console.log(bookingID);
 
     if (!bookingID) {
         return res.status(400).send('Booking ID is required!');

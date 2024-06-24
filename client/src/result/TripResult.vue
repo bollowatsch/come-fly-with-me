@@ -60,7 +60,7 @@
 
       <v-snackbar v-model="snackbar.show" :timeout="snackbar.timeout" :color="snackbar.color">
         {{ snackbar.message }}
-        <v-btn color="white" text @click="snackbar.show = false">
+        <v-btn color="white" @click="snackbar.show = false">
           Close
         </v-btn>
       </v-snackbar>
@@ -120,15 +120,18 @@ export default {
         bookingData: null,
         loading: true,
         error: null,
-        destination: ''
+        destination: '',
+        deleteConfirmationDialog: false
       }
   },
   mounted() {
     const id = this.bookingID;
-    console.log(id)
     this.fetchBookingData(id);
   },
   methods: {
+    deleteBookingConfirmation() {
+      this.deleteConfirmationDialog = true;
+    },
     showSnackbar(message, color) {
       this.snackbar.message = message;
       this.snackbar.color = color;
@@ -153,9 +156,6 @@ export default {
         this.loading = false;
       }
     },
-    deleteBookingConfirmation() {
-      this.deleteConfirmationDialog = true;
-    },
     async confirmDelete() {
       try{
         const bookingID = this.bookingID;
@@ -171,7 +171,8 @@ export default {
         const res = await axios.request(options);
         if (res.status === 200) {
           this.showSnackbar("Booking deleted successfully", "success");
-          this.currentStep = 0;
+          this.deleteConfirmationDialog = false;
+          window.location.href = "http://localhost:8080/";
         } else {
           this.showSnackbar("Failed to delete booking", "error");
         }
