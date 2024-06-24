@@ -74,6 +74,20 @@
         </v-card>
       </v-dialog>
 
+      <v-dialog v-model="deleteConfirmationDialog" max-width="500">
+        <v-card>
+          <v-card-title class="headline">Confirm Deletion</v-card-title>
+          <v-card-text>
+            Are you sure you want to delete the data you have provided so far ?
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" @click="confirmDelete">Yes</v-btn>
+            <v-btn color="secondary" @click="deleteConfirmationDialog = false">No</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </v-main>
 
     <v-footer
@@ -139,6 +153,7 @@ export default {
       successDialog: false,
       continueBookingDialog: false,
       popupResponse: null,
+      deleteConfirmationDialog: false,
       steps: [
         "LandingPage",
         "PeopleCountInput",
@@ -338,6 +353,9 @@ export default {
       }
     },
     async deleteBooking() {
+      this.deleteConfirmationDialog = true;
+    },
+    async confirmDelete() {
       try{
         const tokenData = await getOptionsFromJWT();
         const bookingID = tokenData.bookingID;
