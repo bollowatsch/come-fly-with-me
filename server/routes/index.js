@@ -160,8 +160,14 @@ router.patch('/updatePersonalDetails', async function (req, res) {
         const updatedBooking = await updateBookingDetails(bookingID, updateData);
 
         if (updatedBooking) {
-            //TODO: implement sendMail, so that is provided with correct destination Name from the id and the URL of the hotel
-            sendMail(updatedBooking.mailAddress, 'destination Name', 'URL of hotel')
+            const bookingData = await getBookingDataFromDatabase(bookingID);
+
+            if(bookingData){
+                const destinationName = bookingData.destination.destinationName;
+                const hotelUrl = "http//:localhost:8080/"+bookingID;
+                sendMail(mailAddress, destinationName, bookingID);
+
+            }
             res.status(200).send({
                 message: 'Details updated successfully',
                 firstName: updatedBooking.firstName,
