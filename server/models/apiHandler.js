@@ -12,9 +12,8 @@ function getDestination(vacationType) {
 async function getFlight(departureIATA, arrivalIATA, outboundDate, returnDate) {
     try {
         const flightData = await flights.getFlights(departureIATA, arrivalIATA, outboundDate, returnDate)
-        console.log("flightData:")
-        console.table(flightData)
         if (flightData !== undefined) return dataProcessor.getBestFlight(flightData)
+        console.log(flightData)
     } catch (error) {
         console.error(error)
         return null
@@ -34,12 +33,6 @@ async function getAccommodation(destination, checkInDate, checkOutDate, numberOf
             const cheapestFits = dataProcessor.getCheapestHotel(accommodationsData)
 
             if (bestFits !== undefined && cheapestFits !== undefined) {
-                if (bestFits[0].hotel_id === cheapestFits[0].hotel_id) {
-                    return {
-                        bestFit: bestFits[0]
-                    }
-                }
-
                 return {
                     bestFit: bestFits[0],
                     cheapestFit: cheapestFits
@@ -56,7 +49,7 @@ async function getAccommodation(destination, checkInDate, checkOutDate, numberOf
 function getOverallPrice(flightData, accommodationsData) {
     if (flightData !== null && accommodationsData !== null) {
         const flightPrice = flightData.price !== undefined ? flightData.price : null
-        const accommodationsBestFitPrice = accommodationsData.bestFit.price !== undefined ? accommodationsData.bestFit.price : 0
+        const accommodationsBestFitPrice = accommodationsData.price !== undefined ? accommodationsData.price : 0
         const accommodationsCheapestFitPrice = accommodationsData.cheapestFit !== undefined && accommodationsData.cheapestFit.price !== undefined ? accommodationsData.cheapestFit.price : 0
         return flightPrice + accommodationsBestFitPrice + accommodationsCheapestFitPrice
     } else return null
