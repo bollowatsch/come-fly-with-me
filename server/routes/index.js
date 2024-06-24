@@ -23,6 +23,10 @@ router.get('/', function (req, res) {
 });
 
 //localhost:3000/sendData
+function createNewTrip(departureLocation, peopleCount, maxPrice, vacationType, accommodationType, beginDate, endDate) {
+    return undefined;
+}
+
 //TODO: add example data
 /**
  * @swagger
@@ -74,9 +78,11 @@ router.post('/sendData', async function (req, res) {
     const accommodationType = data.accommodationType    //Hotel, Hostel, BedAndBreakfast
     const beginDate = new Date(data.beginDate)
     const endDate = new Date(data.endDate)
-    const numberOfNights = data.numberOfNights
+    //const numberOfNights = data.numberOfNights
 
-    const dayDifference = Math.round((endDate.getTime() - beginDate.getTime()) / (1000 * 3600 * 24)) - 1
+    //const dayDifference = Math.round((endDate.getTime() - beginDate.getTime()) / (1000 * 3600 * 24)) - 1
+
+    const trip = createNewTrip(departureLocation, peopleCount, maxPrice, vacationType, accommodationType, beginDate, endDate)
 
     //GET DESTINATION
     destination = apiHandler.getDestination(vacationType)
@@ -84,7 +90,7 @@ router.post('/sendData', async function (req, res) {
     if (destination === null) res.sendStatus(500)
 
     //GET FLIGHT
-    const departureIATA = mapping.airportData[departureLocation.toLowerCase()].airports_iata//"VIE"
+    const departureIATA = mapping.airportData[departureLocation.toLowerCase()].airports_iata
     const arrivalIATA = mapping.airportData[destination].airports_iata
     const outboundDate = beginDate.toISOString().split("T")[0]
     const returnDate = endDate.toISOString().split("T")[0]
@@ -101,9 +107,10 @@ router.post('/sendData', async function (req, res) {
     //GET OVERALL PRICE
     overallPrice = apiHandler.getOverallPrice(flight, accommodations)
 
+
     //save data into DB
     try {
-        const bookingId = await createNewDbEntry(peopleCount, maxPrice, vacationType, accommodationType, overallPrice, destinationId, destination, hotel.hotelId, hotel.hotelName, hotel.url, hotel.picture, beginDate, endDate, flight.flightNumber)
+        const bookingId = await databaseHandler.createNewDbEntry(peopleCount, maxPrice, vacationType, accommodationType, overallPrice, destinationId, destination, hotel.hotelId, hotel.hotelName, hotel.url, hotel.picture, beginDate, endDate, flight.flightNumber)
         console.log(bookingId)
         res.status(200).send({id: bookingId});
     } catch (err) {
@@ -111,27 +118,6 @@ router.post('/sendData', async function (req, res) {
     }
     console.timeEnd('sendData')
 })
-
-async function createNewDbEntry(peopleCount, maxPrice, vacationType, accommodationType, totalPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl, hotelPicture, beginDate, endDate, flightNumber) {
-    const mongooseBookingSchema = require("../swagger/schemas").mongooseBookingSchema
-    const Booking = mongoose.model("Booking", mongooseBookingSchema)
-
-    const newBooking = new Booking({
-        peopleCount,
-        maxPrice,
-        vacationType,
-        accommodationType,
-        totalPrice,
-        destination: {destinationId, destinationName},
-        hotel: {hotelId, hotelName, hotelUrl, hotelPicture},
-        beginDate,
-        endDate,
-        flightNumber
-    })
-
-    await newBooking.save()
-    return newBooking._id
-}
 
 //localhost:3000/updatePersonalDetails
 /**
@@ -285,6 +271,13 @@ router.get('/booking/:id', async function (req, res) {
             res.status(404).send(`No booking information was found for id: ${id}`)
         }
     })
+})
+
+router.put('booking/:id', async function (req, res) {
+    const id = req.params.id
+
+    const replacedBooking = await databaseHandler.replaceBookingDetails(bookingID, updateData);
+
 })
 
 module.exports = router;
