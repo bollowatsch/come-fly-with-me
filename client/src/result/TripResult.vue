@@ -100,6 +100,7 @@ import WeatherCard from "@/result/weatherCard.vue";
 import AttractionsCard from "@/result/AttractionsCard.vue";
 
 import axios from 'axios';
+import {clearOptionsinJWT, storeOptionsInJWT} from "@/clientJwt";
 
 export default {
   components:{
@@ -130,6 +131,12 @@ export default {
   methods: {
     deleteBookingConfirmation() {
       this.deleteConfirmationDialog = true;
+    },
+    changeBooking(){
+      clearOptionsinJWT()
+      storeOptionsInJWT({bookingID: this.bookingID})
+      window.location.href = "http://localhost:8080/";
+
     },
     showSnackbar(message, color) {
       this.snackbar.message = message;
@@ -179,7 +186,8 @@ export default {
       } catch (error){
         this.showSnackbar("Error occurred during deleting the booking! " + error.message, "error");
       }
-    }
+    },
+
   },
 };
 </script>

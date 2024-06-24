@@ -247,7 +247,7 @@ export default {
       if (this.currentStep < this.steps.length - 1) {
         this.updateFormData();
         this.currentStep++;
-        await storeOptionsInJWT(this.formData);
+        await storeOptionsInJWT({...this.formData, bookingID: this.bookingID});
       }
     },
     previousStep() {
@@ -288,24 +288,42 @@ export default {
       }
 
       this.updateFormData();
-
-
-      const options = {
-        method: 'POST',
-        url: 'http://localhost:5000/sendData',
-        data: {
-          peopleCount: this.formData.peopleCount,
-          maxPrice: this.formData.maxPrice,
-          vacationType: this.formData.vacationType,
-          accommodationType: this.formData.accommodationType,
-          beginDate: this.formData.beginDate,
-          endDate: this.formData.endDate,
-          departureAirport: this.formData.airport
-        },
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
+      let options
+      if(this.bookingID){
+        options = {
+          method: 'PUT',
+          url: `http://localhost:5000/booking/${this.bookingID}`,
+          data: {
+            peopleCount: this.formData.peopleCount,
+            maxPrice: this.formData.maxPrice,
+            vacationType: this.formData.vacationType,
+            accommodationType: this.formData.accommodationType,
+            beginDate: this.formData.beginDate,
+            endDate: this.formData.endDate,
+            departureAirport: this.formData.airport
+          },
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+      }else {
+        options = {
+          method: 'POST',
+          url: 'http://localhost:5000/sendData',
+          data: {
+            peopleCount: this.formData.peopleCount,
+            maxPrice: this.formData.maxPrice,
+            vacationType: this.formData.vacationType,
+            accommodationType: this.formData.accommodationType,
+            beginDate: this.formData.beginDate,
+            endDate: this.formData.endDate,
+            departureAirport: this.formData.airport
+          },
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+      }
 
       await this.nextStep();
 
@@ -410,7 +428,12 @@ export default {
   },
   async mounted() {
     const savedOptions = await getOptionsFromJWT();
-    if (savedOptions) {
+    //start booking process, if booking ID is set, but nothing else -> existing booking is altered
+    if(savedOptions.bookingID && savedOptions.peopleCount === undefined) {
+      this.currentStep = 1; // start after initial page
+      this.bookingID = savedOptions.bookingID
+    }
+    else if (savedOptions) {
       this.continueBookingDialog = true;
     }
   }

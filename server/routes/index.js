@@ -100,7 +100,7 @@ router.post('/sendData', async function (req, res) {
 
     //save data into DB
     try {
-        const bookingId = await databaseHandler.createNewDbEntry(peopleCount, maxPrice, vacationType, accommodationType, trip.overallPrice, trip.destinationId, trip.destination, trip.hotel.hotelId, trip.hotel.hotelName, trip.hotel.url, trip.hotel.picture, beginDate, endDate, trip.flight)
+        const bookingId = await databaseHandler.createNewDbEntry(peopleCount, maxPrice, vacationType, accommodationType, trip.overallPrice, trip.destinationId, trip.destination, trip.hotel.hotelId, trip.hotel.hotelName, trip.hotel.url, trip.hotel.picture, beginDate, endDate, trip.flight.flightNumber)
         console.log(bookingId)
         res.status(200).send({id: bookingId});
     } catch (err) {
@@ -282,9 +282,8 @@ router.put('/booking/:id', async function (req, res) {
 
     //save data into DB
     try {
-        if (bookingId !== (await databaseHandler.replaceBookingDetails(bookingID, peopleCount, maxPrice, vacationType, accommodationType, trip.totalPrice, trip.destinationId, trip.destinationName, trip.hotel.hotelId, trip.hotel.hotelName, trip.hotel.hotelUrl, trip.hotel.hotelPicture, beginDate, endDate, trip.flight))._id)
-            throw new Error("Error while trying to replace the booking with ID " + bookingID)
-        res.status(200).send({id: bookingId});
+        const replacementBooking = await databaseHandler.replaceBookingDetails(bookingID, peopleCount, maxPrice, vacationType, accommodationType, trip.totalPrice, trip.destinationId, trip.destination, trip.hotel.hotelId, trip.hotel.hotelName, trip.hotel.url, trip.hotel.picture, beginDate, endDate, trip.flight.flightNumber)
+        res.status(200).send({id: replacementBooking._id});
     } catch (err) {
         console.log(err)
     }

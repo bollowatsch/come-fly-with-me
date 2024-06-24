@@ -51,20 +51,21 @@ async function updateBookingDetails (id, updateData) {
 
 async function replaceBookingDetails(bookingID, peopleCount, maxPrice, vacationType, accommodationType, totalPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl, hotelPicture, beginDate, endDate, flightNumber) {
     try {
-        return  await Booking.replaceOne({_id: bookingID},
-            {
-                peopleCount,
-                maxPrice,
-                vacationType,
-                accommodationType,
-                totalPrice,
-                destination: {destinationId, destinationName},
-                hotel: {hotelId, hotelName, hotelUrl, hotelPicture},
-                beginDate,
-                endDate,
-                flightNumber
-            },
-            {runValidators: true}
+        const replacement = {
+            peopleCount,
+            maxPrice,
+            vacationType,
+            accommodationType,
+            totalPrice,
+            destination: {destinationId, destinationName},
+            hotel: {hotelId, hotelName, hotelUrl, hotelPicture},
+            beginDate,
+            endDate,
+            flightNumber
+        }
+
+        return  await Booking.findOneAndReplace({_id: bookingID},
+            replacement,{new:true,runValidators: true}
         );
     }catch (error){
         throw new Error(error);
