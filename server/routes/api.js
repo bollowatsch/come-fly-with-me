@@ -7,6 +7,7 @@ const booking = require("../api/booking");
 const weather = require("../api/weather");
 const mapping = require("../models/mapping");
 const timers = require("node:timers");
+const attractions = require("../api/attractions");
 
 //const controller = require("../controller/controller");
 
@@ -156,7 +157,24 @@ router.get('/attractions/:city', async function (req, res) {
     //TODO: Call corresponding API to retrieve attractions in the current city.
     // filter best results.
     // return to caller.
-    res.sendStatus(501)
+    const city = req.params.city;
+    let locationID = '';
+    console.log(city)
+    if (city !== undefined && city !== null && mapping.allCities.includes(city)) {
+        try {
+            locationID = await attractions.getLocationID(city)
+            console.log(locationID)
+        } catch(error) {
+            console.error('Error retrieving location ID:', error);
+            res.status(500).json({ error: 'An error occurred while retrieving the location ID.' });
+        }
+
+        if (locationID){
+            await attractions.getAttractions(locationID)
+                .then(result => res.status(200).send(result))
+                .catch(error => res.sendStatus(500))
+        }
+    }
 })
 
 module.exports = router;

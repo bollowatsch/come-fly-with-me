@@ -13,6 +13,13 @@
         <v-icon>mdi-theme-light-dark</v-icon>
       </v-btn>
     </v-app-bar>
+    <v-banner class="banner-pic">
+      <img src="../assets/CityPics/rome.jpg" alt="Rome">
+      <div class="banner-text">
+        <h1 v-if="bookingData">Your trip goes to {{ bookingData.destination.destinationName }}!</h1>
+        <h1 v-if="error">Your trip is not available yet!</h1>
+      </div>
+    </v-banner>
     <v-main>
       <v-row class="container">
         <div id="booking-details">
@@ -24,8 +31,15 @@
               <v-btn @click="deleteBooking" class="action-btn" >Delete Booking</v-btn>
             </v-col>
           </div>
-          <div v-else>
-            <component :is="BookingSummaryCard" :data="bookingData"></component>
+          <div v-else class="d-flex justify-center">
+            <v-col>
+              <component :is="BookingSummaryCard" :data="bookingData"></component>
+            </v-col>
+            <v-col class="components">
+              <component :is="WeatherCard" :city="bookingData.destination.destinationName"></component>
+              <div class="mt-4"></div>
+              <component :is="AttractionsCard" :city="bookingData.destination.destinationName"></component>
+            </v-col>
           </div>
         </div>
       </v-row>
@@ -54,7 +68,6 @@
 <script setup>
 import {useTheme} from 'vuetify'
 
-
 const theme = useTheme()
 
 function toggleTheme() {
@@ -63,10 +76,14 @@ function toggleTheme() {
 </script>
 <script>
 import BookingSummaryCard from "@/result/BookingSummaryCard.vue";
+import WeatherCard from "@/result/weatherCard.vue";
+import AttractionsCard from "@/result/AttractionsCard.vue";
 
 export default {
   components:{
-    BookingSummaryCard
+    BookingSummaryCard,
+    WeatherCard,
+    AttractionsCard
   },
     data() {
       return {
@@ -214,6 +231,10 @@ body {
 
 .footer {
   max-height: 5vh;
+}
+
+.components {
+  padding-bottom: 1vh;
 }
 
 </style>

@@ -1,9 +1,16 @@
-<script setup>
+<script>
+export default {
+  data() {
+    return {
+      show: false
+    }
+  }
+}
 
 </script>
 
 <template>
-  <v-card class="mx-auto" max-width="344">
+  <v-card class="mx-auto" max-width="368">
     <v-img
         height="200px"
         src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
@@ -36,7 +43,7 @@
     </v-expand-transition>
   </v-card>
 
-  <v-card class="mx-auto" max-width="344">
+  <v-card class="mx-auto" max-width="368">
     <v-img
         height="200px"
         src="https://r-xx.bstatic.com/xdata/images/xphoto/300x320/119069943.jpg?k=015d3b02622a4c322f12141428e4fc04490fb884bd8208b7431ae138a31f6499&o="
