@@ -11,7 +11,7 @@ const sendConfirmationMail = function (userMailAddress, destinationName, booking
             pass: process.env.EMAIL_PASSWORD,
         },
     });
-    const _url = `http://localhost:8080/${bookingID}`;
+    const _url = `http://localhost:8080/result/${bookingID}`;
     //TODO: create better sounding email Body
     const mailBody = `
         <!DOCTYPE html>

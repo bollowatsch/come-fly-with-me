@@ -37,7 +37,16 @@
         </v-col>
         <v-col v-else cols="12" class="d-flex justify-space-between">
           <v-btn @click="previousStep" v-show="currentStep !== 0 && currentStep !== steps.length-1">Back</v-btn>
-          <v-btn v-if="currentStep === steps.length - 2" color="red" @click="deleteBooking">Delete</v-btn>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn v-if="currentStep === steps.length - 2" color="red" @click="deleteBooking" v-bind="attrs" v-on="on">
+                Delete
+              </v-btn>
+            </template>
+            <span>Cancel the booking and delete collected data</span>
+          </v-tooltip>
+
           <v-btn v-if="currentStep > 0 && currentStep < steps.length - 3" @click="nextStep"
                  :disabled="currentStep === steps.length - 1">
             Next
@@ -87,6 +96,13 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+
+      <v-snackbar v-model="snackbar.show" :timeout="snackbar.timeout" :color="snackbar.color">
+        {{ snackbar.message }}
+        <v-btn color="white"  @click="snackbar.show = false">
+          Close
+        </v-btn>
+      </v-snackbar>
 
     </v-main>
 
@@ -154,6 +170,12 @@ export default {
       continueBookingDialog: false,
       popupResponse: null,
       deleteConfirmationDialog: false,
+      snackbar: {
+        show: false,
+        message: '',
+        color: '',
+        timeout: 3000
+      },
       steps: [
         "LandingPage",
         "PeopleCountInput",
@@ -184,6 +206,11 @@ export default {
     },
   },
   methods: {
+    showSnackbar(message, color) {
+      this.snackbar.message = message;
+      this.snackbar.color = color;
+      this.snackbar.show = true;
+    },
     async handleContinueResponse(response) {
       this.popupResponse = response;
       this.continueBookingDialog = false;
@@ -198,7 +225,6 @@ export default {
         this.formData.beginDate = savedOptions.beginDate;
         this.formData.endDate = savedOptions.endDate;
 
-        console.log(this.formData);
         const incompleteStepIndex = this.getIncompleteStep();
         if (incompleteStepIndex !== -1) {
           this.currentStep = incompleteStepIndex;
@@ -223,7 +249,6 @@ export default {
         this.currentStep++;
         await storeOptionsInJWT(this.formData);
       }
-      console.log(this.formData);
     },
     previousStep() {
       if (this.currentStep > 0) {
@@ -348,6 +373,7 @@ export default {
         };
         this.currentStep = this.steps.length - 1;
         this.successDialog = true;
+        clearOptionsinJWT();
       } catch (error) {
         alert(`Error updating personal details: ${error.message}`);
       }
@@ -370,14 +396,15 @@ export default {
 
         const res = await axios.request(options);
         if (res.status === 200) {
-          alert("Booking deleted successfully");
+          this.showSnackbar("Booking deleted successfully", "success");
           clearOptionsinJWT();
+          this.deleteConfirmationDialog = false;
           this.currentStep = 0;
         } else {
-          alert("Failed to delete booking");
+          this.showSnackbar("Failed to delete booking", "error");
         }
       } catch (error){
-        alert("Error occured during delteing the booking !" + error.message)
+        this.showSnackbar("Error occurred during deleting the booking! " + error.message, "error");
       }
     }
   },

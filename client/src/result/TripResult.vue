@@ -28,7 +28,7 @@
             <p>{{ error }}</p>
             <v-col v-if="error === 'Data not available yet.'" cols="12" class="d-flex justify-space-between">
               <v-btn @click="changeBooking" class="action-btn" >Change Booking</v-btn>
-              <v-btn @click="deleteBooking" class="action-btn" >Delete Booking</v-btn>
+              <v-btn color="red" @click="deleteBookingConfirmation">Delete Booking</v-btn>
             </v-col>
           </div>
           <div v-else class="d-flex justify-center">
@@ -43,6 +43,27 @@
           </div>
         </div>
       </v-row>
+
+      <v-dialog v-model="deleteConfirmationDialog" max-width="500">
+        <v-card>
+          <v-card-title class="headline">Confirm Deletion</v-card-title>
+          <v-card-text>
+            Are you sure you want to delete the booking?
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" @click="confirmDelete">Yes</v-btn>
+            <v-btn color="secondary" @click="deleteConfirmationDialog = false">No</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <v-snackbar v-model="snackbar.show" :timeout="snackbar.timeout" :color="snackbar.color">
+        {{ snackbar.message }}
+        <v-btn color="white" text @click="snackbar.show = false">
+          Close
+        </v-btn>
+      </v-snackbar>
 
     </v-main>
     <v-footer
@@ -79,6 +100,8 @@ import BookingSummaryCard from "@/result/BookingSummaryCard.vue";
 import WeatherCard from "@/result/weatherCard.vue";
 import AttractionsCard from "@/result/AttractionsCard.vue";
 
+import axios from 'axios';
+
 export default {
   components:{
     BookingSummaryCard,
@@ -87,17 +110,29 @@ export default {
   },
     data() {
       return {
+        snackbar: {
+          show: false,
+          message: '',
+          color: '',
+          timeout: 3000
+        },
+        bookingID: window.location.pathname.split('/')[2],
         bookingData: null,
         loading: true,
         error: null,
       }
   },
   mounted() {
-    const id = window.location.pathname.split('/')[2];
+    const id = this.bookingID;
     console.log(id)
     this.fetchBookingData(id);
   },
   methods: {
+    showSnackbar(message, color) {
+      this.snackbar.message = message;
+      this.snackbar.color = color;
+      this.snackbar.show = true;
+    },
     async fetchBookingData(bookingId) {
       try {
         const response = await fetch(`http://localhost:5000/booking/${bookingId}`);
@@ -116,11 +151,35 @@ export default {
         this.loading = false;
       }
     },
+    deleteBookingConfirmation() {
+      this.deleteConfirmationDialog = true;
+    },
+    async confirmDelete() {
+      try{
+        const bookingID = this.bookingID;
+
+        const options = {
+          method: 'DELETE',
+          url: 'http://localhost:5000/deleteBooking',
+          params: {
+            bookingID: bookingID
+          }
+        };
+
+        const res = await axios.request(options);
+        if (res.status === 200) {
+          this.showSnackbar("Booking deleted successfully", "success");
+          this.currentStep = 0;
+        } else {
+          this.showSnackbar("Failed to delete booking", "error");
+        }
+      } catch (error){
+        this.showSnackbar("Error occurred during deleting the booking! " + error.message, "error");
+      }
+    }
   },
 };
 </script>
-
-
 
 <style>
 body {

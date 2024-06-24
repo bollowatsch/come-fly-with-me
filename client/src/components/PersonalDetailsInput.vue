@@ -1,8 +1,9 @@
 <template>
   <v-container>
     <h1>Just one last step to your dream trip.</h1>
-    <p>We have put together an individual trip for you based on your preferences. In order to finalize your booking, please enter your personal details in the form below.</p>
-    <p></p>
+    <br>
+    <p>We have put together an individual trip for you based on your preferences. <br> In order to finalize your booking, please enter your personal details in the form below.</p>
+    <br>
     <v-text-field
         v-model="first"
         :rules="[rules.required, rules.counter]"

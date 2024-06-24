@@ -17,6 +17,8 @@
       <li><v-icon small>mdi-airplane</v-icon> <strong>End Date:</strong> {{ bookingDetails.endDate }}</li>
       <li><v-icon small>mdi-airplane</v-icon> <strong>Number of Nights:</strong> {{ bookingDetails.numberOfNights }}</li>
     </ul>
+    <br>
+    <p>You will receive an e-mail with further information shortly.</p>
   </v-container>
 </template>
 
@@ -56,9 +58,6 @@ export default {
   max-width: 500px; /* or any width you prefer */
 }
 
-.v-icon {
-  margin-right: 8px;
-}
 
 @media (max-width: 600px) {
   h1 {
