@@ -271,8 +271,6 @@ router.get('/booking/:id', async function (req, res) {
     const oneWeekFromNow = moment().add(1, 'week');
     databaseHandler.getBookingDataFromDatabase(id).then(bookingData => {
         if (bookingData !== null) {
-            // make destinations first capital
-            bookingData.destination.destinationName = bookingData.destination.destinationName.charAt(0).toUpperCase() + bookingData.destination.destinationName.slice(1)
 
             console.log("data retrieved from db: " + bookingData)
             const beginDateStr = bookingData.beginDate;
