@@ -13,26 +13,28 @@ async function getBookingDataFromDatabase (id) {
     }
 }
 
-async function createNewDbEntry(peopleCount,totalPrice,destinationId,destinationName,hotelId,hotelName,hotelUrl,beginDate,endDate,flightNumber) {
+async function createNewDbEntry(peopleCount, maxPrice, vacationType, accommodationType, totalPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl, hotelPicture, beginDate, endDate, flightNumber) {
+    //const mongooseBookingSchema = require("../swagger/schemas").mongooseBookingSchema
+    //const Booking = mongoose.model("Booking", mongooseBookingSchema)
+
     const newBooking = new Booking({
         peopleCount,
+        maxPrice,
+        vacationType,
+        accommodationType,
         totalPrice,
-        destination: {
-            destinationId,
-            destinationName
-        },
-        hotel:{
-            hotelId,
-            hotelName,
-            hotelUrl
-        },
+        destination: {destinationId, destinationName},
+        hotel: {hotelId, hotelName, hotelUrl, hotelPicture},
         beginDate,
         endDate,
         flightNumber
     })
+
     await newBooking.save()
     return newBooking._id
 }
+
+
 
 async function updateBookingDetails (id, updateData) {
     try {
@@ -47,6 +49,29 @@ async function updateBookingDetails (id, updateData) {
     }
 }
 
+async function replaceBookingDetails(bookingID, peopleCount, maxPrice, vacationType, accommodationType, totalPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl, hotelPicture, beginDate, endDate, flightNumber) {
+    try {
+        return  await Booking.replaceOne({_id: bookingID},
+            {
+                peopleCount,
+                maxPrice,
+                vacationType,
+                accommodationType,
+                totalPrice,
+                destination: {destinationId, destinationName},
+                hotel: {hotelId, hotelName, hotelUrl, hotelPicture},
+                beginDate,
+                endDate,
+                flightNumber
+            },
+            {runValidators: true}
+        );
+    }catch (error){
+        throw new Error(error);
+
+    }
+}
+
 async function deleteBooking(bookingID){
     try{
         const res = await Booking.findByIdAndDelete(bookingID);
@@ -57,4 +82,4 @@ async function deleteBooking(bookingID){
 }
 
 
-module.exports = {getBookingDataFromDatabase, createNewDbEntry, updateBookingDetails, deleteBooking};
+module.exports = {getBookingDataFromDatabase, createNewDbEntry, updateBookingDetails, deleteBooking, replaceBookingDetails};
