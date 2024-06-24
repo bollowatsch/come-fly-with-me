@@ -8,8 +8,6 @@
               :items="airports"
               color="primary"
               label="Airport"
-              hint="*Currently we only offer flights from Vienna. We will expand our selection soon."
-              persistent-hint
           ></v-select>
         </v-card>
       </v-col>

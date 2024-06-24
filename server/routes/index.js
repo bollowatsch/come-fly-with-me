@@ -94,7 +94,7 @@ router.post('/sendData', async function (req, res, next) {
 
     //GET ACCOMMODATION
     accommodations = await apiHandler.getAccommodation(destination, outboundDate, returnDate, peopleCount)
-    ///const hotel = accommodations.bestFit
+    const hotel = accommodations.bestFit
     let destinationId
     await axios.get(`http://localhost:5000/api/dest/${destination}`).then(res => destinationId = res.data)
 
@@ -104,6 +104,7 @@ router.post('/sendData', async function (req, res, next) {
     //save data into DB
     try {
         const bookingId = await createNewDbEntry(peopleCount, maxPrice, vacationType,accommodationType,overallPrice, destinationId, destination, hotel.hotelId, hotel.hotelName, hotel.url , hotel.picture ,beginDate, endDate, flight.flightNumber)
+        console.log(bookingId)
         res.status(200).send({ id: bookingId });
     } catch (err) {
         console.log(err)
@@ -253,7 +254,7 @@ router.delete('/deleteBooking', async (req, res) => {
  */
 router.get('/booking/:id', async function (req, res) {
     const id = req.params.id
-    const oneWeekFromNow = moment().add(1, 'week');
+    const oneWeekFromNow = moment().add(2, 'weeks');
     getBookingDataFromDatabase(id).then(bookingData => {
         if(bookingData !== null){
             console.log("data retrieved from db: " + bookingData)

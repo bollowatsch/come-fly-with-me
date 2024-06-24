@@ -24,7 +24,9 @@
               <v-btn @click="deleteBooking" class="action-btn" >Delete Booking</v-btn>
             </v-col>
           </div>
-          <div v-else>{{ bookingData }}</div>
+          <div v-else>
+            <component :is="BookingSummaryCard" :data="bookingData"></component>
+          </div>
         </div>
       </v-row>
 
@@ -60,13 +62,18 @@ function toggleTheme() {
 }
 </script>
 <script>
+import BookingSummaryCard from "@/result/BookingSummaryCard.vue";
+
 export default {
-  data() {
-    return {
-      bookingData: null,
-      loading: true,
-      error: null,
-    }
+  components:{
+    BookingSummaryCard
+  },
+    data() {
+      return {
+        bookingData: null,
+        loading: true,
+        error: null,
+      }
   },
   mounted() {
     const id = window.location.pathname.split('/')[2];
