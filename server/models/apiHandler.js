@@ -33,18 +33,19 @@ async function getAccommodation(destination, checkInDate, checkOutDate, numberOf
             const bestFits = dataProcessor.getBestHotel(accommodationsData)
             const cheapestFits = dataProcessor.getCheapestHotel(accommodationsData)
 
-            if (bestFits[0].hotel_id === cheapestFits[0].hotel_id) {
+            if (bestFits !== undefined && cheapestFits !== undefined) {
+                if (bestFits[0].hotel_id === cheapestFits[0].hotel_id) {
+                    return {
+                        bestFit: bestFits[0]
+                    }
+                }
+
                 return {
-                    bestFit: bestFits[0]
+                    bestFit: bestFits[0],
+                    cheapestFit: cheapestFits
                 }
             }
-
-            return {
-                bestFit: bestFits[0],
-                cheapestFit: cheapestFits
-            }
         }
-
         return null
     } catch (error) {
         console.error(error)
