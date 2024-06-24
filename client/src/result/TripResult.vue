@@ -16,7 +16,7 @@
     <v-banner class="banner-pic">
       <img src="../assets/CityPics/rome.jpg" alt="Rome">
       <div class="banner-text">
-        <h1 v-if="bookingData">Your trip goes to {{ bookingData.destination.destinationName }}!</h1>
+        <h1 v-if="bookingData">Your trip goes to {{ destination }}!</h1>
         <h1 v-if="error">Your trip is not available yet!</h1>
       </div>
     </v-banner>
@@ -120,6 +120,7 @@ export default {
         bookingData: null,
         loading: true,
         error: null,
+        destination: ''
       }
   },
   mounted() {
@@ -138,6 +139,7 @@ export default {
         const response = await fetch(`http://localhost:5000/booking/${bookingId}`);
         if (response.ok) {
           this.bookingData = await response.json();
+          this.destination = this.bookingData.destination.destinationName.charAt(0).toUpperCase() + this.bookingData.destination.destinationName.slice(1);
         } else if (response.status === 403) {
           this.error = 'Data not available yet.'
         }
