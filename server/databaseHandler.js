@@ -49,8 +49,27 @@ async function updateBookingDetails (id, updateData) {
     }
 }
 
-async function replaceBookingDetails(bookingID, updateData) {
+async function replaceBookingDetails(bookingID, peopleCount, maxPrice, vacationType, accommodationType, totalPrice, destinationId, destinationName, hotelId, hotelName, hotelUrl, hotelPicture, beginDate, endDate, flightNumber) {
+    try {
+        return  await Booking.replaceOne({_id: bookingID},
+            {
+                peopleCount,
+                maxPrice,
+                vacationType,
+                accommodationType,
+                totalPrice,
+                destination: {destinationId, destinationName},
+                hotel: {hotelId, hotelName, hotelUrl, hotelPicture},
+                beginDate,
+                endDate,
+                flightNumber
+            },
+            {runValidators: true}
+        );
+    }catch (error){
+        throw new Error(error);
 
+    }
 }
 
 async function deleteBooking(bookingID){
