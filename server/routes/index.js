@@ -94,7 +94,7 @@ router.post('/sendData', async function (req, res, next) {
 
     //GET ACCOMMODATION
     accommodations = await apiHandler.getAccommodation(destination, outboundDate, returnDate, peopleCount)
-    const hotel = accommodations.bestFit
+    ///const hotel = accommodations.bestFit
     let destinationId
     await axios.get(`http://localhost:5000/api/dest/${destination}`).then(res => destinationId = res.data)
 
@@ -206,7 +206,7 @@ router.delete('/deleteBooking', async (req, res) => {
 
     try {
         const deletedBooking = await deleteBooking(bookingID);
-        if (deletedBooking) {1
+        if (deletedBooking) {
             res.status(200).send( "Booking deleted successfully");
         } else {
             res.status(400).send("Invalid booking ID");

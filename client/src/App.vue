@@ -37,7 +37,8 @@
         </v-col>
         <v-col v-else cols="12" class="d-flex justify-space-between">
           <v-btn @click="previousStep" v-show="currentStep !== 0 && currentStep !== steps.length-1">Back</v-btn>
-          <v-btn v-if="currentStep > 0 && currentStep < steps.length - 2" @click="nextStep"
+          <v-btn v-if="currentStep === steps.length - 2" color="red" @click="deleteBooking">Delete</v-btn>
+          <v-btn v-if="currentStep > 0 && currentStep < steps.length - 3" @click="nextStep"
                  :disabled="currentStep === steps.length - 1">
             Next
           </v-btn>
@@ -251,6 +252,7 @@ export default {
 
       this.updateFormData();
 
+
       const options = {
         method: 'POST',
         url: 'http://localhost:5000/sendData',
@@ -278,7 +280,6 @@ export default {
       }catch (error) {
         alert(error);
       }
-
     },
     getIncompleteStep() {
       if (this.formData.peopleCount === null) return 1;
@@ -341,9 +342,11 @@ export default {
         alert(`Error updating personal details: ${error.message}`);
       }
     },
-    //nicht vergessen: Button 'delete' Hinzufügen, der ID vom User raus liest und dann die delete methode aufruft
-    async delteBooking(bookingID) {
+    async deleteBooking() {
       try{
+        const tokenData = await getOptionsFromJWT();
+        const bookingID = tokenData.bookingID;
+
         const options = {
           method: 'DELETE',
           url: 'http://localhost:5000/deleteBooking',
@@ -355,11 +358,13 @@ export default {
         const res = await axios.request(options);
         if (res.status === 200) {
           alert("Booking deleted successfully");
+          clearOptionsinJWT();
+          this.currentStep = 0;
         } else {
           alert("Failed to delete booking");
         }
       } catch (error){
-        alert("Error occured during delteing the booking !")
+        alert("Error occured during delteing the booking !" + error.message)
       }
     }
   },
