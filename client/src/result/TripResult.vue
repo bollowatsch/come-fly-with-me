@@ -4,9 +4,7 @@
         result
         class="app-bar">
       <div class="header-content">
-        <v-app-bar-title class="hidden-sm-and-down" style="font-size: 0.85rem;">Come fly</v-app-bar-title>
         <img src="../../public/test.png" alt="Logo" class="logo">
-        <v-app-bar-title class="hidden-sm-and-down" style="font-size: 0.85rem;">with me!</v-app-bar-title>
       </div>
       <v-spacer></v-spacer>
       <v-btn @click="toggleTheme" class="theme-btn">
@@ -71,7 +69,7 @@
         border
         class="footer">
       <div class="footer-content">
-        <v-card-text>&copy; Come Fly With Me! - 2024</v-card-text>
+        <v-card-text align="center">&copy; Come Fly With Me! - 2024</v-card-text>
         <v-btn
             href="https://www.github.com/bollowatsch/come-fly-with-me"
             target="_blank"
@@ -208,10 +206,8 @@ body {
 }
 
 .header-content {
-  display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
   max-height: 5vh;
 }
 
@@ -281,15 +277,6 @@ body {
   padding: 1rem;
 }
 
-#result {
-  display: flex;
-  align-items: center;
-  font-family: Roboto, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  margin-top: 60px;
-}
 
 .footer {
   max-height: 5vh;
@@ -297,6 +284,76 @@ body {
 
 .components {
   padding-bottom: 1vh;
+}
+
+@media (max-width: 600px) {
+  body {
+    min-width: 100vw;
+    background-image: none;
+  }
+  .app-bar {
+    min-height: 3vh;
+    max-height: 5vh;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header-content {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-height: 10vh;
+  }
+
+  .logo {
+    height: 6vh;
+    margin-left: 14vw;
+  }
+
+  .theme-btn {
+    width: 4vh;
+    height: 4vh;
+    font-size: 1.5vh;
+  }
+
+  .container {
+    padding: 1vh 2vw 3vh 2vw;
+  }
+
+  .footer-content {
+    max-height: 5vh;
+  }
+
+  .banner-pic {
+    min-height: 30vh;
+  }
+
+  .banner-text {
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    max-width: 90%;
+  }
+
+  .banner-text h1 {
+    font-size: 1.5rem;
+    word-break: break-word;
+  }
+
+  .d-flex.justify-center {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .components {
+    padding: 1vh;
+    margin-top: 1vh;
+  }
+
+
+  .v-col img {
+    width: 100%;
+    height: auto;
+  }
 }
 
 </style>

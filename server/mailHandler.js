@@ -3,6 +3,21 @@ const nodemailer = require("nodemailer");
 require('dotenv').config();
 
 const sendConfirmationMail = function (userMailAddress,beginDate ,endDate, bookingID) {
+
+    const formattedBeginDate = new Date(beginDate).toLocaleDateString('de-DE', {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+    });
+
+    const formattedEndDate = new Date(endDate).toLocaleDateString('de-DE', {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+    });
+
 // Create a transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
         service: 'hotmail',
@@ -20,7 +35,8 @@ const sendConfirmationMail = function (userMailAddress,beginDate ,endDate, booki
             <meta charset="UTF-8">
         </head>
         <body>
-            <p>Congratulations! You just booked a Trip from <strong>${beginDate}</strong> to <strong>${endDate}</strong>!</p>
+            <p>Congratulations! You just booked a Trip. </p> <br>
+            <p>Your trip starts: <strong>${formattedBeginDate}</strong> and ende:  <strong>${formattedEndDate}</strong>!</p> <br>
             <p>You can see your detailed booking information 10 days in advance of your vacation by clicking this URL:</p>
             <p><a href="${_url}">Booking Details</a></p>
         </body>

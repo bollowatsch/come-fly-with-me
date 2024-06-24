@@ -4,14 +4,16 @@ export default {
     destination: String },
   computed: {
     timelineData() {
+      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+      const formatDate = (date) => new Date(date).toLocaleDateString('en-US', options); // Change 'en-US' to your locale if needed
       return [
         {label: 'Name', value: this.data.firstName + ' ' + this.data.lastName},
         {label: 'E-Mail', value: this.data.mailAddress},
         {label: 'Travelers', value: this.data.peopleCount},
         {label: 'Destination', value: this.destination},
         {label: 'Total Price', value: this.data.totalPrice},
-        {label: 'Begin Date', value: this.data.beginDate},
-        {label: 'End Date', value: this.data.endDate},
+        {label: 'Begin Date', value: formatDate(this.data.beginDate) },
+        {label: 'End Date', value: formatDate(this.data.endDate) },
         {label: 'Flight Number', value: this.data.flightNumber},
         {label: 'Hotel', value: this.data.hotel.hotelName}
       ]
