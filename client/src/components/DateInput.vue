@@ -1,7 +1,7 @@
 <template>
-  <v-container>
-    <v-row dense>
-      <v-col cols="12" lg="6">
+  <v-container class="centered-container">
+    <v-row dense justify="center">
+      <v-col cols="12" lg="12">
         <v-card>
           <v-card-title class="v_title">Choose your timeframe!</v-card-title>
           <v-card-item>
@@ -18,25 +18,6 @@
           </v-card-item>
         </v-card>
       </v-col>
-      <v-col cols="12" lg="6">
-        <v-card>
-          <v-card-title class="v_title">How many nights do you want to stay?</v-card-title>
-          <v-card-item>
-            <v-number-input
-                v-model="numberOfNights"
-                :reverse="false"
-                controlVariant="stacked"
-                label="Nights to stay"
-                :hideInput="false"
-                :inset="false"
-                variant="outlined"
-                :step="1"
-                :min="1"
-                :max=maxNumberOfNights
-            ></v-number-input>
-          </v-card-item>
-        </v-card>
-      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -47,18 +28,8 @@ export default {
   data() {
     return {
       possibleDates: null,
-      maxNumberOfNights: null,
-      numberOfNights: null,
       minDate: this.calculateMinDate(),
     }
-  },
-  watch: {
-    possibleDates: {
-      handler() {
-        this.updateMaxNumberOfNights();
-      },
-      deep: true,
-    },
   },
   methods: {
     calculateMinDate() {
@@ -66,27 +37,27 @@ export default {
       today.setDate(today.getDate() + 6);
       return today.toISOString();
     },
-    updateMaxNumberOfNights() {
-      const timeDifference = this.getEndDate().getTime() - this.getBeginDate().getTime();
-      this.maxNumberOfNights = Math.round(timeDifference / (1000 * 3600 * 24)) - 1;
-    },
     getBeginDate() {
       return new Date(Math.min(...(this.possibleDates)))
     },
     getEndDate(){
       return new Date(Math.max(...(this.possibleDates)))
     },
-    getNumberOfNights() {
-      return this.numberOfNights
-    },
+
     isValid() {
-      return this.possibleDates && this.possibleDates.length > 0 && this.numberOfNights;
+      return this.possibleDates && this.possibleDates.length > 0;
     }
   }
 };
 
 </script>
 <style scoped>
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .v_title{
   font-size: 1rem;
 }
@@ -103,7 +74,7 @@ export default {
   .vacation-card v-card-title {
     font-size: 0.4rem;
     background-color: rgba(255, 255, 255, 0.8);
-    position: absolute;
+    position: center;
     bottom: 0;
     width: 100%;
     text-align: center;

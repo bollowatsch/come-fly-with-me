@@ -158,7 +158,6 @@ export default {
         maxPrice: null,
         beginDate: null,
         endDate: null,
-        numberOfNights: null,
       },
       bookingID: '',
       bookingDetails: {},
@@ -183,7 +182,6 @@ export default {
         this.formData.maxPrice = savedOptions.maxPrice;
         this.formData.beginDate = savedOptions.beginDate;
         this.formData.endDate = savedOptions.endDate;
-        this.formData.numberOfNights = savedOptions.numberOfNights;
 
         console.log(this.formData);
         const incompleteStepIndex = this.getIncompleteStep();
@@ -238,7 +236,6 @@ export default {
         case "DateInput":
           this.formData.beginDate = component.getBeginDate();
           this.formData.endDate = component.getEndDate();
-          this.formData.numberOfNights = component.getNumberOfNights();
           break;
       }
     },
@@ -263,7 +260,6 @@ export default {
           accommodationType: this.formData.accommodationType,
           beginDate: this.formData.beginDate,
           endDate: this.formData.endDate,
-          numberOfNights: this.formData.numberOfNights,
           departureAirport: this.formData.airport
         },
         headers: {
@@ -287,7 +283,7 @@ export default {
       if (this.formData.accommodationType === null) return 3;
       if (this.formData.airport === null) return 4;
       if (this.formData.maxPrice === null) return 5;
-      if (this.formData.beginDate === null || this.formData.endDate === null || this.formData.numberOfNights === null) return 6;
+      if (this.formData.beginDate === null || this.formData.endDate === null) return 6;
 
       const allFieldsFilled = Object.values(this.formData).every(value => value !== null);
       if (allFieldsFilled) {
@@ -334,7 +330,6 @@ export default {
           maxPrice: this.formData.maxPrice,
           beginDate: this.formData.beginDate,
           endDate: this.formData.endDate,
-          numberOfNights: this.formData.numberOfNights,
         };
         this.currentStep = this.steps.length - 1;
         this.successDialog = true;
