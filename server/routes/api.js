@@ -135,7 +135,7 @@ router.get('/weather/:city', async function (req, res) {
 
     // Only make request if city was found in mappedCities.
     if (city !== undefined && city !== null && mapping.allCities.includes(city)) {
-        await weather.getWeatherFaster(city)
+        await weather.getWeather(city)
             .then(result => res.status(200).send(result))
             .catch(error => res.sendStatus(error.response.status || 500))
     } else res.sendStatus(400)
