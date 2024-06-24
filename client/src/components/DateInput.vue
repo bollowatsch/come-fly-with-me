@@ -13,7 +13,6 @@
                 variant="outlined"
                 multiple="range"
                 :min="minDate"
-                @change="updateMaxNumberOfNights"
             ></v-date-input>
           </v-card-item>
         </v-card>
