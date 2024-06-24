@@ -3,7 +3,7 @@ const mongooseBookingSchema = require("./swagger/schemas").mongooseBookingSchema
 
 const Booking = mongoose.model("Booking", mongooseBookingSchema)
 
-const getBookingDataFromDatabase = async function (id) {
+async function getBookingDataFromDatabase (id) {
     try {
         const bookingInformation = await Booking.findById(id).exec();
         console.log("database handler found object:", bookingInformation);

@@ -3,7 +3,7 @@ const cityMapping = {
     CULTURAL: ["amsterdam", "athens", "barcelona", "berlin", "bratislava", "bruges", "budapest", "copenhagen", "dubrovnik", "edinburgh", "florence", "helsinki", "istanbul", "krakow", "lisbon", "ljubljana", "madrid", "milan", "munich", "paris", "prague", "reykjavik", "rome", "salzburg", "seville", "stockholm", "tallinn", "venice", "vienna", "warsaw"],
     ADVENTURE: ["mont blanc", "lech", "zell am see"],
     CITY: ["amsterdam", "athens", "barcelona", "berlin", "brussels", "bucharest", "budapest", "copenhagen", "dublin", "edinburgh", "florence", "hamburg", "helsinki", "istanbul", "lisbon", "london", "madrid", "milan", "munich", "naples", "oslo", "paris", "porto", "prague", "rome", "stockholm", "tallinn", "vienna", "warsaw", "zurich"],
-    SPORT: ["chamonix", "fuerteventura", "innsbruck", "lanzarote", "mallorca", "marbella", "marseille", "milan", "munich", "porto", "st. moritz", "turin", "valencia", "zurich"]
+    SPORT: ["chamonix", "fuerteventura", "innsbruck", "lanzarote", "mallorca", "marseille", "milan", "munich", "porto", "st. moritz", "turin", "valencia", "zurich"]
 };
 
 const allCities = ["alicante", "amalfi", "barcelona", "cannes", "corfu", "dubrovnik", "faro", "ibiza", "lagos", "lisbon", "malaga", "mallorca", "monaco", "mykonos", "nice", "palma", "paphos", "porto", "rimini", "santorini", "split", "tenerife", "valencia", "vigo", "zadar", "amsterdam", "athens", "berlin", "bratislava", "bruges", "budapest", "copenhagen", "edinburgh", "florence", "helsinki", "istanbul", "krakow", "ljubljana", "madrid", "milan", "munich", "paris", "prague", "reykjavik", "rome", "salzburg", "seville", "stockholm", "tallinn", "venice", "vienna", "warsaw", "brussels", "bucharest", "dublin", "hamburg", "london", "naples", "oslo", "zurich", "fuerteventura", "lanzarote", "marseille"];
@@ -172,10 +172,7 @@ const airportData = {
 }
 
 const accommodationTypes = {
-    hotel: "Hotel",
-    hostel: "Hostel",
-    bedAndBreakfast: "bedAndBreakfast",
-    vacationHomes: "VacationHomes",
+    hotel: "Hotel", hostel: "Hostel", bedAndBreakfast: "bedAndBreakfast", vacationHomes: "VacationHomes",
 }
 
 module.exports.allCities = allCities

@@ -37,4 +37,4 @@ const sendConfirmationMail = function (userMailAddress, destinationName, booking
 // Send email
     transporter.sendMail(mailOptions).then(info => console.log("Mail successfully sent!")).catch(err => console.log(`Error sending email: ${err}`));
 }
-module.exports = sendConfirmationMail;
+module.exports = {sendConfirmationMail};
