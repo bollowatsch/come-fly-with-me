@@ -67,7 +67,7 @@ module.exports.searchAccommodations = async function search(dest_id, checkInDate
             units: 'metric'
         },
         headers: {
-            'X-RapidAPI-Key': 'cd1b47b54fmsh7aeea4b245f13bfp1c422fjsnfcccee70a4f7',
+            'X-RapidAPI-Key': API_KEY,
             'X-RapidAPI-Host': 'booking-com.p.rapidapi.com'
         }
     }
