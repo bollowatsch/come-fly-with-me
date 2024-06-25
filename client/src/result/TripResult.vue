@@ -23,11 +23,11 @@
       <v-row class="container">
         <div id="booking-details">
           <div v-if="loading">Loading...</div>
-          <div v-else-if="error">
-            <p>{{ error }}</p>
-            <v-col v-if="error === 'Data not available yet.'" cols="12" class="d-flex justify-space-between">
+          <div v-else-if="error" class="text-center">
+            <p class="error-text">{{ error }}</p>
+            <v-col v-if="error === 'Data not available yet.'" cols="12" class="d-flex justify-center align-center">
               <v-btn @click="changeBooking" class="action-btn" >Change Booking</v-btn>
-              <v-btn color="red" @click="deleteBookingConfirmation">Delete Booking</v-btn>
+              <v-btn color="red" @click="deleteBookingConfirmation" class="action-btn ml-2">Delete Booking</v-btn>
             </v-col>
           </div>
           <div v-else class="d-flex justify-center">
@@ -193,6 +193,25 @@ export default {
 </script>
 
 <style>
+
+.error-text {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.ml-2 {
+  margin-left: 8px;
+}
+
+.ml-4 {
+  margin-left: 16px;
+}
+
+.action-btn {
+  margin: 0 4px;
+}
+
 body {
   display: flex;
   justify-content: center;
@@ -297,6 +316,14 @@ body {
 }
 
 @media (max-width: 600px) {
+
+  .d-flex.justify-center {
+    flex-direction: column;
+    align-items: center;
+  }
+  .action-btn {
+    margin: 8px 0;
+  }
   body {
     min-width: 100vw;
     background-image: none;
@@ -339,7 +366,7 @@ body {
   }
 
   .banner-text {
-    font-size: 1.5rem;
+    font-size: 0.8rem;
     padding: 0.5rem;
     max-width: 90%;
   }
