@@ -11,7 +11,7 @@ function filterBestFlight(flightData){
         if ((bestFit === null || bestFit === undefined) && otherFlights !== undefined) bestFit = findBestFlight(otherFlights)
 
         return bestFit
-    } else return null
+    } else throw new Error("no flight was found")
 }
 
 /**

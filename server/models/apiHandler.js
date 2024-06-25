@@ -7,6 +7,7 @@ const dataProcessor = require('./dataProcessor')
 function getDestination(vacationType) {
     const destination = getRandomCityBasedOnVacationType(vacationType)
     if (destination !== null) return destination
+    throw new Error("no destination found")
 }
 
 async function getFlight(departureIATA, arrivalIATA, outboundDate, returnDate) {

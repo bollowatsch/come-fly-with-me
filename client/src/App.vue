@@ -426,7 +426,7 @@ export default {
       }
     }
   },
-  async mounted() {
+  async beforeMount() {
     const savedOptions = await getOptionsFromJWT();
     //start booking process, if booking ID is set, but nothing else -> existing booking is altered
     if(savedOptions.bookingID && savedOptions.peopleCount === undefined) {

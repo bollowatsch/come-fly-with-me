@@ -12,6 +12,8 @@ const moment = require('moment');
 const axios = require("axios");
 const pictureMapping = require('../models/pictureMapping');
 
+const MAX_TRIES_FOR_TRIP = 3
+
 /**
  * This router handles all the endpoints for communication between FE & BE.
  */
@@ -25,29 +27,36 @@ router.get('/', function (req, res) {
 
 //localhost:3000/sendData
 async function createNewTrip(departureLocation, peopleCount, maxPrice, vacationType, accommodationType, beginDate, endDate) {
-    //GET DESTINATION
-    destination = apiHandler.getDestination(vacationType)
-    if (destination === null) res.sendStatus(500)
+    for(let i = 0; i < MAX_TRIES_FOR_TRIP; i++) {
+        try{
+        //GET DESTINATION
+        destination = apiHandler.getDestination(vacationType)
 
-    //GET FLIGHT
-    const departureIATA = mapping.airportData[departureLocation.toLowerCase()].airports_iata
-    const arrivalIATA = mapping.airportData[destination].airports_iata
-    const outboundDate = beginDate.toISOString().split("T")[0]
-    const returnDate = endDate.toISOString().split("T")[0]
+        //GET FLIGHT
+        const departureIATA = mapping.airportData[departureLocation.toLowerCase()].airports_iata
+        const arrivalIATA = mapping.airportData[destination].airports_iata
+        const outboundDate = beginDate.toISOString().split("T")[0]
+        const returnDate = endDate.toISOString().split("T")[0]
 
-    flight = await apiHandler.getFlight(departureIATA, arrivalIATA, outboundDate, returnDate)
+        flight = await apiHandler.getFlight(departureIATA, arrivalIATA, outboundDate, returnDate).catch(err => {throw err})
 
-    //GET ACCOMMODATION
-    let hotel
-    accommodations = await apiHandler.getAccommodation(destination, outboundDate, returnDate, peopleCount).then(result => hotel = result.bestFit).catch(() => res.sendStatus(500))
+        //GET ACCOMMODATION
+        let hotel
+        accommodations = await apiHandler.getAccommodation(destination, outboundDate, returnDate, peopleCount).then(result => hotel = result.bestFit).catch(err => {throw err})
 
-    let destinationId
-    await axios.get(`http://localhost:5000/api/dest/${destination}`).then(res => destinationId = res.data)
+        let destinationId
+        await axios.get(`http://localhost:5000/api/dest/${destination}`).then(res => destinationId = res.data).catch(err => {throw err})
 
-    //GET OVERALL PRICE
-    overallPrice = apiHandler.getOverallPrice(flight, accommodations)
+        //GET OVERALL PRICE
+        overallPrice = apiHandler.getOverallPrice(flight, accommodations)
 
-    return {destination, destinationId, hotel, overallPrice, flight}
+        return {destination, destinationId, hotel, overallPrice, flight}
+        }
+        catch(err){
+            console.log("booking couldn't be finished: " + err)
+        }
+    }
+    throw new Error(`no booking could be found after ${MAX_TRIES_FOR_TRIP} tries.`)
 }
 
 //TODO: add example data
@@ -96,15 +105,15 @@ router.post('/sendData', async function (req, res) {
     const beginDate = new Date(data.beginDate)
     const endDate = new Date(data.endDate)
 
-    const trip = await createNewTrip(departureLocation, peopleCount, maxPrice, vacationType, accommodationType, beginDate, endDate)
-
     //save data into DB
     try {
+        const trip = await createNewTrip(departureLocation, peopleCount, maxPrice, vacationType, accommodationType, beginDate, endDate)
+
         const bookingId = await databaseHandler.createNewDbEntry(peopleCount, maxPrice, vacationType, accommodationType, trip.overallPrice, trip.destinationId, trip.destination, trip.hotel.hotelId, trip.hotel.hotelName, trip.hotel.url, trip.hotel.picture, beginDate, endDate, trip.flight.flightNumber)
         console.log(bookingId)
         res.status(200).send({id: bookingId});
     } catch (err) {
-        console.log(err)
+        res.status(500).send("no possible trip was found: " + err)
     }
     console.timeEnd('sendData')
 })
@@ -278,14 +287,14 @@ router.put('/booking/:id', async function (req, res) {
     const beginDate = new Date(data.beginDate)
     const endDate = new Date(data.endDate)
 
-    const trip = await createNewTrip(departureLocation,peopleCount,maxPrice,vacationType,accommodationType,beginDate,endDate)
-
     //save data into DB
     try {
+        const trip = await createNewTrip(departureLocation,peopleCount,maxPrice,vacationType,accommodationType,beginDate,endDate)
+
         const replacementBooking = await databaseHandler.replaceBookingDetails(bookingID, peopleCount, maxPrice, vacationType, accommodationType, trip.totalPrice, trip.destinationId, trip.destination, trip.hotel.hotelId, trip.hotel.hotelName, trip.hotel.url, trip.hotel.picture, beginDate, endDate, trip.flight.flightNumber)
         res.status(200).send({id: replacementBooking._id});
     } catch (err) {
-        console.log(err)
+        res.status(500).send("no possible trip was found")
     }
 })
 

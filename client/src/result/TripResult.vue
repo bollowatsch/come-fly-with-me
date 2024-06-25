@@ -135,6 +135,7 @@ export default {
     changeBooking(){
       clearOptionsinJWT()
       storeOptionsInJWT({bookingID: this.bookingID})
+      setTimeout(100)
       window.location.href = "http://localhost:8080/";
 
     },
