@@ -16,7 +16,7 @@ async function getFlight(departureIATA, arrivalIATA, outboundDate, returnDate) {
         if (flightData !== undefined) return dataProcessor.getBestFlight(flightData)
         console.log(flightData)
     } catch (error) {
-        console.error(error)
+        throw error
         return null
     }
 }
