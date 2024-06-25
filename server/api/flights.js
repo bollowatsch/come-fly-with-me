@@ -17,6 +17,6 @@ module.exports.getFlights = async function getFlights(departureIATA, arrivalIATA
             return_date: `${returnDate}`,
         })
     } catch (error) {
-        return error;
+        return undefined;
     }
 }

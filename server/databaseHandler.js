@@ -3,7 +3,7 @@ const mongooseBookingSchema = require("./swagger/schemas").mongooseBookingSchema
 
 const Booking = mongoose.model("Booking", mongooseBookingSchema)
 
-async function getBookingDataFromDatabase (id) {
+async function getBookingDataFromDatabase(id) {
     try {
         const bookingInformation = await Booking.findById(id).exec();
         console.log("database handler found object:", bookingInformation);
@@ -30,18 +30,21 @@ async function createNewDbEntry(peopleCount, maxPrice, vacationType, accommodati
         flightNumber
     })
 
-    await newBooking.save()
-    return newBooking._id
+    try {
+        await newBooking.save()
+        return Promise.resolve(newBooking._id)
+    } catch (error) {
+        return Promise.reject(error);
+    }
 }
 
 
-
-async function updateBookingDetails (id, updateData) {
+async function updateBookingDetails(id, updateData) {
     try {
         const updatedBooking = await Booking.findByIdAndUpdate(
             id,
-            { $set: updateData },
-            { new: true, runValidators: true }
+            {$set: updateData},
+            {new: true, runValidators: true}
         );
         return updatedBooking;
     } catch (error) {
@@ -64,23 +67,28 @@ async function replaceBookingDetails(bookingID, peopleCount, maxPrice, vacationT
             flightNumber
         }
 
-        return  await Booking.findOneAndReplace({_id: bookingID},
-            replacement,{new:true,runValidators: true}
+        return await Booking.findOneAndReplace({_id: bookingID},
+            replacement, {new: true, runValidators: true}
         );
-    }catch (error){
+    } catch (error) {
         throw new Error(error);
 
     }
 }
 
-async function deleteBooking(bookingID){
-    try{
-        const res = await Booking.findByIdAndDelete(bookingID);
-        return res;
-    } catch(error) {
+async function deleteBooking(bookingID) {
+    try {
+        return await Booking.findByIdAndDelete(bookingID);
+    } catch (error) {
         throw new Error(error);
     }
 }
 
 
-module.exports = {getBookingDataFromDatabase, createNewDbEntry, updateBookingDetails, deleteBooking, replaceBookingDetails};
+module.exports = {
+    getBookingDataFromDatabase,
+    createNewDbEntry,
+    updateBookingDetails,
+    deleteBooking,
+    replaceBookingDetails
+};

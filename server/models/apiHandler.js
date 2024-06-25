@@ -4,50 +4,50 @@ const accommodations = require('../api/accommodation');
 const mapping = require('./mapping');
 const dataProcessor = require('./dataProcessor')
 
-function getDestination(vacationType) {
+async function getDestination(vacationType) {
     const destination = getRandomCityBasedOnVacationType(vacationType)
-    if (destination !== null) return destination
+    if (destination !== null) return Promise.resolve(destination)
+    return Promise.reject(null)
 }
 
 async function getFlight(departureIATA, arrivalIATA, outboundDate, returnDate) {
     try {
         const flightData = await flights.getFlights(departureIATA, arrivalIATA, outboundDate, returnDate)
-        if (flightData !== undefined) return dataProcessor.getBestFlight(flightData)
-        console.log(flightData)
+        if (flightData !== undefined) return Promise.resolve(dataProcessor.getBestFlight(flightData))
+        return Promise.reject(null)
     } catch (error) {
-        console.error(error)
-        return null
+        return Promise.reject(null)
     }
 }
 
 async function getAccommodation(destination, checkInDate, checkOutDate, numberOfTravelers) {
     try {
         //TODO: Update selection of dest_id. hotel array may contain multiple dest_id's for a city. the first in the array is always the most expensive one.
-        let dest_id
-        await accommodations.getLocationID(destination).then(hotels => dest_id = hotels[0].dest_id)
+        let destinationID
+        await accommodations.getLocationID(destination).then(hotels => destinationID = hotels[0].dest_id)
         const numberOfRooms = calculateRooms(numberOfTravelers)
-        const accommodationsData = await accommodations.searchAccommodations(dest_id, checkInDate, checkOutDate, numberOfTravelers, numberOfRooms)
+        const accommodationsData = await accommodations.searchAccommodations(destinationID, checkInDate, checkOutDate, numberOfTravelers, numberOfRooms)
 
         if (accommodationsData !== undefined) {
             const bestFits = dataProcessor.getBestHotel(accommodationsData)
-            const cheapestFits = dataProcessor.getCheapestHotel(accommodationsData)
+            const cheapestFit = dataProcessor.getCheapestHotel(accommodationsData)
 
-            if (bestFits !== undefined && cheapestFits !== undefined) {
-                return {
+            if (bestFits !== undefined && cheapestFit !== undefined) {
+                return Promise.resolve({
+                    destinationID: destinationID,
                     bestFit: bestFits[0],
-                    cheapestFit: cheapestFits
-                }
+                    cheapestFit: cheapestFit
+                })
             }
         }
-        return null
+        return Promise.reject(null)
     } catch (error) {
-        console.error(error)
-        return error
+        return Promise.reject(null)
     }
 }
 
 function getOverallPrice(flightData, accommodationsData) {
-    if (flightData !== null && accommodationsData !== null) {
+    if ((flightData !== null && flightData !== undefined) && (accommodationsData !== null && accommodationsData !== undefined)) {
         const flightPrice = flightData.price !== undefined ? flightData.price : null
         const accommodationsBestFitPrice = accommodationsData.price !== undefined ? accommodationsData.price : 0
         const accommodationsCheapestFitPrice = accommodationsData.cheapestFit !== undefined && accommodationsData.cheapestFit.price !== undefined ? accommodationsData.cheapestFit.price : 0

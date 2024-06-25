@@ -11,6 +11,7 @@ const mongoose = require('mongoose')
 const moment = require('moment');
 const axios = require("axios");
 const pictureMapping = require('../models/pictureMapping');
+const {log} = require("debug");
 
 /**
  * This router handles all the endpoints for communication between FE & BE.
@@ -26,7 +27,7 @@ router.get('/', function (req, res) {
 //localhost:3000/sendData
 async function createNewTrip(departureLocation, peopleCount, maxPrice, vacationType, accommodationType, beginDate, endDate) {
     //GET DESTINATION
-    destination = apiHandler.getDestination(vacationType)
+    const destination = apiHandler.getDestination(vacationType)
     if (destination === null) res.sendStatus(500)
 
     //GET FLIGHT
@@ -35,22 +36,79 @@ async function createNewTrip(departureLocation, peopleCount, maxPrice, vacationT
     const outboundDate = beginDate.toISOString().split("T")[0]
     const returnDate = endDate.toISOString().split("T")[0]
 
-    flight = await apiHandler.getFlight(departureIATA, arrivalIATA, outboundDate, returnDate)
+    const flight = await apiHandler.getFlight(departureIATA, arrivalIATA, outboundDate, returnDate)
 
     //GET ACCOMMODATION
     let hotel
-    accommodations = await apiHandler.getAccommodation(destination, outboundDate, returnDate, peopleCount).then(result => hotel = result.bestFit).catch(() => res.sendStatus(500))
+    const accommodations = await apiHandler.getAccommodation(destination, outboundDate, returnDate, peopleCount).then(result => hotel = result.bestFit).catch(() => res.sendStatus(500))
 
-    let destinationId
-    await axios.get(`http://localhost:5000/api/dest/${destination}`).then(res => destinationId = res.data)
+    let destinationID
+    await axios.get(`http://localhost:5000/api/dest/${destination}`).then(res => destinationID = res.data)
 
     //GET OVERALL PRICE
-    overallPrice = apiHandler.getOverallPrice(flight, accommodations)
+    const overallPrice = apiHandler.getOverallPrice(flight, accommodations)
 
-    return {destination, destinationId, hotel, overallPrice, flight}
+    return {destination, destinationID, hotel, overallPrice, flight}
 }
 
-//TODO: add example data
+async function generateTrip(data) {
+    const departureLocation = data.departureAirport
+    const peopleCount = data.peopleCount
+    const maxPrice = data.maxPrice
+    const vacationType = data.vacationType              //Bach, cultural, adventure
+    const accommodationType = data.accommodationType    //Hotel, Hostel, BedAndBreakfast
+    const beginDate = new Date(data.beginDate)
+    const endDate = new Date(data.endDate)
+
+    //GET DESTINATION
+    const destination = await apiHandler.getDestination(vacationType)
+        .catch(error => {return Promise.reject(error)})
+
+    //GET FLIGHT
+    const departureIATA = mapping.airportData[departureLocation.toLowerCase()].airports_iata
+    const arrivalIATA = mapping.airportData[destination].airports_iata
+    const outboundDate = beginDate.toISOString().split("T")[0]
+    const returnDate = endDate.toISOString().split("T")[0]
+
+    const flight = await apiHandler.getFlight(departureIATA, arrivalIATA, outboundDate, returnDate)
+        .catch(error => {return Promise.reject(error)})
+
+    //GET ACCOMMODATION
+    let hotel
+    let destinationID
+    let  accommodations
+    await apiHandler.getAccommodation(destination, outboundDate, returnDate, peopleCount)
+        .then(result => {
+            hotel = result.bestFit
+            destinationID = result.destinationID
+            accommodations = result
+        })
+        .catch(error => {return Promise.reject(error)})
+
+    //GET OVERALL PRICE
+    const overallPrice = apiHandler.getOverallPrice(flight, accommodations)
+
+    //save data into DB
+    try {
+        await databaseHandler.createNewDbEntry(peopleCount, maxPrice, vacationType, accommodationType, overallPrice, destinationID, destination, hotel.hotelId, hotel.hotelName, hotel.url, hotel.picture, beginDate, endDate, flight.flightNumber)
+            .then(bookingID => Promise.resolve(bookingID))
+            .catch(() => {return Promise.reject(null)})
+    } catch (err) {
+        return Promise.reject(null)
+    }
+}
+
+async function retryGeneratingTrip(data, maxRetries) {
+    for (let i = 1; i <= maxRetries; i++) {
+        try {
+            return await generateTrip(data)
+        } catch (error) {
+            if (i === maxRetries) throw error
+        }
+    }
+}
+
+//localhost:3000/sendData
 /**
  * @swagger
  * /sendData:
@@ -84,29 +142,11 @@ async function createNewTrip(departureLocation, peopleCount, maxPrice, vacationT
  *                 id: "507f1f77bcf86cd799439011"
  */
 router.post('/sendData', async function (req, res) {
-    console.time('sendData')
-
     const data = req.body
 
-    const departureLocation = data.departureAirport
-    const peopleCount = data.peopleCount
-    const maxPrice = data.maxPrice
-    const vacationType = data.vacationType              //Bach, cultural, adventure
-    const accommodationType = data.accommodationType    //Hotel, Hostel, BedAndBreakfast
-    const beginDate = new Date(data.beginDate)
-    const endDate = new Date(data.endDate)
-
-    const trip = await createNewTrip(departureLocation, peopleCount, maxPrice, vacationType, accommodationType, beginDate, endDate)
-
-    //save data into DB
-    try {
-        const bookingId = await databaseHandler.createNewDbEntry(peopleCount, maxPrice, vacationType, accommodationType, trip.overallPrice, trip.destinationId, trip.destination, trip.hotel.hotelId, trip.hotel.hotelName, trip.hotel.url, trip.hotel.picture, beginDate, endDate, trip.flight.flightNumber)
-        console.log(bookingId)
-        res.status(200).send({id: bookingId});
-    } catch (err) {
-        console.log(err)
-    }
-    console.timeEnd('sendData')
+    await retryGeneratingTrip(data, 3)
+        .then(id => res.status(200).send({id: id}))
+        .catch(error => res.sendStatus(500))
 })
 
 //localhost:3000/updatePersonalDetails
@@ -138,9 +178,7 @@ router.patch('/updatePersonalDetails', async function (req, res) {
 
     try {
         const updateData = {
-            firstName,
-            lastName,
-            mailAddress
+            firstName, lastName, mailAddress
         };
         const updatedBooking = await databaseHandler.updateBookingDetails(bookingID, updateData);
 
@@ -150,7 +188,7 @@ router.patch('/updatePersonalDetails', async function (req, res) {
             if (bookingData) {
                 const beginDate = bookingData.beginDate;
                 const endDate = bookingData.endDate;
-                mailHandler.sendConfirmationMail(mailAddress, beginDate,endDate, bookingID);
+                mailHandler.sendConfirmationMail(mailAddress, beginDate, endDate, bookingID);
             }
             res.status(200).send({
                 message: 'Details updated successfully',
@@ -205,6 +243,7 @@ router.delete('/deleteBooking', async (req, res) => {
         res.status(500).send("Server error");
     }
 });
+
 /**
  * @swagger
  * /booking/{bookingID}:
@@ -278,7 +317,7 @@ router.put('/booking/:id', async function (req, res) {
     const beginDate = new Date(data.beginDate)
     const endDate = new Date(data.endDate)
 
-    const trip = await createNewTrip(departureLocation,peopleCount,maxPrice,vacationType,accommodationType,beginDate,endDate)
+    const trip = await createNewTrip(departureLocation, peopleCount, maxPrice, vacationType, accommodationType, beginDate, endDate)
 
     //save data into DB
     try {
